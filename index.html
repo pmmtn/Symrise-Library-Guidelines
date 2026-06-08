@@ -1,378 +1,245 @@
-
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide DAM — Ajouter des assets dans le Media Center</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.w{font-family:'Milo OT','DM Sans',system-ui,sans-serif;--red:#C51718;--red-bg:rgba(197,23,24,0.06);--red-border:rgba(197,23,24,0.18);--shadow-card:0 2px 8px rgba(0,0,0,0.06),0 0 0 0.5px rgba(0,0,0,0.07);--shadow-hover:0 8px 24px rgba(0,0,0,0.10),0 0 0 0.5px rgba(0,0,0,0.08);background:var(--color-background-tertiary);padding:2.5rem 1rem 3rem;min-height:100%}
-.wrap{max-width:640px;margin:0 auto}
-
-.lang-row{display:flex;justify-content:flex-end;margin-bottom:2rem;position:relative}
-.lang-btn{display:inline-flex;align-items:center;gap:6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:6px 14px 6px 10px;font-size:12px;font-weight:500;color:var(--color-text-primary);cursor:pointer;font-family:inherit;box-shadow:var(--shadow-card);transition:box-shadow 0.2s}
-.lang-btn:hover{box-shadow:var(--shadow-hover)}
-.lang-btn i{font-size:14px;color:var(--color-text-secondary)}
-.lang-caret{font-size:10px;color:var(--color-text-tertiary);transition:transform 0.2s;display:inline-block}
-.lang-btn.open .lang-caret{transform:rotate(180deg)}
-.lang-drop{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-hover);z-index:20;min-width:140px}
-.lang-drop.open{display:block}
-.lang-opt{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;font-weight:400;color:var(--color-text-primary);cursor:pointer;font-family:inherit;background:none;border:none;width:100%;text-align:left;transition:background 0.1s}
-.lang-opt:hover{background:var(--color-background-secondary)}
-.lang-opt.active{font-weight:600;color:var(--red)}
-
-.hero{text-align:center;padding:0.5rem 0 2.5rem}
-.hero-tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
-.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--red)}
-.hero-h1{font-size:32px;font-weight:700;color:var(--color-text-primary);letter-spacing:-0.03em;line-height:1.15;margin-bottom:14px}
-.hero-p{font-size:14px;color:var(--color-text-secondary);line-height:1.75;max-width:400px;margin:0 auto;font-weight:300}
-
-.flow-card{background:var(--color-background-primary);border-radius:16px;box-shadow:var(--shadow-card);padding:14px 20px;margin:0 0 2rem;display:flex;align-items:center;justify-content:center;gap:0;overflow-x:auto;flex-wrap:nowrap}
-.fp{display:flex;align-items:center;gap:7px;white-space:nowrap}
-.fn{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.fl{font-size:12px;font-weight:500;color:var(--color-text-primary)}
-.fa{font-size:11px;color:var(--color-text-tertiary);margin:0 10px;flex-shrink:0}
-.fdiv{width:1px;height:20px;background:var(--color-border-secondary);margin:0 14px;flex-shrink:0}
-
-.section-wrap{margin-bottom:12px}
-.section-card{background:var(--color-background-primary);border-radius:16px;box-shadow:var(--shadow-card);overflow:hidden;transition:box-shadow 0.25s}
-.section-card:hover{box-shadow:var(--shadow-hover)}
-.section-header{display:flex;align-items:center;gap:14px;padding:18px 22px;cursor:pointer;user-select:none;transition:background 0.15s;border-radius:16px}
-.section-card.open .section-header{border-radius:16px 16px 0 0;background:var(--red)}
-.s-badge{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;flex-shrink:0;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary)}
-.section-card.open .s-badge{background:rgba(255,255,255,0.18);color:#fff;border-color:rgba(255,255,255,0.3)}
-.s-info{flex:1}
-.s-title{font-size:15px;font-weight:700;color:var(--color-text-primary);letter-spacing:-0.015em;margin-bottom:2px}
-.section-card.open .s-title{color:#fff}
-.s-meta{font-size:11.5px;color:var(--color-text-tertiary);font-weight:300}
-.section-card.open .s-meta{color:rgba(255,255,255,0.65)}
-.s-chev{width:26px;height:26px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.25s cubic-bezier(.4,0,.2,1),background 0.15s}
-.section-card.open .s-chev{transform:rotate(180deg);background:rgba(255,255,255,0.2)}
-.s-chev i{font-size:14px;color:var(--color-text-secondary)}
-.section-card.open .s-chev i{color:#fff}
-
-.steps-body{display:none;border-top:0.5px solid var(--color-border-tertiary)}
-.section-card.open .steps-body{display:block}
-
-.step-item{border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer}
-.step-item:last-child{border-bottom:none}
-.step-h{display:flex;align-items:center;gap:14px;padding:15px 22px;transition:background 0.15s}
-.step-h:hover{background:var(--color-background-secondary)}
-.step-item.open .step-h{background:var(--red-bg)}
-.step-num{width:28px;height:28px;border-radius:50%;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:0.5px solid var(--color-border-tertiary);transition:all 0.18s}
-.step-item.open .step-num{background:var(--red);color:#fff;border-color:var(--red)}
-.step-info{flex:1}
-.step-title{font-size:13.5px;font-weight:600;color:var(--color-text-primary);margin-bottom:1px;letter-spacing:-0.01em}
-.step-sub{font-size:11px;color:var(--color-text-tertiary);font-weight:300}
-.step-arr{font-size:14px;color:var(--color-text-tertiary);transition:transform 0.2s cubic-bezier(.4,0,.2,1),color 0.15s}
-.step-item.open .step-arr{transform:rotate(90deg);color:var(--red)}
-
-.step-body{display:none;padding:4px 22px 16px 64px;background:var(--red-bg)}
-.step-item.open .step-body{display:block}
-.action-row{display:flex;gap:12px;align-items:flex-start;padding:5px 0;border-bottom:0.5px solid var(--red-border)}
-.action-row:last-child{border-bottom:none}
-.a-idx{font-size:10px;font-weight:700;color:var(--red);min-width:16px;padding-top:3px;opacity:0.6;font-variant-numeric:tabular-nums}
-.a-txt{font-size:12.5px;color:var(--color-text-primary);line-height:1.65;flex:1;font-weight:300}
-.a-txt code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;background:var(--color-background-primary);padding:2px 7px;border-radius:6px;color:var(--red);font-weight:500;border:0.5px solid var(--red-border)}
-.a-txt em{color:var(--color-text-secondary);font-style:italic}
-
-.bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.tip-card{background:var(--color-background-primary);border-radius:14px;box-shadow:var(--shadow-card);padding:18px 20px;transition:box-shadow 0.22s}
-.tip-card:hover{box-shadow:var(--shadow-hover)}
-.tip-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:8px}
-.tip-text{font-size:12.5px;color:var(--color-text-secondary);line-height:1.65;font-weight:300}
-.debug-card{background:var(--color-background-primary);border-radius:14px;box-shadow:var(--shadow-card);padding:18px 20px;margin-top:10px;grid-column:1/-1;transition:box-shadow 0.22s}
-.debug-card:hover{box-shadow:var(--shadow-hover)}
-.d-item{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:12.5px;color:var(--color-text-secondary);font-weight:300}
-.d-item:not(:last-child){border-bottom:0.5px solid var(--color-border-tertiary)}
-.d-item i{font-size:14px;color:var(--color-text-tertiary);flex-shrink:0}
+:root{
+  --sym-red:#C51718;
+  --ink:#111114;
+  --muted:#6e6e73;
+  --soft:#f5f5f7;
+  --paper:#ffffff;
+  --line:rgba(0,0,0,.08);
+  --glass:rgba(255,255,255,.68);
+  --glass-strong:rgba(255,255,255,.82);
+  --shadow:0 18px 60px rgba(0,0,0,.08),0 1px 0 rgba(255,255,255,.7) inset;
+  --shadow-hover:0 28px 80px rgba(0,0,0,.13),0 1px 0 rgba(255,255,255,.8) inset;
+  --radius:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:#f7f7f8;color:var(--ink)}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at 50% -10%,#fff 0,#f5f5f7 34%,#eeeeef 100%);color:var(--ink);}
+.guide{min-height:100vh;padding-bottom:128px;overflow:hidden}
+.noise{position:fixed;inset:0;pointer-events:none;opacity:.36;background-image:radial-gradient(rgba(0,0,0,.06) .5px,transparent .5px);background-size:4px 4px;mask-image:linear-gradient(to bottom,transparent,black 18%,black 75%,transparent);}
+.wrap{width:min(1120px,calc(100% - 40px));margin:0 auto;position:relative;z-index:1}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 0;color:var(--muted);font-size:13px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;color:#1d1d1f;letter-spacing:-.01em}
+.brand-dot{width:9px;height:9px;border-radius:50%;background:var(--sym-red);box-shadow:0 0 0 7px rgba(197,23,24,.08)}
+.toplinks{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.link-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.62);color:#1d1d1f;text-decoration:none;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.link-pill:hover{transform:translateY(-1px);background:#fff;border-color:rgba(0,0,0,.14)}
+.hero{padding:72px 0 76px;text-align:center;position:relative}
+.hero:before{content:"";position:absolute;left:50%;top:4px;transform:translateX(-50%);width:min(860px,94vw);height:420px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.95),rgba(255,255,255,.52) 32%,rgba(197,23,24,.08) 58%,transparent 72%);filter:blur(8px);z-index:-1}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid rgba(197,23,24,.16);border-radius:999px;background:rgba(255,255,255,.58);color:var(--sym-red);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+h1{font-size:clamp(52px,8vw,104px);line-height:.94;letter-spacing:-.075em;margin:28px auto 22px;max-width:920px;font-weight:760}
+.hero p{font-size:clamp(19px,2.3vw,28px);line-height:1.26;letter-spacing:-.035em;color:#55555a;max-width:790px;margin:0 auto;font-weight:520}
+.intro-banner{margin:-20px auto 82px;border-radius:36px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,255,255,.42));border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);padding:28px;display:grid;grid-template-columns:1.1fr .9fr;gap:20px;position:relative;overflow:hidden}
+.intro-banner:after{content:"";position:absolute;right:-120px;top:-120px;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle,rgba(197,23,24,.15),transparent 68%)}
+.intro-copy{position:relative;z-index:1;padding:14px 12px}
+.intro-kicker{font-size:13px;font-weight:700;color:var(--sym-red);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+.intro-copy h2{font-size:clamp(30px,4vw,48px);line-height:1.02;letter-spacing:-.055em;margin:0 0 14px;max-width:580px}
+.intro-copy p{font-size:17px;line-height:1.55;color:#55555a;margin:0;max-width:640px}
+.store-card{position:relative;z-index:1;border-radius:28px;background:rgba(245,245,247,.72);border:1px solid rgba(0,0,0,.06);padding:22px;display:grid;gap:13px;align-content:center}
+.store-row{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:15px;border-radius:20px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9)}
+.store-icon{width:56px;height:56px;border-radius:18px;background:#1d1d1f;color:#fff;display:grid;place-items:center;font-size:25px;font-weight:650;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.store-row:nth-child(2) .store-icon{background:var(--sym-red)}
+.store-title{font-weight:750;font-size:18px;letter-spacing:-.025em;margin-bottom:3px}
+.store-text{font-size:14px;line-height:1.38;color:var(--muted)}
+.section-block{margin:0 0 88px;scroll-margin-top:60px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;margin-bottom:26px}
+.section-label{font-size:14px;font-weight:750;color:var(--sym-red);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.section-title{font-size:clamp(38px,5.5vw,72px);line-height:.96;letter-spacing:-.062em;margin:0;font-weight:760}
+.section-desc{max-width:430px;color:#66666b;font-size:17px;line-height:1.5;margin:0 0 8px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cards.two{grid-template-columns:repeat(2,1fr)}
+.card{position:relative;min-height:336px;border:0;border-radius:32px;padding:26px;text-align:left;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.86);box-shadow:var(--shadow);backdrop-filter:blur(28px) saturate(160%);-webkit-backdrop-filter:blur(28px) saturate(160%);overflow:hidden;cursor:pointer;transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,background .32s ease}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);background:rgba(255,255,255,.86)}
+.card.open{grid-column:span 1;min-height:456px;background:#fff}
+.card:before{content:"";position:absolute;inset:auto -80px -120px auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(197,23,24,.10),transparent 70%);transition:transform .36s ease,opacity .36s ease;opacity:.8}
+.card.open:before{transform:scale(1.4);opacity:1}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:34px;position:relative;z-index:1}
+.icon{width:62px;height:62px;border-radius:20px;background:linear-gradient(145deg,#fff,#f1f1f3);box-shadow:0 12px 32px rgba(0,0,0,.08),inset 0 1px 0 #fff;border:1px solid rgba(0,0,0,.06);display:grid;place-items:center;color:#1d1d1f}
+.icon svg{width:30px;height:30px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.step-badge{font-size:12px;font-weight:750;color:var(--muted);background:#f5f5f7;border-radius:999px;padding:7px 10px;letter-spacing:.02em}
+.card h3{font-size:clamp(26px,2.5vw,34px);line-height:1.04;letter-spacing:-.045em;margin:0 0 10px;position:relative;z-index:1}
+.card .subtitle{font-size:16px;line-height:1.45;color:#6a6a70;margin:0;position:relative;z-index:1}
+.plus{position:absolute;left:24px;bottom:24px;width:42px;height:42px;border-radius:50%;background:#1d1d1f;color:white;display:grid;place-items:center;font-size:28px;font-weight:300;line-height:1;z-index:3;transition:transform .32s cubic-bezier(.2,.8,.2,1),background .2s ease}
+.card.open .plus{transform:rotate(45deg);background:var(--sym-red)}
+.expand{position:relative;z-index:2;display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.8,.2,1);margin-top:22px}
+.card.open .expand{grid-template-rows:1fr}
+.expand-inner{overflow:hidden}
+.steps-list{list-style:none;margin:0;padding:18px 0 54px;border-top:1px solid rgba(0,0,0,.08)}
+.steps-list li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:11px 0;color:#3c3c40;font-size:14px;line-height:1.42;border-bottom:1px solid rgba(0,0,0,.055)}
+.steps-list li:last-child{border-bottom:0}
+.idx{font-size:11px;font-weight:750;color:var(--sym-red);font-variant-numeric:tabular-nums;padding-top:2px}
+code{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;background:#f5f5f7;border:1px solid rgba(0,0,0,.08);color:#1d1d1f;padding:2px 6px;border-radius:7px;font-size:.92em}
+.note-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0 86px}
+.note{border-radius:28px;background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 14px 42px rgba(0,0,0,.06);padding:26px}
+.note b{display:block;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--sym-red);margin-bottom:10px}
+.note p{margin:0;color:#5f5f64;font-size:16px;line-height:1.48}
+.checklist{border-radius:34px;background:#1d1d1f;color:white;padding:34px;box-shadow:0 28px 80px rgba(0,0,0,.22);margin-bottom:20px}
+.checklist h2{font-size:clamp(32px,4vw,54px);letter-spacing:-.055em;line-height:1;margin:0 0 22px}
+.check-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.check{padding:16px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.78);line-height:1.35}
+.check:before{content:"✓";display:block;color:#fff;font-size:18px;margin-bottom:6px}
+.liquid-nav{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;width:min(720px,calc(100% - 28px));padding:8px;border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.38));border:1px solid rgba(255,255,255,.88);box-shadow:0 20px 65px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.95);backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.nav-item{border:0;border-radius:999px;background:transparent;color:#8b8b90;font:600 13px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;padding:13px 12px;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
+.nav-item:hover{color:#1d1d1f;background:rgba(255,255,255,.44)}
+.nav-item.active{color:#fff;background:#1d1d1f;box-shadow:0 12px 28px rgba(0,0,0,.18);transform:translateY(-1px)}
+.nav-item span{opacity:.62;margin-right:4px}
+@media (max-width:900px){.intro-banner{grid-template-columns:1fr}.section-head{display:block}.section-desc{margin-top:14px}.cards,.cards.two{grid-template-columns:1fr}.card{min-height:300px}.card.open{min-height:auto}.note-grid,.check-grid{grid-template-columns:1fr}.liquid-nav{overflow:auto;grid-template-columns:repeat(5,max-content);justify-content:flex-start}.nav-item{padding:12px 14px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.plus,.expand,.nav-item{transition:none}}
 </style>
+</head>
+<body>
+<div class="guide">
+<div class="noise"></div>
+<div class="wrap">
+  <header class="topbar" aria-label="Guide navigation">
+    <div class="brand"><span class="brand-dot"></span> Symrise Media Center · DAM Admin Guide</div>
+    <nav class="toplinks" aria-label="Liens utiles">
+      <a class="link-pill" href="https://mediacenter.symrise.com/" target="_blank" rel="noopener">Back-end ↗</a>
+      <a class="link-pill" href="https://portals.celum.com/7e0ceabc-05f0-4929-857c-c59bcd9010cd/1?l=en" target="_blank" rel="noopener">Front-end ↗</a>
+    </nav>
+  </header>
 
-<div class="w">
-  <h2 class="sr-only" id="g-a11y">Guide DAM — Ajouter des assets dans le Media Center</h2>
-  <div class="wrap">
+  <section class="hero" aria-labelledby="main-title">
+    <div class="eyebrow">DAM Admin · User Guide</div>
+    <h1 id="main-title">Ajouter des assets.<br>Les rendre visibles.</h1>
+    <p>Un guide simple pour passer de la réserve au rayon : on prépare d’abord les contenus dans le back-end, puis on les affiche dans le front-end.</p>
+  </section>
 
-    <div class="lang-row">
-      <div style="position:relative">
-        <button class="lang-btn" id="langBtn" onclick="toggleLangMenu()" aria-haspopup="true" aria-expanded="false">
-          <i class="ti ti-world" aria-hidden="true"></i>
-          <span id="langLabel">Français</span>
-          <span class="lang-caret">▾</span>
-        </button>
-        <div class="lang-drop" id="langDrop" role="menu">
-          <button class="lang-opt active" id="opt-fr" onclick="setLang('fr')" role="menuitem">🇫🇷&nbsp; Français</button>
-          <button class="lang-opt" id="opt-en" onclick="setLang('en')" role="menuitem">🇬🇧&nbsp; English</button>
-        </div>
+  <section class="intro-banner" aria-labelledby="intro-title">
+    <div class="intro-copy">
+      <div class="intro-kicker">Avant de commencer</div>
+      <h2 id="intro-title">Back-end d’abord. Front-end ensuite.</h2>
+      <p>Le back-end est l’espace d’administration : c’est là que toute la gestion se fait. On y charge les assets, on complète les métadonnées, on crée les filtres et les Libraries. Le front-end est la vitrine visible par les utilisateurs. Tant qu’un asset n’est pas uploadé et paramétré côté back-end, il ne peut pas apparaître correctement côté front-end.</p>
+    </div>
+    <div class="store-card" aria-label="Différence entre back-end et front-end">
+      <div class="store-row">
+        <div class="store-icon">↧</div>
+        <div><div class="store-title">Back-end</div><div class="store-text">La réserve de la boutique : on range, on décrit, on prépare, on organise.</div></div>
+      </div>
+      <div class="store-row">
+        <div class="store-icon">▣</div>
+        <div><div class="store-title">Front-end</div><div class="store-text">La vitrine : les utilisateurs voient uniquement ce qui a été préparé en amont.</div></div>
       </div>
     </div>
+  </section>
 
-    <div class="hero">
-      <div class="hero-tag"><span class="hero-dot"></span><span data-k="eyebrow">DAM Admin · User Guide</span></div>
-      <h1 class="hero-h1" data-k="title">Ajouter des assets<br>dans le Media Center</h1>
-      <p class="hero-p" data-k="subtitle">Cinq étapes pour passer de l'upload à l'affichage. Back-end d'abord, front-end ensuite.</p>
+  <section class="section-block" id="backend" aria-labelledby="backend-title">
+    <div class="section-head">
+      <div><div class="section-label">Back-end · https://mediacenter.symrise.com/</div><h2 class="section-title" id="backend-title">Administrer<br>et préparer.</h2></div>
+      <p class="section-desc">Trois étapes pour charger les contenus, les retrouver proprement, puis créer une Library prête à être utilisée dans le portail.</p>
     </div>
+    <div class="cards">
+      <article class="card" id="step-upload" data-step="upload" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-top"><div class="icon"><svg viewBox="0 0 32 32"><path d="M16 22V7"/><path d="M10 13l6-6 6 6"/><path d="M6 22v3.5A2.5 2.5 0 0 0 8.5 28h15a2.5 2.5 0 0 0 2.5-2.5V22"/></svg></div><span class="step-badge">01</span></div>
+        <h3>Upload</h3>
+        <p class="subtitle">Charger les nouveaux éléments dans le bon dossier et compléter les informations de base.</p>
+        <div class="expand"><div class="expand-inner"><ol class="steps-list"><li><span class="idx">01</span><span>Aller dans <code>Explore</code>.</span></li><li><span class="idx">02</span><span>Sélectionner le dossier cible dans le Media Center.</span></li><li><span class="idx">03</span><span>Cliquer sur <code>Upload asset</code> et importer les fichiers.</span></li><li><span class="idx">04</span><span>Compléter les métadonnées nécessaires.</span></li><li><span class="idx">05</span><span>Ajouter les tags appropriés.</span></li><li><span class="idx">06</span><span>Cliquer sur <code>Save and Finish</code>.</span></li></ol></div></div><span class="plus" aria-hidden="true">+</span>
+      </article>
 
-    <div class="flow-card">
-      <div class="fp"><span class="fn">1</span><span class="fl" data-k="f1">Upload</span></div>
-      <span class="fa">›</span>
-      <div class="fp"><span class="fn">2</span><span class="fl" data-k="f2">Filtre</span></div>
-      <span class="fa">›</span>
-      <div class="fp"><span class="fn">3</span><span class="fl" data-k="f3">Library</span></div>
-      <span class="fdiv"></span>
-      <div class="fp"><span class="fn">4</span><span class="fl" data-k="f4">Portail</span></div>
-      <span class="fa">›</span>
-      <div class="fp"><span class="fn">5</span><span class="fl" data-k="f5">Asset Gallery</span></div>
+      <article class="card" id="step-filter" data-step="filter" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-top"><div class="icon"><svg viewBox="0 0 32 32"><path d="M5 8h22"/><path d="M10 16h12"/><path d="M14 24h4"/></svg></div><span class="step-badge">02</span></div>
+        <h3>Filtre</h3>
+        <p class="subtitle">Créer une recherche sauvegardée qui isole précisément les bons assets.</p>
+        <div class="expand"><div class="expand-inner"><ol class="steps-list"><li><span class="idx">01</span><span>Cliquer sur <code>Search</code> dans le back-end.</span></li><li><span class="idx">02</span><span>Copier/coller le nom exact du document ou de l’asset dans la barre de recherche.</span></li><li><span class="idx">03</span><span>Vérifier que les bons éléments apparaissent.</span></li><li><span class="idx">04</span><span>Cliquer sur l’icône <code>Save</code> — la disquette — puis <code>Save as</code>.</span></li><li><span class="idx">05</span><span>Nommer le filtre clairement, par exemple <em>Care &amp; Wellness pictures</em>.</span></li></ol></div></div><span class="plus" aria-hidden="true">+</span>
+      </article>
+
+      <article class="card" id="step-library" data-step="library" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-top"><div class="icon"><svg viewBox="0 0 32 32"><rect x="6" y="7" width="20" height="18" rx="3"/><path d="M10 12h12"/><path d="M10 17h8"/></svg></div><span class="step-badge">03</span></div>
+        <h3>Library</h3>
+        <p class="subtitle">Transformer le filtre en collection utilisable ensuite dans le portail.</p>
+        <div class="expand"><div class="expand-inner"><ol class="steps-list"><li><span class="idx">01</span><span>Dans le menu gauche, aller dans <code>Libraries</code>, puis cliquer sur <code>New</code>.</span></li><li><span class="idx">02</span><span>Renseigner <code>Library name</code>, par exemple <em>Care &amp; Wellness</em>.</span></li><li><span class="idx">03</span><span>Sélectionner <code>symrise.celum.cloud</code>.</span></li><li><span class="idx">04</span><span>Aller dans <code>Assets</code>, cliquer sur <code>Add a filter</code>, puis sélectionner le filtre créé.</span></li><li><span class="idx">05</span><span>Cliquer sur <code>Create</code> en haut à droite.</span></li></ol></div></div><span class="plus" aria-hidden="true">+</span>
+      </article>
     </div>
+  </section>
 
-    <div class="section-wrap">
-      <div class="section-card open" id="sec-be">
-        <div class="section-header" onclick="toggleSection('sec-be')">
-          <span class="s-badge">Back-end</span>
-          <div class="s-info">
-            <div class="s-title" data-k="be-title">Administration &amp; configuration</div>
-            <div class="s-meta" data-k="be-meta">Upload · Filtres · Libraries — 3 étapes</div>
-          </div>
-          <div class="s-chev"><i class="ti ti-chevron-down" aria-hidden="true"></i></div>
-        </div>
-        <div class="steps-body">
-          <div class="step-item" onclick="toggleStep(this)">
-            <div class="step-h">
-              <div class="step-num">1</div>
-              <div class="step-info">
-                <div class="step-title" data-k="s1-title">Charger les éléments</div>
-                <div class="step-sub" data-k="s1-sub">Upload · métadonnées · tags</div>
-              </div>
-              <span class="step-arr">›</span>
-            </div>
-            <div class="step-body">
-              <div class="action-row"><span class="a-idx">01</span><span class="a-txt" data-k="s1-a1">Aller dans <code>Explore</code></span></div>
-              <div class="action-row"><span class="a-idx">02</span><span class="a-txt" data-k="s1-a2">Sélectionner le dossier cible</span></div>
-              <div class="action-row"><span class="a-idx">03</span><span class="a-txt" data-k="s1-a3">Cliquer sur <code>Upload asset</code> et importer les fichiers</span></div>
-              <div class="action-row"><span class="a-idx">04</span><span class="a-txt" data-k="s1-a4">Compléter les métadonnées nécessaires</span></div>
-              <div class="action-row"><span class="a-idx">05</span><span class="a-txt" data-k="s1-a5">Ajouter les tags appropriés</span></div>
-              <div class="action-row"><span class="a-idx">06</span><span class="a-txt" data-k="s1-a6">Cliquer sur <code>Save and Finish</code></span></div>
-            </div>
-          </div>
-          <div class="step-item" onclick="toggleStep(this)">
-            <div class="step-h">
-              <div class="step-num">2</div>
-              <div class="step-info">
-                <div class="step-title" data-k="s2-title">Créer un filtre</div>
-                <div class="step-sub" data-k="s2-sub">Recherche · sauvegarde · nommage</div>
-              </div>
-              <span class="step-arr">›</span>
-            </div>
-            <div class="step-body">
-              <div class="action-row"><span class="a-idx">01</span><span class="a-txt" data-k="s2-a1">Cliquer sur <code>Search</code> dans le back-end</span></div>
-              <div class="action-row"><span class="a-idx">02</span><span class="a-txt" data-k="s2-a2">Coller le nom exact de l'asset dans la barre de recherche</span></div>
-              <div class="action-row"><span class="a-idx">03</span><span class="a-txt" data-k="s2-a3">Vérifier que les bons éléments apparaissent</span></div>
-              <div class="action-row"><span class="a-idx">04</span><span class="a-txt" data-k="s2-a4">Icône <code>Save</code> (disquette) → <code>Save as</code></span></div>
-              <div class="action-row"><span class="a-idx">05</span><span class="a-txt" data-k="s2-a5">Nommer le filtre — ex. <em>Care &amp; Wellness pictures</em></span></div>
-            </div>
-          </div>
-          <div class="step-item" onclick="toggleStep(this)">
-            <div class="step-h">
-              <div class="step-num">3</div>
-              <div class="step-info">
-                <div class="step-title" data-k="s3-title">Créer une Library</div>
-                <div class="step-sub" data-k="s3-sub">Liaison filtre · création</div>
-              </div>
-              <span class="step-arr">›</span>
-            </div>
-            <div class="step-body">
-              <div class="action-row"><span class="a-idx">01</span><span class="a-txt" data-k="s3-a1">Menu gauche → <code>Libraries</code> → <code>New</code></span></div>
-              <div class="action-row"><span class="a-idx">02</span><span class="a-txt" data-k="s3-a2">Renseigner <code>Library name</code> — ex. <em>Care &amp; Wellness</em></span></div>
-              <div class="action-row"><span class="a-idx">03</span><span class="a-txt" data-k="s3-a3">Sélectionner <code>symrise.celum.cloud</code></span></div>
-              <div class="action-row"><span class="a-idx">04</span><span class="a-txt" data-k="s3-a4"><code>Assets</code> → <code>Add a filter</code> → sélectionner le filtre créé</span></div>
-              <div class="action-row"><span class="a-idx">05</span><span class="a-txt" data-k="s3-a5">Cliquer sur <code>Create</code> en haut à droite</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <section class="section-block" id="frontend" aria-labelledby="frontend-title">
+    <div class="section-head">
+      <div><div class="section-label">Front-end · portail visible par les utilisateurs</div><h2 class="section-title" id="frontend-title">Publier<br>et afficher.</h2></div>
+      <p class="section-desc">Une fois la Library créée côté back-end, elle peut être ajoutée au portail puis affichée sur une page via un widget Asset Gallery.</p>
     </div>
+    <div class="cards two">
+      <article class="card" id="step-portal" data-step="portal" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-top"><div class="icon"><svg viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="18" rx="3"/><path d="M5 13h22"/><path d="M10 19h5"/><path d="M18 19h4"/></svg></div><span class="step-badge">04</span></div>
+        <h3>Portail</h3>
+        <p class="subtitle">Ajouter la Library créée dans le portail pour la rendre disponible côté front-end.</p>
+        <div class="expand"><div class="expand-inner"><ol class="steps-list"><li><span class="idx">01</span><span>Aller dans <code>Experience</code>.</span></li><li><span class="idx">02</span><span>Cliquer sur les trois petits points, puis <code>Edit Portal</code>.</span></li><li><span class="idx">03</span><span>Ouvrir l’onglet <code>Libraries</code>, puis cliquer sur <code>Add libraries</code>.</span></li><li><span class="idx">04</span><span>Sélectionner la Library créée et cliquer sur <code>Save</code>.</span></li></ol></div></div><span class="plus" aria-hidden="true">+</span>
+      </article>
 
-    <div class="section-wrap">
-      <div class="section-card" id="sec-fe">
-        <div class="section-header" onclick="toggleSection('sec-fe')">
-          <span class="s-badge">Front-end</span>
-          <div class="s-info">
-            <div class="s-title" data-k="fe-title">Publication &amp; affichage</div>
-            <div class="s-meta" data-k="fe-meta">Portail · Asset Gallery · mise en ligne — 2 étapes</div>
-          </div>
-          <div class="s-chev"><i class="ti ti-chevron-down" aria-hidden="true"></i></div>
-        </div>
-        <div class="steps-body">
-          <div class="step-item" onclick="toggleStep(this)">
-            <div class="step-h">
-              <div class="step-num">4</div>
-              <div class="step-info">
-                <div class="step-title" data-k="s4-title">Ajouter la Library dans le portail</div>
-                <div class="step-sub" data-k="s4-sub">Experience · Edit Portal · Libraries</div>
-              </div>
-              <span class="step-arr">›</span>
-            </div>
-            <div class="step-body">
-              <div class="action-row"><span class="a-idx">01</span><span class="a-txt" data-k="s4-a1">Aller dans <code>Experience</code></span></div>
-              <div class="action-row"><span class="a-idx">02</span><span class="a-txt" data-k="s4-a2">Trois petits points → <code>Edit Portal</code></span></div>
-              <div class="action-row"><span class="a-idx">03</span><span class="a-txt" data-k="s4-a3">Onglet <code>Libraries</code> → <code>Add libraries</code></span></div>
-              <div class="action-row"><span class="a-idx">04</span><span class="a-txt" data-k="s4-a4">Sélectionner la Library créée et cliquer sur <code>Save</code></span></div>
-            </div>
-          </div>
-          <div class="step-item" onclick="toggleStep(this)">
-            <div class="step-h">
-              <div class="step-num">5</div>
-              <div class="step-info">
-                <div class="step-title" data-k="s5-title">Afficher sur une page</div>
-                <div class="step-sub" data-k="s5-sub">Asset Gallery · section · publication</div>
-              </div>
-              <span class="step-arr">›</span>
-            </div>
-            <div class="step-body">
-              <div class="action-row"><span class="a-idx">01</span><span class="a-txt" data-k="s5-a1">Aller sur la page à mettre à jour</span></div>
-              <div class="action-row"><span class="a-idx">02</span><span class="a-txt" data-k="s5-a2"><code>+ Add section</code> → mise en page une colonne</span></div>
-              <div class="action-row"><span class="a-idx">03</span><span class="a-txt" data-k="s5-a3"><code>+ Add widget</code> → sélectionner <code>Asset Gallery</code></span></div>
-              <div class="action-row"><span class="a-idx">04</span><span class="a-txt" data-k="s5-a4">Panneau gauche → <code>Library</code> → sélectionner la Library</span></div>
-              <div class="action-row"><span class="a-idx">05</span><span class="a-txt" data-k="s5-a5">Vérifier l'affichage puis cliquer sur <code>Update</code></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <article class="card" id="step-gallery" data-step="gallery" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-top"><div class="icon"><svg viewBox="0 0 32 32"><rect x="5" y="6" width="9" height="9" rx="2"/><rect x="18" y="6" width="9" height="9" rx="2"/><rect x="5" y="18" width="9" height="9" rx="2"/><rect x="18" y="18" width="9" height="9" rx="2"/></svg></div><span class="step-badge">05</span></div>
+        <h3>Asset Gallery</h3>
+        <p class="subtitle">Afficher la Library sur une page grâce au widget dédié, puis publier la mise à jour.</p>
+        <div class="expand"><div class="expand-inner"><ol class="steps-list"><li><span class="idx">01</span><span>Aller sur la page à mettre à jour.</span></li><li><span class="idx">02</span><span>Cliquer sur <code>+ Add section</code> et choisir une mise en page une colonne.</span></li><li><span class="idx">03</span><span>Cliquer sur <code>+ Add widget</code>, puis sélectionner <code>Asset Gallery</code>.</span></li><li><span class="idx">04</span><span>Dans le panneau gauche, aller dans <code>Library</code>, puis sélectionner la bonne Library.</span></li><li><span class="idx">05</span><span>Vérifier l’affichage, puis cliquer sur <code>Update</code>.</span></li></ol></div></div><span class="plus" aria-hidden="true">+</span>
+      </article>
     </div>
+  </section>
 
-    <div class="bottom">
-      <div class="tip-card">
-        <div class="tip-label" data-k="tip1-label">Nommage</div>
-        <div class="tip-text" data-k="tip1-text">Garder une logique cohérente. Ex. <em>Care &amp; Wellness pictures</em> pour le filtre → <em>Care &amp; Wellness</em> pour la Library.</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-label" data-k="tip2-label">Avant de publier</div>
-        <div class="tip-text" data-k="tip2-text">Métadonnées et tags complétés en amont. Toujours vérifier le rendu front-end après chaque ajout.</div>
-      </div>
-      <div class="debug-card">
-        <div class="tip-label" data-k="debug-label">Si le contenu n'apparaît pas — checklist</div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d1">Asset uploadé dans le bon dossier</span></div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d2">Métadonnées et tags renseignés</span></div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d3">Filtre contenant les bons assets</span></div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d4">Library reliée au filtre</span></div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d5">Library ajoutée dans le portail</span></div>
-        <div class="d-item"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-k="d6">Widget Asset Gallery utilisant la bonne Library</span></div>
-      </div>
-    </div>
-
+  <div class="note-grid" aria-label="Bonnes pratiques">
+    <div class="note"><b>Nommage</b><p>Garder une logique cohérente : par exemple <em>Care &amp; Wellness pictures</em> pour le filtre, puis <em>Care &amp; Wellness</em> pour la Library.</p></div>
+    <div class="note"><b>Avant publication</b><p>Les métadonnées et tags doivent être complétés en amont. Après chaque ajout, toujours vérifier le rendu visible côté front-end.</p></div>
   </div>
+
+  <section class="checklist" aria-labelledby="checklist-title">
+    <h2 id="checklist-title">Si le contenu n’apparaît pas.</h2>
+    <div class="check-grid">
+      <div class="check">L’asset est uploadé dans le bon dossier.</div>
+      <div class="check">Les métadonnées et tags sont renseignés.</div>
+      <div class="check">Le filtre contient les bons assets.</div>
+      <div class="check">La Library est bien reliée au filtre.</div>
+      <div class="check">La Library est ajoutée dans le portail.</div>
+      <div class="check">Le widget Asset Gallery utilise la bonne Library.</div>
+    </div>
+  </section>
+</div>
+
+<nav class="liquid-nav" aria-label="Progression du guide">
+  <button class="nav-item active" data-target="step-upload"><span>1</span>Upload</button>
+  <button class="nav-item" data-target="step-filter"><span>2</span>Filtre</button>
+  <button class="nav-item" data-target="step-library"><span>3</span>Library</button>
+  <button class="nav-item" data-target="step-portal"><span>4</span>Portail</button>
+  <button class="nav-item" data-target="step-gallery"><span>5</span>Asset Gallery</button>
+</nav>
 </div>
 
 <script>
-var T={
-  fr:{
-    eyebrow:"DAM Admin · User Guide",
-    title:"Ajouter des assets<br>dans le Media Center",
-    subtitle:"Cinq étapes pour passer de l'upload à l'affichage. Back-end d'abord, front-end ensuite.",
-    f1:"Upload",f2:"Filtre",f3:"Library",f4:"Portail",f5:"Asset Gallery",
-    "be-title":"Administration &amp; configuration","be-meta":"Upload · Filtres · Libraries — 3 étapes",
-    "fe-title":"Publication &amp; affichage","fe-meta":"Portail · Asset Gallery · mise en ligne — 2 étapes",
-    "s1-title":"Charger les éléments","s1-sub":"Upload · métadonnées · tags",
-    "s1-a1":"Aller dans <code>Explore</code>",
-    "s1-a2":"Sélectionner le dossier cible",
-    "s1-a3":"Cliquer sur <code>Upload asset</code> et importer les fichiers",
-    "s1-a4":"Compléter les métadonnées nécessaires",
-    "s1-a5":"Ajouter les tags appropriés",
-    "s1-a6":"Cliquer sur <code>Save and Finish</code>",
-    "s2-title":"Créer un filtre","s2-sub":"Recherche · sauvegarde · nommage",
-    "s2-a1":"Cliquer sur <code>Search</code> dans le back-end",
-    "s2-a2":"Coller le nom exact de l'asset dans la barre de recherche",
-    "s2-a3":"Vérifier que les bons éléments apparaissent",
-    "s2-a4":"Icône <code>Save</code> (disquette) → <code>Save as</code>",
-    "s2-a5":"Nommer le filtre — ex. <em>Care &amp; Wellness pictures</em>",
-    "s3-title":"Créer une Library","s3-sub":"Liaison filtre · création",
-    "s3-a1":"Menu gauche → <code>Libraries</code> → <code>New</code>",
-    "s3-a2":"Renseigner <code>Library name</code> — ex. <em>Care &amp; Wellness</em>",
-    "s3-a3":"Sélectionner <code>symrise.celum.cloud</code>",
-    "s3-a4":"<code>Assets</code> → <code>Add a filter</code> → sélectionner le filtre créé",
-    "s3-a5":"Cliquer sur <code>Create</code> en haut à droite",
-    "s4-title":"Ajouter la Library dans le portail","s4-sub":"Experience · Edit Portal · Libraries",
-    "s4-a1":"Aller dans <code>Experience</code>",
-    "s4-a2":"Trois petits points → <code>Edit Portal</code>",
-    "s4-a3":"Onglet <code>Libraries</code> → <code>Add libraries</code>",
-    "s4-a4":"Sélectionner la Library créée et cliquer sur <code>Save</code>",
-    "s5-title":"Afficher sur une page","s5-sub":"Asset Gallery · section · publication",
-    "s5-a1":"Aller sur la page à mettre à jour",
-    "s5-a2":"<code>+ Add section</code> → mise en page une colonne",
-    "s5-a3":"<code>+ Add widget</code> → sélectionner <code>Asset Gallery</code>",
-    "s5-a4":"Panneau gauche → <code>Library</code> → sélectionner la Library",
-    "s5-a5":"Vérifier l'affichage puis cliquer sur <code>Update</code>",
-    "tip1-label":"Nommage","tip1-text":"Garder une logique cohérente. Ex. <em>Care &amp; Wellness pictures</em> pour le filtre → <em>Care &amp; Wellness</em> pour la Library.",
-    "tip2-label":"Avant de publier","tip2-text":"Métadonnées et tags complétés en amont. Toujours vérifier le rendu front-end après chaque ajout.",
-    "debug-label":"Si le contenu n'apparaît pas — checklist",
-    d1:"Asset uploadé dans le bon dossier",d2:"Métadonnées et tags renseignés",d3:"Filtre contenant les bons assets",d4:"Library reliée au filtre",d5:"Library ajoutée dans le portail",d6:"Widget Asset Gallery utilisant la bonne Library"
-  },
-  en:{
-    eyebrow:"DAM Admin · User Guide",
-    title:"Adding assets to<br>the Media Center",
-    subtitle:"Five steps from upload to display. Back-end first, front-end second.",
-    f1:"Upload",f2:"Filter",f3:"Library",f4:"Portal",f5:"Asset Gallery",
-    "be-title":"Administration &amp; configuration","be-meta":"Upload · Filters · Libraries — 3 steps",
-    "fe-title":"Publishing &amp; display","fe-meta":"Portal · Asset Gallery · go live — 2 steps",
-    "s1-title":"Upload assets","s1-sub":"Upload · metadata · tags",
-    "s1-a1":"Go to <code>Explore</code>",
-    "s1-a2":"Select the target folder",
-    "s1-a3":"Click <code>Upload asset</code> and import the files",
-    "s1-a4":"Fill in the required metadata",
-    "s1-a5":"Add the appropriate tags",
-    "s1-a6":"Click <code>Save and Finish</code>",
-    "s2-title":"Create a filter","s2-sub":"Search · save · naming",
-    "s2-a1":"Click <code>Search</code> in the back-end",
-    "s2-a2":"Paste the exact asset name into the search bar",
-    "s2-a3":"Check that the correct items appear in the results",
-    "s2-a4":"Click the <code>Save</code> icon (floppy disk) → <code>Save as</code>",
-    "s2-a5":"Name the filter clearly — e.g. <em>Care &amp; Wellness pictures</em>",
-    "s3-title":"Create a Library","s3-sub":"Filter link · creation",
-    "s3-a1":"Left menu → <code>Libraries</code> → <code>New</code>",
-    "s3-a2":"Enter the name in <code>Library name</code> — e.g. <em>Care &amp; Wellness</em>",
-    "s3-a3":"Select <code>symrise.celum.cloud</code>",
-    "s3-a4":"<code>Assets</code> → <code>Add a filter</code> → select the filter you created",
-    "s3-a5":"Click <code>Create</code> in the top right corner",
-    "s4-title":"Add the Library to the portal","s4-sub":"Experience · Edit Portal · Libraries",
-    "s4-a1":"Go to <code>Experience</code>",
-    "s4-a2":"Three-dot menu → <code>Edit Portal</code>",
-    "s4-a3":"Tab <code>Libraries</code> → <code>Add libraries</code>",
-    "s4-a4":"Select the Library and click <code>Save</code>",
-    "s5-title":"Display on a page","s5-sub":"Asset Gallery · section · publish",
-    "s5-a1":"Go to the page you want to update",
-    "s5-a2":"<code>+ Add section</code> → one-column layout",
-    "s5-a3":"<code>+ Add widget</code> → select <code>Asset Gallery</code>",
-    "s5-a4":"Left panel → <code>Library</code> → select the Library",
-    "s5-a5":"Check the display then click <code>Update</code>",
-    "tip1-label":"Naming","tip1-text":"Keep a consistent naming logic. E.g. <em>Care &amp; Wellness pictures</em> for the filter → <em>Care &amp; Wellness</em> for the Library.",
-    "tip2-label":"Before publishing","tip2-text":"Complete metadata and tags beforehand. Always check the front-end display after adding a new Library.",
-    "debug-label":"Content not showing up — checklist",
-    d1:"Asset uploaded to the correct folder",d2:"Metadata and tags filled in",d3:"Filter includes the correct assets",d4:"Library linked to the filter",d5:"Library added to the portal",d6:"Asset Gallery widget using the correct Library"
+(function(){
+  const cards=[...document.querySelectorAll('.card')];
+  const navItems=[...document.querySelectorAll('.nav-item')];
+
+  function toggleCard(card){
+    const isOpen=card.classList.contains('open');
+    cards.forEach(c=>{c.classList.remove('open');c.setAttribute('aria-expanded','false')});
+    if(!isOpen){card.classList.add('open');card.setAttribute('aria-expanded','true')}
   }
-};
-var lang='fr';
-function toggleLangMenu(){
-  var b=document.getElementById('langBtn'),d=document.getElementById('langDrop');
-  var o=d.classList.contains('open');
-  d.classList.toggle('open',!o);b.classList.toggle('open',!o);
-  b.setAttribute('aria-expanded',String(!o));
-}
-function setLang(l){
-  lang=l;
-  var b=document.getElementById('langBtn'),d=document.getElementById('langDrop');
-  d.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');
-  document.getElementById('langLabel').textContent=l==='fr'?'Français':'English';
-  document.getElementById('opt-fr').classList.toggle('active',l==='fr');
-  document.getElementById('opt-en').classList.toggle('active',l==='en');
-  var dict=T[l];
-  document.querySelectorAll('[data-k]').forEach(function(el){
-    var k=el.getAttribute('data-k');
-    if(dict[k]!==undefined)el.innerHTML=dict[k];
+
+  cards.forEach(card=>{
+    card.addEventListener('click',()=>toggleCard(card));
+    card.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCard(card)}
+    });
   });
-}
-document.addEventListener('click',function(e){
-  var b=document.getElementById('langBtn'),d=document.getElementById('langDrop');
-  if(!b.contains(e.target)&&!d.contains(e.target)){d.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');}
-});
-function toggleSection(id){
-  var s=document.getElementById(id),was=s.classList.contains('open');
-  document.querySelectorAll('.section-card').forEach(function(c){c.classList.remove('open')});
-  if(!was)s.classList.add('open');
-}
-function toggleStep(el){el.classList.toggle('open')}
+
+  navItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+      const target=document.getElementById(item.dataset.target);
+      if(target){target.scrollIntoView({behavior:'smooth',block:'center'});}
+    });
+  });
+
+  const observer=new IntersectionObserver(entries=>{
+    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible)return;
+    navItems.forEach(i=>i.classList.toggle('active',i.dataset.target===visible.target.id));
+  },{threshold:[.34,.5,.68],rootMargin:'-24% 0px -34% 0px'});
+
+  cards.forEach(card=>observer.observe(card));
+})();
 </script>
+</body>
+</html>
