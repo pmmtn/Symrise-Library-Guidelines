@@ -3,13 +3,27 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 .g{font-family:'Milo OT','DM Sans',system-ui,sans-serif;--red:#C51718;--red-light:rgba(197,23,24,0.07);--red-mid:rgba(197,23,24,0.15);padding:0 0 2.5rem}
-.g-hero{text-align:center;padding:2.8rem 1.5rem 2.2rem}
+
+.g-topbar{display:flex;justify-content:flex-end;padding:0 0 1.2rem;position:relative}
+.g-lang-btn{display:flex;align-items:center;gap:7px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:6px 13px;font-size:12px;font-weight:500;color:var(--color-text-primary);cursor:pointer;font-family:inherit;transition:background 0.15s}
+.g-lang-btn:hover{background:var(--color-background-primary);border-color:var(--color-border-primary)}
+.g-lang-btn i{font-size:15px;color:var(--color-text-secondary)}
+.g-lang-caret{font-size:11px;color:var(--color-text-tertiary);transition:transform 0.2s cubic-bezier(.4,0,.2,1);margin-left:2px}
+.g-lang-btn.open .g-lang-caret{transform:rotate(180deg)}
+.g-lang-drop{display:none;position:absolute;top:calc(100% + 4px);right:0;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:12px;overflow:hidden;z-index:10;min-width:130px}
+.g-lang-drop.open{display:block}
+.g-lang-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px;font-weight:400;color:var(--color-text-primary);cursor:pointer;font-family:inherit;background:none;border:none;width:100%;text-align:left;transition:background 0.1s}
+.g-lang-opt:hover{background:var(--color-background-secondary)}
+.g-lang-opt.active{font-weight:700;color:var(--red)}
+.g-lang-opt .g-lang-flag{font-size:16px;line-height:1}
+
+.g-hero{text-align:center;padding:1.2rem 1.5rem 2rem}
 .g-tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
 .g-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
 .g-h1{font-size:30px;font-weight:700;color:var(--color-text-primary);letter-spacing:-0.025em;line-height:1.18;margin-bottom:12px}
 .g-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.7;max-width:460px;margin:0 auto;font-weight:300}
 
-.g-flow{display:flex;align-items:center;justify-content:center;gap:0;padding:12px 20px;margin:0 0 2rem;overflow-x:auto;background:var(--color-background-secondary);border-radius:14px}
+.g-flow{display:flex;align-items:center;justify-content:center;padding:12px 20px;margin:0 0 1.5rem;overflow-x:auto;background:var(--color-background-secondary);border-radius:14px}
 .g-fp{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .g-fn{width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .g-flabel{font-size:11.5px;font-weight:500;color:var(--color-text-primary)}
@@ -19,8 +33,8 @@
 .g-section{margin-bottom:1rem}
 .g-section-header{display:flex;align-items:center;gap:14px;padding:18px 22px;border-radius:14px;cursor:pointer;user-select:none;background:var(--color-background-secondary);transition:background 0.15s}
 .g-section.active .g-section-header{background:var(--red);border-radius:14px 14px 0 0}
-.g-section-badge{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:4px 11px;border-radius:20px;flex-shrink:0}
-.g-section-badge.be{background:rgba(255,255,255,0.15);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.g-section-badge{display:flex;align-items:center;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:4px 11px;border-radius:20px;flex-shrink:0}
+.g-section-badge.be{background:rgba(0,0,0,0.06);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
 .g-section.active .g-section-badge.be{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.3)}
 .g-section-badge.fe{background:var(--color-text-primary);color:var(--color-background-primary)}
 .g-section.active .g-section-badge.fe{background:rgba(255,255,255,0.2);color:#fff;border:0.5px solid rgba(255,255,255,0.3)}
@@ -52,7 +66,7 @@
 .g-step.open .g-step-body{display:block}
 .g-action{display:flex;gap:12px;align-items:flex-start;padding:5px 0}
 .g-action:not(:last-child){border-bottom:0.5px solid var(--red-mid)}
-.g-ai{font-size:10px;font-weight:700;color:var(--red);min-width:16px;padding-top:3px;font-variant-numeric:tabular-nums;opacity:0.7}
+.g-ai{font-size:10px;font-weight:700;color:var(--red);min-width:16px;padding-top:3px;opacity:0.7}
 .g-at{font-size:12.5px;color:var(--color-text-primary);line-height:1.6;flex:1;font-weight:300}
 .g-at code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;background:var(--color-background-primary);padding:2px 7px;border-radius:6px;color:var(--red);font-weight:500;border:0.5px solid var(--red-mid)}
 .g-at em{color:var(--color-text-secondary);font-style:italic}
@@ -68,32 +82,46 @@
 </style>
 
 <div class="g">
-  <h2 class="sr-only">Guide DAM — Ajouter des assets dans le Media Center</h2>
+  <h2 class="sr-only" id="g-a11y">Guide DAM — Ajouter des assets dans le Media Center</h2>
+
+  <div class="g-topbar">
+    <div style="position:relative">
+      <button class="g-lang-btn" id="langBtn" onclick="toggleLang()" aria-haspopup="true" aria-expanded="false">
+        <i class="ti ti-world" aria-hidden="true"></i>
+        <span id="langLabel">Français</span>
+        <span class="g-lang-caret">⌄</span>
+      </button>
+      <div class="g-lang-drop" id="langDrop" role="menu">
+        <button class="g-lang-opt active" id="opt-fr" onclick="setLang('fr')" role="menuitem"><span class="g-lang-flag">🇫🇷</span> Français</button>
+        <button class="g-lang-opt" id="opt-en" onclick="setLang('en')" role="menuitem"><span class="g-lang-flag">🇬🇧</span> English</button>
+      </div>
+    </div>
+  </div>
 
   <div class="g-hero">
-    <div class="g-tag"><span class="g-tag-dot"></span>DAM Admin · User Guide</div>
-    <h1 class="g-h1">Ajouter des assets<br>dans le Media Center</h1>
-    <p class="g-sub">Cinq étapes pour passer de l'upload à l'affichage. Back-end d'abord, front-end ensuite.</p>
+    <div class="g-tag"><span class="g-tag-dot"></span><span data-i18n="eyebrow">DAM Admin · User Guide</span></div>
+    <h1 class="g-h1" data-i18n="title">Ajouter des assets<br>dans le Media Center</h1>
+    <p class="g-sub" data-i18n="subtitle">Cinq étapes pour passer de l'upload à l'affichage. Back-end d'abord, front-end ensuite.</p>
   </div>
 
   <div class="g-flow">
-    <div class="g-fp"><span class="g-fn">1</span><span class="g-flabel">Upload</span></div>
+    <div class="g-fp"><span class="g-fn">1</span><span class="g-flabel" data-i18n="f1">Upload</span></div>
     <span class="g-farrow">›</span>
-    <div class="g-fp"><span class="g-fn">2</span><span class="g-flabel">Filtre</span></div>
+    <div class="g-fp"><span class="g-fn">2</span><span class="g-flabel" data-i18n="f2">Filtre</span></div>
     <span class="g-farrow">›</span>
-    <div class="g-fp"><span class="g-fn">3</span><span class="g-flabel">Library</span></div>
+    <div class="g-fp"><span class="g-fn">3</span><span class="g-flabel" data-i18n="f3">Library</span></div>
     <span class="g-fdivider"></span>
-    <div class="g-fp"><span class="g-fn">4</span><span class="g-flabel">Portail</span></div>
+    <div class="g-fp"><span class="g-fn">4</span><span class="g-flabel" data-i18n="f4">Portail</span></div>
     <span class="g-farrow">›</span>
-    <div class="g-fp"><span class="g-fn">5</span><span class="g-flabel">Asset Gallery</span></div>
+    <div class="g-fp"><span class="g-fn">5</span><span class="g-flabel" data-i18n="f5">Asset Gallery</span></div>
   </div>
 
   <div class="g-section active" id="sec-be">
     <div class="g-section-header" onclick="toggleSection('sec-be')">
       <span class="g-section-badge be">Back-end</span>
       <div>
-        <div class="g-section-title">Administration &amp; configuration</div>
-        <div class="g-section-meta">Upload · Filtres · Libraries — 3 étapes</div>
+        <div class="g-section-title" data-i18n="be-title">Administration &amp; configuration</div>
+        <div class="g-section-meta" data-i18n="be-meta">Upload · Filtres · Libraries — 3 étapes</div>
       </div>
       <span class="g-section-chev">⌄</span>
     </div>
@@ -104,18 +132,18 @@
           <div class="g-step-h">
             <div class="g-sn">1</div>
             <div class="g-si">
-              <div class="g-st">Charger les éléments</div>
-              <div class="g-ss">Upload · métadonnées · tags</div>
+              <div class="g-st" data-i18n="s1-title">Charger les éléments</div>
+              <div class="g-ss" data-i18n="s1-sub">Upload · métadonnées · tags</div>
             </div>
             <span class="g-sc">›</span>
           </div>
           <div class="g-step-body">
-            <div class="g-action"><span class="g-ai">01</span><span class="g-at">Aller dans <code>Explore</code></span></div>
-            <div class="g-action"><span class="g-ai">02</span><span class="g-at">Sélectionner le dossier cible</span></div>
-            <div class="g-action"><span class="g-ai">03</span><span class="g-at">Cliquer sur <code>Upload asset</code> et importer les fichiers</span></div>
-            <div class="g-action"><span class="g-ai">04</span><span class="g-at">Compléter les métadonnées nécessaires</span></div>
-            <div class="g-action"><span class="g-ai">05</span><span class="g-at">Ajouter les tags appropriés</span></div>
-            <div class="g-action"><span class="g-ai">06</span><span class="g-at">Cliquer sur <code>Save and Finish</code></span></div>
+            <div class="g-action"><span class="g-ai">01</span><span class="g-at" data-i18n="s1-a1">Aller dans <code>Explore</code></span></div>
+            <div class="g-action"><span class="g-ai">02</span><span class="g-at" data-i18n="s1-a2">Sélectionner le dossier cible</span></div>
+            <div class="g-action"><span class="g-ai">03</span><span class="g-at" data-i18n="s1-a3">Cliquer sur <code>Upload asset</code> et importer les fichiers</span></div>
+            <div class="g-action"><span class="g-ai">04</span><span class="g-at" data-i18n="s1-a4">Compléter les métadonnées nécessaires</span></div>
+            <div class="g-action"><span class="g-ai">05</span><span class="g-at" data-i18n="s1-a5">Ajouter les tags appropriés</span></div>
+            <div class="g-action"><span class="g-ai">06</span><span class="g-at" data-i18n="s1-a6">Cliquer sur <code>Save and Finish</code></span></div>
           </div>
         </div>
 
@@ -123,17 +151,17 @@
           <div class="g-step-h">
             <div class="g-sn">2</div>
             <div class="g-si">
-              <div class="g-st">Créer un filtre</div>
-              <div class="g-ss">Recherche · sauvegarde · nommage</div>
+              <div class="g-st" data-i18n="s2-title">Créer un filtre</div>
+              <div class="g-ss" data-i18n="s2-sub">Recherche · sauvegarde · nommage</div>
             </div>
             <span class="g-sc">›</span>
           </div>
           <div class="g-step-body">
-            <div class="g-action"><span class="g-ai">01</span><span class="g-at">Cliquer sur <code>Search</code> dans le back-end</span></div>
-            <div class="g-action"><span class="g-ai">02</span><span class="g-at">Coller le nom exact de l'asset dans la barre de recherche</span></div>
-            <div class="g-action"><span class="g-ai">03</span><span class="g-at">Vérifier que les bons éléments apparaissent</span></div>
-            <div class="g-action"><span class="g-ai">04</span><span class="g-at">Icône <code>Save</code> (disquette) → <code>Save as</code></span></div>
-            <div class="g-action"><span class="g-ai">05</span><span class="g-at">Nommer le filtre — ex. <em>Care &amp; Wellness pictures</em></span></div>
+            <div class="g-action"><span class="g-ai">01</span><span class="g-at" data-i18n="s2-a1">Cliquer sur <code>Search</code> dans le back-end</span></div>
+            <div class="g-action"><span class="g-ai">02</span><span class="g-at" data-i18n="s2-a2">Coller le nom exact de l'asset dans la barre de recherche</span></div>
+            <div class="g-action"><span class="g-ai">03</span><span class="g-at" data-i18n="s2-a3">Vérifier que les bons éléments apparaissent</span></div>
+            <div class="g-action"><span class="g-ai">04</span><span class="g-at" data-i18n="s2-a4">Icône <code>Save</code> (disquette) → <code>Save as</code></span></div>
+            <div class="g-action"><span class="g-ai">05</span><span class="g-at" data-i18n="s2-a5">Nommer le filtre — ex. <em>Care &amp; Wellness pictures</em></span></div>
           </div>
         </div>
 
@@ -141,17 +169,17 @@
           <div class="g-step-h">
             <div class="g-sn">3</div>
             <div class="g-si">
-              <div class="g-st">Créer une Library</div>
-              <div class="g-ss">Liaison filtre · création</div>
+              <div class="g-st" data-i18n="s3-title">Créer une Library</div>
+              <div class="g-ss" data-i18n="s3-sub">Liaison filtre · création</div>
             </div>
             <span class="g-sc">›</span>
           </div>
           <div class="g-step-body">
-            <div class="g-action"><span class="g-ai">01</span><span class="g-at">Menu gauche → <code>Libraries</code> → <code>New</code></span></div>
-            <div class="g-action"><span class="g-ai">02</span><span class="g-at">Renseigner <code>Library name</code> — ex. <em>Care &amp; Wellness</em></span></div>
-            <div class="g-action"><span class="g-ai">03</span><span class="g-at">Sélectionner <code>symrise.celum.cloud</code></span></div>
-            <div class="g-action"><span class="g-ai">04</span><span class="g-at"><code>Assets</code> → <code>Add a filter</code> → sélectionner le filtre créé</span></div>
-            <div class="g-action"><span class="g-ai">05</span><span class="g-at">Cliquer sur <code>Create</code> en haut à droite</span></div>
+            <div class="g-action"><span class="g-ai">01</span><span class="g-at" data-i18n="s3-a1">Menu gauche → <code>Libraries</code> → <code>New</code></span></div>
+            <div class="g-action"><span class="g-ai">02</span><span class="g-at" data-i18n="s3-a2">Renseigner <code>Library name</code> — ex. <em>Care &amp; Wellness</em></span></div>
+            <div class="g-action"><span class="g-ai">03</span><span class="g-at" data-i18n="s3-a3">Sélectionner <code>symrise.celum.cloud</code></span></div>
+            <div class="g-action"><span class="g-ai">04</span><span class="g-at" data-i18n="s3-a4"><code>Assets</code> → <code>Add a filter</code> → sélectionner le filtre créé</span></div>
+            <div class="g-action"><span class="g-ai">05</span><span class="g-at" data-i18n="s3-a5">Cliquer sur <code>Create</code> en haut à droite</span></div>
           </div>
         </div>
 
@@ -163,8 +191,8 @@
     <div class="g-section-header" onclick="toggleSection('sec-fe')">
       <span class="g-section-badge fe">Front-end</span>
       <div>
-        <div class="g-section-title">Publication &amp; affichage</div>
-        <div class="g-section-meta">Portail · Asset Gallery · mise en ligne — 2 étapes</div>
+        <div class="g-section-title" data-i18n="fe-title">Publication &amp; affichage</div>
+        <div class="g-section-meta" data-i18n="fe-meta">Portail · Asset Gallery · mise en ligne — 2 étapes</div>
       </div>
       <span class="g-section-chev">⌄</span>
     </div>
@@ -175,16 +203,16 @@
           <div class="g-step-h">
             <div class="g-sn">4</div>
             <div class="g-si">
-              <div class="g-st">Ajouter la Library dans le portail</div>
-              <div class="g-ss">Experience · Edit Portal · Libraries</div>
+              <div class="g-st" data-i18n="s4-title">Ajouter la Library dans le portail</div>
+              <div class="g-ss" data-i18n="s4-sub">Experience · Edit Portal · Libraries</div>
             </div>
             <span class="g-sc">›</span>
           </div>
           <div class="g-step-body">
-            <div class="g-action"><span class="g-ai">01</span><span class="g-at">Aller dans <code>Experience</code></span></div>
-            <div class="g-action"><span class="g-ai">02</span><span class="g-at">Trois petits points → <code>Edit Portal</code></span></div>
-            <div class="g-action"><span class="g-ai">03</span><span class="g-at">Onglet <code>Libraries</code> → <code>Add libraries</code></span></div>
-            <div class="g-action"><span class="g-ai">04</span><span class="g-at">Sélectionner la Library créée et cliquer sur <code>Save</code></span></div>
+            <div class="g-action"><span class="g-ai">01</span><span class="g-at" data-i18n="s4-a1">Aller dans <code>Experience</code></span></div>
+            <div class="g-action"><span class="g-ai">02</span><span class="g-at" data-i18n="s4-a2">Trois petits points → <code>Edit Portal</code></span></div>
+            <div class="g-action"><span class="g-ai">03</span><span class="g-at" data-i18n="s4-a3">Onglet <code>Libraries</code> → <code>Add libraries</code></span></div>
+            <div class="g-action"><span class="g-ai">04</span><span class="g-at" data-i18n="s4-a4">Sélectionner la Library créée et cliquer sur <code>Save</code></span></div>
           </div>
         </div>
 
@@ -192,17 +220,17 @@
           <div class="g-step-h">
             <div class="g-sn">5</div>
             <div class="g-si">
-              <div class="g-st">Afficher sur une page</div>
-              <div class="g-ss">Asset Gallery · section · publication</div>
+              <div class="g-st" data-i18n="s5-title">Afficher sur une page</div>
+              <div class="g-ss" data-i18n="s5-sub">Asset Gallery · section · publication</div>
             </div>
             <span class="g-sc">›</span>
           </div>
           <div class="g-step-body">
-            <div class="g-action"><span class="g-ai">01</span><span class="g-at">Aller sur la page à mettre à jour</span></div>
-            <div class="g-action"><span class="g-ai">02</span><span class="g-at"><code>+ Add section</code> → mise en page une colonne</span></div>
-            <div class="g-action"><span class="g-ai">03</span><span class="g-at"><code>+ Add widget</code> → sélectionner <code>Asset Gallery</code></span></div>
-            <div class="g-action"><span class="g-ai">04</span><span class="g-at">Panneau gauche → <code>Library</code> → sélectionner la Library</span></div>
-            <div class="g-action"><span class="g-ai">05</span><span class="g-at">Vérifier l'affichage puis cliquer sur <code>Update</code></span></div>
+            <div class="g-action"><span class="g-ai">01</span><span class="g-at" data-i18n="s5-a1">Aller sur la page à mettre à jour</span></div>
+            <div class="g-action"><span class="g-ai">02</span><span class="g-at" data-i18n="s5-a2"><code>+ Add section</code> → mise en page une colonne</span></div>
+            <div class="g-action"><span class="g-ai">03</span><span class="g-at" data-i18n="s5-a3"><code>+ Add widget</code> → sélectionner <code>Asset Gallery</code></span></div>
+            <div class="g-action"><span class="g-ai">04</span><span class="g-at" data-i18n="s5-a4">Panneau gauche → <code>Library</code> → sélectionner la Library</span></div>
+            <div class="g-action"><span class="g-ai">05</span><span class="g-at" data-i18n="s5-a5">Vérifier l'affichage puis cliquer sur <code>Update</code></span></div>
           </div>
         </div>
 
@@ -212,26 +240,152 @@
 
   <div class="g-bottom">
     <div class="g-tip">
-      <div class="g-tlabel">Nommage</div>
-      <div class="g-ttext">Garder une logique cohérente. Ex. <em>Care &amp; Wellness pictures</em> pour le filtre → <em>Care &amp; Wellness</em> pour la Library.</div>
+      <div class="g-tlabel" data-i18n="tip1-label">Nommage</div>
+      <div class="g-ttext" data-i18n="tip1-text">Garder une logique cohérente. Ex. <em>Care &amp; Wellness pictures</em> pour le filtre → <em>Care &amp; Wellness</em> pour la Library.</div>
     </div>
     <div class="g-tip">
-      <div class="g-tlabel">Avant de publier</div>
-      <div class="g-ttext">Métadonnées et tags complétés en amont. Toujours vérifier le rendu front-end après chaque ajout.</div>
+      <div class="g-tlabel" data-i18n="tip2-label">Avant de publier</div>
+      <div class="g-ttext" data-i18n="tip2-text">Métadonnées et tags complétés en amont. Toujours vérifier le rendu front-end après chaque ajout.</div>
     </div>
     <div class="g-debug">
-      <div class="g-tlabel">Si le contenu n'apparaît pas — checklist</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Asset uploadé dans le bon dossier</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Métadonnées et tags renseignés</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Filtre contenant les bons assets</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Library reliée au filtre</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Library ajoutée dans le portail</div>
-      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i>Widget Asset Gallery utilisant la bonne Library</div>
+      <div class="g-tlabel" data-i18n="debug-label">Si le contenu n'apparaît pas — checklist</div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d1">Asset uploadé dans le bon dossier</span></div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d2">Métadonnées et tags renseignés</span></div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d3">Filtre contenant les bons assets</span></div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d4">Library reliée au filtre</span></div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d5">Library ajoutée dans le portail</span></div>
+      <div class="g-di"><i class="ti ti-circle-check" aria-hidden="true"></i><span data-i18n="d6">Widget Asset Gallery utilisant la bonne Library</span></div>
     </div>
   </div>
 </div>
 
 <script>
+var i18n={
+  fr:{
+    "eyebrow":"DAM Admin · User Guide",
+    "title":"Ajouter des assets<br>dans le Media Center",
+    "subtitle":"Cinq étapes pour passer de l'upload à l'affichage. Back-end d'abord, front-end ensuite.",
+    "f1":"Filtre","f2":"Filtre","f3":"Library","f4":"Portail","f5":"Asset Gallery",
+    "be-title":"Administration &amp; configuration","be-meta":"Upload · Filtres · Libraries — 3 étapes",
+    "fe-title":"Publication &amp; affichage","fe-meta":"Portail · Asset Gallery · mise en ligne — 2 étapes",
+    "s1-title":"Charger les éléments","s1-sub":"Upload · métadonnées · tags",
+    "s1-a1":"Aller dans <code>Explore</code>",
+    "s1-a2":"Sélectionner le dossier cible",
+    "s1-a3":"Cliquer sur <code>Upload asset</code> et importer les fichiers",
+    "s1-a4":"Compléter les métadonnées nécessaires",
+    "s1-a5":"Ajouter les tags appropriés",
+    "s1-a6":"Cliquer sur <code>Save and Finish</code>",
+    "s2-title":"Créer un filtre","s2-sub":"Recherche · sauvegarde · nommage",
+    "s2-a1":"Cliquer sur <code>Search</code> dans le back-end",
+    "s2-a2":"Coller le nom exact de l'asset dans la barre de recherche",
+    "s2-a3":"Vérifier que les bons éléments apparaissent",
+    "s2-a4":"Icône <code>Save</code> (disquette) → <code>Save as</code>",
+    "s2-a5":"Nommer le filtre — ex. <em>Care &amp; Wellness pictures</em>",
+    "s3-title":"Créer une Library","s3-sub":"Liaison filtre · création",
+    "s3-a1":"Menu gauche → <code>Libraries</code> → <code>New</code>",
+    "s3-a2":"Renseigner <code>Library name</code> — ex. <em>Care &amp; Wellness</em>",
+    "s3-a3":"Sélectionner <code>symrise.celum.cloud</code>",
+    "s3-a4":"<code>Assets</code> → <code>Add a filter</code> → sélectionner le filtre créé",
+    "s3-a5":"Cliquer sur <code>Create</code> en haut à droite",
+    "s4-title":"Ajouter la Library dans le portail","s4-sub":"Experience · Edit Portal · Libraries",
+    "s4-a1":"Aller dans <code>Experience</code>",
+    "s4-a2":"Trois petits points → <code>Edit Portal</code>",
+    "s4-a3":"Onglet <code>Libraries</code> → <code>Add libraries</code>",
+    "s4-a4":"Sélectionner la Library créée et cliquer sur <code>Save</code>",
+    "s5-title":"Afficher sur une page","s5-sub":"Asset Gallery · section · publication",
+    "s5-a1":"Aller sur la page à mettre à jour",
+    "s5-a2":"<code>+ Add section</code> → mise en page une colonne",
+    "s5-a3":"<code>+ Add widget</code> → sélectionner <code>Asset Gallery</code>",
+    "s5-a4":"Panneau gauche → <code>Library</code> → sélectionner la Library",
+    "s5-a5":"Vérifier l'affichage puis cliquer sur <code>Update</code>",
+    "tip1-label":"Nommage","tip1-text":"Garder une logique cohérente. Ex. <em>Care &amp; Wellness pictures</em> pour le filtre → <em>Care &amp; Wellness</em> pour la Library.",
+    "tip2-label":"Avant de publier","tip2-text":"Métadonnées et tags complétés en amont. Toujours vérifier le rendu front-end après chaque ajout.",
+    "debug-label":"Si le contenu n'apparaît pas — checklist",
+    "d1":"Asset uploadé dans le bon dossier","d2":"Métadonnées et tags renseignés","d3":"Filtre contenant les bons assets","d4":"Library reliée au filtre","d5":"Library ajoutée dans le portail","d6":"Widget Asset Gallery utilisant la bonne Library"
+  },
+  en:{
+    "eyebrow":"DAM Admin · User Guide",
+    "title":"Adding assets to<br>the Media Center",
+    "subtitle":"Five steps from upload to display. Back-end first, front-end second.",
+    "f1":"Upload","f2":"Filter","f3":"Library","f4":"Portal","f5":"Asset Gallery",
+    "be-title":"Administration &amp; configuration","be-meta":"Upload · Filters · Libraries — 3 steps",
+    "fe-title":"Publishing &amp; display","fe-meta":"Portal · Asset Gallery · go live — 2 steps",
+    "s1-title":"Upload assets","s1-sub":"Upload · metadata · tags",
+    "s1-a1":"Go to <code>Explore</code>",
+    "s1-a2":"Select the target folder",
+    "s1-a3":"Click <code>Upload asset</code> and import the files",
+    "s1-a4":"Fill in the required metadata",
+    "s1-a5":"Add the appropriate tags",
+    "s1-a6":"Click <code>Save and Finish</code>",
+    "s2-title":"Create a filter","s2-sub":"Search · save · naming",
+    "s2-a1":"Click <code>Search</code> in the back-end",
+    "s2-a2":"Paste the exact asset name into the search bar",
+    "s2-a3":"Check that the correct items appear in the results",
+    "s2-a4":"Click the <code>Save</code> icon (floppy disk) → <code>Save as</code>",
+    "s2-a5":"Name the filter clearly — e.g. <em>Care &amp; Wellness pictures</em>",
+    "s3-title":"Create a Library","s3-sub":"Filter link · creation",
+    "s3-a1":"Left menu → <code>Libraries</code> → <code>New</code>",
+    "s3-a2":"Enter the name in <code>Library name</code> — e.g. <em>Care &amp; Wellness</em>",
+    "s3-a3":"Select <code>symrise.celum.cloud</code>",
+    "s3-a4":"<code>Assets</code> → <code>Add a filter</code> → select the filter you created",
+    "s3-a5":"Click <code>Create</code> in the top right corner",
+    "s4-title":"Add the Library to the portal","s4-sub":"Experience · Edit Portal · Libraries",
+    "s4-a1":"Go to <code>Experience</code>",
+    "s4-a2":"Three-dot menu → <code>Edit Portal</code>",
+    "s4-a3">Tab <code>Libraries</code> → <code>Add libraries</code>",
+    "s4-a4":"Select the Library and click <code>Save</code>",
+    "s5-title":"Display on a page","s5-sub":"Asset Gallery · section · publish",
+    "s5-a1":"Go to the page you want to update",
+    "s5-a2":"Below the title, click <code>+ Add section</code> → one-column layout",
+    "s5-a3":"<code>+ Add widget</code> → select <code>Asset Gallery</code>",
+    "s5-a4":"Left panel → <code>Library</code> → select the Library",
+    "s5-a5":"Check the display then click <code>Update</code>",
+    "tip1-label":"Naming","tip1-text":"Keep a consistent naming logic. E.g. <em>Care &amp; Wellness pictures</em> for the filter → <em>Care &amp; Wellness</em> for the Library.",
+    "tip2-label":"Before publishing","tip2-text":"Complete metadata and tags beforehand. Always check the front-end display after adding a new Library.",
+    "debug-label":"If content doesn't appear — checklist",
+    "d1":"Asset uploaded to the correct folder","d2":"Metadata and tags filled in","d3":"Filter includes the correct assets","d4":"Library linked to the filter","d5":"Library added to the portal","d6":"Asset Gallery widget using the correct Library"
+  }
+};
+
+var currentLang='fr';
+
+function toggleLang(){
+  var btn=document.getElementById('langBtn');
+  var drop=document.getElementById('langDrop');
+  var isOpen=drop.classList.contains('open');
+  drop.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+  btn.setAttribute('aria-expanded',String(!isOpen));
+}
+
+function setLang(lang){
+  currentLang=lang;
+  var drop=document.getElementById('langDrop');
+  var btn=document.getElementById('langBtn');
+  drop.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded','false');
+  document.getElementById('langLabel').textContent=lang==='fr'?'Français':'English';
+  document.getElementById('opt-fr').classList.toggle('active',lang==='fr');
+  document.getElementById('opt-en').classList.toggle('active',lang==='en');
+  var dict=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    if(dict[key]!==undefined)el.innerHTML=dict[key];
+  });
+  document.getElementById('g-a11y').textContent=lang==='fr'?'Guide DAM — Ajouter des assets dans le Media Center':'DAM Guide — Adding assets to the Media Center';
+}
+
+document.addEventListener('click',function(e){
+  var btn=document.getElementById('langBtn');
+  var drop=document.getElementById('langDrop');
+  if(!btn.contains(e.target)&&!drop.contains(e.target)){
+    drop.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+});
+
 function toggleSection(id){
   var s=document.getElementById(id);
   var wasActive=s.classList.contains('active');
