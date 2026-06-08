@@ -407,12 +407,59 @@ code {
   border-bottom: 1px solid rgba(0,0,0,.06);
   box-shadow: 0 8px 24px rgba(0,0,0,.06);
 }
+
 .brand {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
   color: #1d1d1f;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -.015em;
 }
+.brand-main {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: #000;
+}
+.brand-sub {
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: #9a9aa0;
+}
+
+/* Fixed navbar */
+.topbar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+}
+.guide {
+  padding-top: 92px;
+}
+
+/* Mobile behavior */
+@media (max-width: 900px) {
+  .brand {
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .brand-main {
+    font-size: 20px;
+  }
+  .brand-sub {
+    font-size: 18px;
+  }
+}
+
 .brand-dot { display: none !important; }
 .topright { gap: 10px; }
 .link-pill,
@@ -766,7 +813,8 @@ code {
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="brand">
-      <span>Symrise Library · Admin User Guide</span>
+      <span class="brand-main">Symrise Library</span>
+      <span class="brand-sub">Developer Center</span>
     </div>
     <div class="topright">
       <a class="link-pill" href="https://mediacenter.symrise.com/" target="_blank" rel="noopener" data-i18n="link-be">Back-end</a>
