@@ -27,7 +27,7 @@
   --shadow-hover: 0 22px 56px rgba(0,0,0,.12), 0 0 0 .5px rgba(0,0,0,.07);
   --shadow-modal: 0 40px 100px rgba(0,0,0,.20), 0 0 0 1px rgba(0,0,0,.06);
 
-  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font: 'Milo OT', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 28px;
@@ -398,8 +398,8 @@ code {
   gap: 16px;
   padding-top: 16px;
   padding-bottom: 16px;
-  padding-left: max(28px, calc((100vw - min(1280px, calc(100% - 56px))) / 2 + 28px));
-  padding-right: max(28px, calc((100vw - min(1280px, calc(100% - 56px))) / 2 + 28px));
+  padding-left: 22px;
+  padding-right: 22px;
   margin-bottom: 46px;
   background: rgba(248,248,250,.84);
   backdrop-filter: blur(20px) saturate(160%);
@@ -409,9 +409,9 @@ code {
 }
 .brand {
   color: #1d1d1f;
-  font-size: 28px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: -.03em;
+  letter-spacing: -.015em;
 }
 .brand-dot { display: none !important; }
 .topright { gap: 10px; }
@@ -665,10 +665,83 @@ code {
 }
 .nav-item span { opacity: .55; margin-right: 5px; }
 
+
+/* ─── CLEAR BACK-END / FRONT-END SEPARATION ───────────────── */
+.section-block {
+  position: relative;
+  padding: 46px;
+  border-radius: 42px;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 28px 70px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+.section-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at 100% 0%, rgba(255,255,255,.9), transparent 34%);
+}
+.section-block > * {
+  position: relative;
+  z-index: 1;
+}
+#backend {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,248,251,.86)),
+    radial-gradient(circle at 0% 0%, rgba(197,23,24,.07), transparent 32%);
+}
+#frontend {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.96), rgba(248,248,251,.86)),
+    radial-gradient(circle at 100% 0%, rgba(0,113,227,.07), transparent 32%);
+}
+#backend::after,
+#frontend::after {
+  position: absolute;
+  right: 34px;
+  top: 28px;
+  font-size: clamp(54px, 8vw, 112px);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -.075em;
+  color: rgba(0,0,0,.035);
+  pointer-events: none;
+}
+#backend::after { content: "Back-end"; }
+#frontend::after { content: "Front-end"; }
+
+.section-link {
+  font-size: 20px;
+  color: rgba(29,29,31,.52);
+}
+.section-title {
+  font-size: clamp(42px, 5.6vw, 76px);
+}
+.section-desc {
+  margin-bottom: 42px;
+}
+#backend .card::before { color: rgba(197,23,24,.105); }
+#frontend .card::before { color: rgba(0,113,227,.105); }
+
+@media (max-width: 900px) {
+  .section-block {
+    padding: 28px;
+    border-radius: 32px;
+  }
+  #backend::after,
+  #frontend::after {
+    right: 22px;
+    top: 20px;
+    font-size: 54px;
+  }
+}
+
 /* ─── RESPONSIVE ──────────────────────────────────────────── */
 @media (max-width: 900px) {
   .topbar { padding: 14px 16px; padding-left: 16px; padding-right: 16px; }
-  .brand { font-size: 22px; }
+  .brand { font-size: 14px; }
   .intro-banner { grid-template-columns: 1fr; }
   .section-head { display: block; }
   .section-desc { margin-top: 12px; }
@@ -748,7 +821,6 @@ code {
   <section class="section-block" id="backend" aria-labelledby="backend-title">
     <div class="section-head">
       <div class="section-copy">
-        <a class="section-label section-link" href="https://mediacenter.symrise.com/" target="_blank" rel="noopener" data-i18n="be-label">Back-end · mediacenter.symrise.com ↗</a>
         <h2 class="section-title" id="backend-title" data-i18n="be-section-title">Préparer.</h2>
         <p class="section-desc" data-i18n="be-section-desc">Importer les assets. Créer un filtre. Construire une Library.</p>
       </div>
@@ -818,7 +890,6 @@ code {
   <section class="section-block" id="frontend" aria-labelledby="frontend-title">
     <div class="section-head">
       <div class="section-copy">
-        <a class="section-label section-link" href="https://portals.celum.com/7e0ceabc-05f0-4929-857c-c59bcd9010cd/1?l=en" target="_blank" rel="noopener" data-i18n="fe-label">Front-end · portail visible par les utilisateurs ↗</a>
         <h2 class="section-title" id="frontend-title" data-i18n="fe-section-title">Publier.</h2>
         <p class="section-desc" data-i18n="fe-section-desc">Ajouter la Library au portail et l’afficher sur une page.</p>
       </div>
