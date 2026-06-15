@@ -1,4 +1,3 @@
-```html
 <style>
   :root {
     --red: #C51718;
@@ -1096,6 +1095,7 @@
   const stepperWrap = document.getElementById("stepperWrap");
 
   const dockBottom = 24;
+  let stepperDockStart = 0;
 
   function toggleSection(id) {
     const section = document.getElementById(id);
@@ -1108,21 +1108,23 @@
     box.textContent = item.classList.contains("done") ? "✓" : "";
   }
 
-  function updateStepperDock() {
-    const slotRect = stepperSlot.getBoundingClientRect();
+  function calculateStepperDockStart() {
     const stepperHeight = stepperWrap.offsetHeight;
+    const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
     const viewportHeight = window.innerHeight;
 
-    const dockY = viewportHeight - dockBottom - stepperHeight;
-
     /*
-      La barre devient flottante uniquement quand sa position naturelle
-      atteint la zone où elle doit rester fixée en bas de l’écran.
+      Point exact où la barre, dans son flux naturel,
+      arrive au niveau du bas de l'écran.
     */
-    const shouldDock = slotRect.top <= dockY && slotRect.bottom > dockBottom;
+    stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
+  }
+
+  function updateStepperDock() {
+    const shouldDock = window.scrollY >= stepperDockStart;
 
     if (shouldDock) {
-      stepperSlot.style.height = stepperHeight + "px";
+      stepperSlot.style.height = stepperWrap.offsetHeight + "px";
       stepperWrap.classList.add("is-floating");
       document.body.classList.add("stepper-is-floating");
     } else {
@@ -1132,9 +1134,16 @@
     }
   }
 
+  function refreshStepperDock() {
+    calculateStepperDockStart();
+    updateStepperDock();
+  }
+
   window.addEventListener("scroll", updateStepperDock, { passive: true });
-  window.addEventListener("resize", updateStepperDock);
-  window.addEventListener("load", updateStepperDock);
+  window.addEventListener("resize", refreshStepperDock);
+  window.addEventListener("load", refreshStepperDock);
+
+  refreshStepperDock();
 
   const sectionObserver = new IntersectionObserver(
     entries => {
@@ -1181,4 +1190,3 @@
     });
   });
 </script>
-```
