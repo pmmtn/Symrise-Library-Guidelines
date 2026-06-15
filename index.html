@@ -3,6 +3,7 @@
   :root {
     --red: #C51718;
     --red-soft: #fff1f1;
+    --red-soft-2: #f9dede;
 
     --ink: #1d1d1f;
     --text: #424245;
@@ -14,12 +15,12 @@
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
 
-    --glass: rgba(224, 224, 226, 0.66);
-    --glass-border: rgba(255, 255, 255, 0.72);
+    --glass: rgba(226, 226, 228, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.74);
 
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
-    --shadow-floating: 0 24px 70px rgba(0, 0, 0, 0.18);
+    --shadow-floating: 0 24px 70px rgba(0, 0, 0, 0.13);
 
     --radius-lg: 28px;
 
@@ -43,10 +44,7 @@
       var(--bg);
     font-family: var(--font);
     color: var(--ink);
-  }
-
-  body.stepper-floating {
-    padding-bottom: 120px;
+    padding-bottom: 96px;
   }
 
   .dam-guide {
@@ -184,80 +182,62 @@
     line-height: 1.55;
   }
 
-  /* LIQUID GLASS STEP NAV */
-
-  .stepper-anchor {
-    height: 1px;
-  }
+  /* LIQUID GLASS STEPPER */
 
   .liquid-stepper-wrap {
+    position: sticky;
+    bottom: 24px;
+    z-index: 100;
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
-    margin: 36px 0 48px;
-    transition: all 0.25s ease;
-  }
-
-  .liquid-stepper-wrap.is-floating {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 24px;
-    z-index: 9999;
-    margin: 0;
-    padding: 0 24px;
+    margin: 34px 0 46px;
     pointer-events: none;
   }
 
   .liquid-stepper {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    display: flex;
     align-items: center;
-    width: min(900px, 100%);
-    padding: 10px;
+    justify-content: center;
+    gap: 6px;
+    width: fit-content;
+    max-width: min(720px, 100%);
+    padding: 7px;
     border-radius: 999px;
     background: var(--glass);
     border: 1px solid var(--glass-border);
     box-shadow:
-      0 18px 50px rgba(0, 0, 0, 0.08),
+      var(--shadow-floating),
       inset 0 1px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
-    transition:
-      width 0.28s ease,
-      box-shadow 0.28s ease,
-      background 0.28s ease;
-  }
-
-  .liquid-stepper-wrap.is-floating .liquid-stepper {
-    width: min(820px, 100%);
     pointer-events: auto;
-    box-shadow:
-      var(--shadow-floating),
-      inset 0 1px 0 rgba(255, 255, 255, 0.75),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   }
 
   .stepper-item {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 64px;
-    padding: 0 16px;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
     border-radius: 999px;
     color: rgba(29, 29, 31, 0.42);
     text-decoration: none;
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: -0.045em;
+    font-size: 20px;
+    font-weight: 520;
+    letter-spacing: -0.04em;
     white-space: nowrap;
     overflow: hidden;
     transition:
-      background 0.25s ease,
-      color 0.25s ease,
-      box-shadow 0.25s ease,
-      padding 0.25s ease;
+      width 0.28s cubic-bezier(.2,.8,.2,1),
+      min-width 0.28s cubic-bezier(.2,.8,.2,1),
+      padding 0.28s cubic-bezier(.2,.8,.2,1),
+      background 0.24s ease,
+      color 0.24s ease,
+      box-shadow 0.24s ease;
   }
 
   .stepper-item:hover {
@@ -265,13 +245,15 @@
   }
 
   .stepper-item.active {
-    justify-content: flex-start;
-    gap: 10px;
-    padding: 0 30px;
+    width: auto;
+    min-width: 0;
+    padding: 0 24px;
+    gap: 8px;
+    justify-content: center;
     background: var(--red);
     color: #fff;
     box-shadow:
-      0 12px 28px rgba(197, 23, 24, 0.28),
+      0 10px 24px rgba(197, 23, 24, 0.26),
       inset 0 1px 0 rgba(255, 255, 255, 0.24);
   }
 
@@ -281,9 +263,9 @@
 
   .stepper-label {
     display: none;
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: -0.055em;
+    font-size: 18px;
+    font-weight: 520;
+    letter-spacing: -0.04em;
   }
 
   .stepper-item.active .stepper-label {
@@ -292,7 +274,7 @@
 
   .stepper-item.active .stepper-number::after {
     content: " -";
-    margin-left: 7px;
+    margin-left: 6px;
     font-weight: 700;
   }
 
@@ -305,7 +287,7 @@
   }
 
   .section {
-    scroll-margin-top: 40px;
+    scroll-margin-top: 80px;
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
@@ -663,23 +645,29 @@
       grid-template-columns: 1fr;
     }
 
+    .liquid-stepper {
+      max-width: min(620px, 100%);
+    }
+
     .stepper-item {
-      min-height: 56px;
-      font-size: 22px;
+      width: 42px;
+      min-width: 42px;
+      height: 42px;
+      font-size: 18px;
     }
 
     .stepper-item.active {
-      padding: 0 22px;
+      padding: 0 18px;
     }
 
     .stepper-label {
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 
   @media (max-width: 640px) {
-    body.stepper-floating {
-      padding-bottom: 98px;
+    body {
+      padding-bottom: 86px;
     }
 
     .hero-title {
@@ -691,27 +679,31 @@
       padding: 26px;
     }
 
-    .liquid-stepper-wrap.is-floating {
-      bottom: 18px;
-      padding: 0 14px;
+    .liquid-stepper-wrap {
+      bottom: 16px;
+      margin-bottom: 36px;
     }
 
     .liquid-stepper {
-      padding: 8px;
+      gap: 4px;
+      padding: 6px;
+      max-width: calc(100vw - 28px);
     }
 
     .stepper-item {
-      min-height: 48px;
-      padding: 0 8px;
-      font-size: 18px;
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      padding: 0;
+      font-size: 16px;
     }
 
     .stepper-item.active {
-      padding: 0 16px;
+      padding: 0 13px;
     }
 
     .stepper-label {
-      font-size: 17px;
+      font-size: 14px;
     }
 
     .section-header {
@@ -772,9 +764,7 @@
       </div>
     </section>
 
-    <div id="stepperAnchor" class="stepper-anchor"></div>
-
-    <div id="stepperWrap" class="liquid-stepper-wrap">
+    <div class="liquid-stepper-wrap">
       <nav class="liquid-stepper" aria-label="Process navigation">
         <a href="#s1" class="stepper-item active">
           <span class="stepper-number">1</span>
@@ -810,7 +800,7 @@
 
     <section class="sections-stack">
 
-      <article id="s1" class="section open" data-step="1">
+      <article id="s1" class="section open">
         <button class="section-header" type="button" onclick="toggleSection('s1')">
           <span class="section-heading">
             <span class="section-kicker">Step 01 · Upload</span>
@@ -864,7 +854,7 @@
         </div>
       </article>
 
-      <article id="s2" class="section" data-step="2">
+      <article id="s2" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s2')">
           <span class="section-heading">
             <span class="section-kicker">Step 02 · Metadata</span>
@@ -910,7 +900,7 @@
         </div>
       </article>
 
-      <article id="s3" class="section" data-step="3">
+      <article id="s3" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s3')">
           <span class="section-heading">
             <span class="section-kicker">Step 03 · Filter</span>
@@ -970,7 +960,7 @@
         </div>
       </article>
 
-      <article id="s4" class="section" data-step="4">
+      <article id="s4" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s4')">
           <span class="section-heading">
             <span class="section-kicker">Step 04 · Library</span>
@@ -1024,7 +1014,7 @@
         </div>
       </article>
 
-      <article id="s5" class="section" data-step="5">
+      <article id="s5" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s5')">
           <span class="section-heading">
             <span class="section-kicker">Step 05 · Front-end</span>
@@ -1070,7 +1060,7 @@
         </div>
       </article>
 
-      <article id="s6" class="section" data-step="6">
+      <article id="s6" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s6')">
           <span class="section-heading">
             <span class="section-kicker">Step 06 · Asset Gallery</span>
@@ -1228,10 +1218,8 @@
 </div>
 
 <script>
-  const stepperWrap = document.getElementById("stepperWrap");
-  const stepperAnchor = document.getElementById("stepperAnchor");
-  const stepperItems = document.querySelectorAll(".stepper-item");
   const sections = document.querySelectorAll(".section");
+  const stepperItems = document.querySelectorAll(".stepper-item");
 
   function toggleSection(id) {
     const section = document.getElementById(id);
@@ -1244,46 +1232,31 @@
     box.textContent = item.classList.contains("done") ? "✓" : "";
   }
 
-  function updateFloatingStepper() {
-    if (!stepperWrap || !stepperAnchor) return;
-
-    const anchorPosition = stepperAnchor.getBoundingClientRect().top;
-    const shouldFloat = anchorPosition < -24;
-
-    stepperWrap.classList.toggle("is-floating", shouldFloat);
-    document.body.classList.toggle("stepper-floating", shouldFloat);
-  }
-
-  function setActiveStep(id) {
-    stepperItems.forEach(item => {
-      item.classList.toggle(
-        "active",
-        item.getAttribute("href") === "#" + id
-      );
-    });
-  }
-
-  window.addEventListener("scroll", updateFloatingStepper, { passive: true });
-  window.addEventListener("resize", updateFloatingStepper);
-  updateFloatingStepper();
-
-  const observer = new IntersectionObserver(
+  const sectionObserver = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          setActiveStep(entry.target.id);
+          const activeId = entry.target.id;
+
+          stepperItems.forEach(item => {
+            item.classList.toggle(
+              "active",
+              item.getAttribute("href") === "#" + activeId
+            );
+          });
+
           entry.target.classList.add("open");
         }
       });
     },
     {
       root: null,
-      threshold: 0.22,
-      rootMargin: "-18% 0px -62% 0px"
+      threshold: 0.24,
+      rootMargin: "-20% 0px -55% 0px"
     }
   );
 
-  sections.forEach(section => observer.observe(section));
+  sections.forEach(section => sectionObserver.observe(section));
 
   stepperItems.forEach(item => {
     item.addEventListener("click", event => {
@@ -1293,12 +1266,14 @@
       if (!target) return;
 
       target.classList.add("open");
-      setActiveStep(target.id);
 
       target.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
+
+      stepperItems.forEach(step => step.classList.remove("active"));
+      item.classList.add("active");
     });
   });
 </script>
