@@ -1,3 +1,4 @@
+
 <style>
   :root {
     --red: #C51718;
@@ -10,11 +11,9 @@
     --surface: rgba(255, 255, 255, 0.78);
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
-    --glass-border: rgba(255, 255, 255, 0.34);
+    --radius-lg: 28px;
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
-    --shadow-floating: 0 30px 80px rgba(0, 0, 0, 0.14);
-    --radius-lg: 28px;
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     --mono: "SF Mono", "Fira Mono", Consolas, monospace;
   }
@@ -34,21 +33,10 @@
 
   body.stepper-is-floating { padding-bottom: 96px; }
 
-  .dam-guide {
-    width: 100%;
-    min-height: 100vh;
-    padding: 56px 24px 80px;
-  }
+  .dam-guide { width: 100%; min-height: 100vh; padding: 56px 24px 80px; }
+  .guide-shell { width: min(1120px, 100%); margin: 0 auto; }
 
-  .guide-shell {
-    width: min(1120px, 100%);
-    margin: 0 auto;
-  }
-
-  .guide-hero {
-    padding: 72px 0 56px;
-    border-bottom: 1px solid var(--line);
-  }
+  .guide-hero { padding: 72px 0 56px; border-bottom: 1px solid var(--line); }
 
   .eyebrow {
     margin-bottom: 16px;
@@ -99,7 +87,6 @@
   }
 
   .context-card { padding: 34px; }
-
   .context-card::before {
     content: "";
     position: absolute;
@@ -108,27 +95,10 @@
     background: var(--red);
   }
 
-  .context-title {
-    margin: 0 0 14px;
-    color: var(--ink);
-    font-size: 22px;
-    font-weight: 620;
-    letter-spacing: -0.03em;
-  }
-
-  .context-card p {
-    margin: 0;
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.72;
-  }
-
+  .context-title { margin: 0 0 14px; color: var(--ink); font-size: 22px; font-weight: 620; letter-spacing: -0.03em; }
+  .context-card p { margin: 0; color: var(--text); font-size: 15px; line-height: 1.72; }
   .context-card p + p { margin-top: 16px; }
-
-  .context-card strong {
-    color: var(--ink);
-    font-weight: 650;
-  }
+  .context-card strong { color: var(--ink); font-weight: 650; }
 
   .principle-card {
     display: flex;
@@ -138,45 +108,19 @@
     background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)), var(--surface);
   }
 
-  .principle-kicker {
-    margin-bottom: 18px;
-    color: var(--red);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
+  .principle-kicker { margin-bottom: 18px; color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
+  .principle-text { margin: 0; color: var(--ink); font-size: 26px; font-weight: 620; letter-spacing: -0.045em; line-height: 1.12; }
+  .principle-note { margin-top: 22px; color: var(--muted); font-size: 14px; line-height: 1.55; }
 
-  .principle-text {
-    margin: 0;
-    color: var(--ink);
-    font-size: 26px;
-    font-weight: 620;
-    letter-spacing: -0.045em;
-    line-height: 1.12;
-  }
+  /* ── STEPPER SLOT ── */
 
-  .principle-note {
-    margin-top: 22px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.55;
-  }
-
-  /* ─── STEPPER SLOT ─── */
-
-  .stepper-slot {
-    width: 100%;
-    margin: 34px 0 46px;
-  }
+  .stepper-slot { width: 100%; margin: 34px 0 46px; }
 
   .stepper-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    transition:
-      opacity 0.32s ease,
-      transform 0.42s cubic-bezier(.19, 1, .22, 1);
+    transition: opacity 0.32s ease, transform 0.42s cubic-bezier(.19,1,.22,1);
   }
 
   .stepper-wrap.is-hidden {
@@ -193,15 +137,15 @@
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.48s cubic-bezier(.19, 1, .22, 1) both;
+    animation: dockIn 0.48s cubic-bezier(.19,1,.22,1) both;
   }
 
   @keyframes dockIn {
     from { opacity: 0; transform: translateY(16px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  /* ─── LIQUID STEPPER — reworked glass ─── */
+  /* ── LIQUID STEPPER ── */
 
   .liquid-stepper {
     position: relative;
@@ -211,83 +155,69 @@
     gap: 4px;
     width: fit-content;
     max-width: min(720px, 100%);
-
-    /* Tight pill geometry */
     padding: 6px;
     border-radius: 999px;
 
-    /* Glass: very opaque white so blur shows through cleanly */
-    background: rgba(255, 255, 255, 0.82);
+    /* Fond très opaque blanc — le blur doit couvrir ce qu'il y a dessous */
+    background: rgba(240, 240, 242, 0.92);
 
-    /* Three-layer border trick: outer glow + hairline inside */
-    border: none;
-    outline: none;
-
-    /* Deep shadow for floating feel + subtle coloured glow */
+    /* Ombre extérieure profonde + double anneau de bord */
     box-shadow:
-      0 0 0 0.5px rgba(0, 0, 0, 0.10),        /* hairline */
-      0 0 0 1px  rgba(255, 255, 255, 0.90),    /* inner white rim */
-      0 2px  6px  rgba(0, 0, 0, 0.06),
-      0 8px  24px rgba(0, 0, 0, 0.10),
-      0 28px 56px rgba(0, 0, 0, 0.14),
-      0 40px 80px rgba(0, 0, 0, 0.08);
+      0 0 0 0.5px rgba(0, 0, 0, 0.12),
+      0 0 0 1.5px rgba(255, 255, 255, 0.85),
+      0 4px 12px rgba(0, 0, 0, 0.10),
+      0 12px 32px rgba(0, 0, 0, 0.13),
+      0 28px 60px rgba(0, 0, 0, 0.10);
 
-    /* Aggressive blur + slight desaturation of background */
-    backdrop-filter: blur(48px) saturate(120%) brightness(1.04);
-    -webkit-backdrop-filter: blur(48px) saturate(120%) brightness(1.04);
+    /* Blur fort — l'effet verre ne se voit que sur fond coloré/contrasté */
+    backdrop-filter: blur(40px) saturate(140%) brightness(1.06);
+    -webkit-backdrop-filter: blur(40px) saturate(140%) brightness(1.06);
 
     pointer-events: auto;
     overflow: hidden;
     isolation: isolate;
 
-    transition:
-      box-shadow 0.4s ease,
-      background 0.4s ease;
+    transition: box-shadow 0.4s ease, background 0.4s ease;
   }
 
-  /* Top gloss sheen — single strong line like polished glass */
+  /* Gloss supérieur — ligne lumineuse sur le bord haut */
   .liquid-stepper::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0) 100%);
     pointer-events: none;
     z-index: 10;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.55) 0%,
-        rgba(255, 255, 255, 0.10) 28%,
-        transparent 50%
-      );
   }
 
-  /* Subtle inner shadow on bottom to close the glass form */
+  /* Bord intérieur sombre en bas — ferme la forme */
   .liquid-stepper::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.50);
     pointer-events: none;
-    z-index: 9;
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+    z-index: 10;
   }
 
-  /* Floating state: crank up shadow + make bg slightly more transparent so blur effect is legible */
+  /* État flottant : on monte les ombres, on baisse légèrement l'opacité du fond
+     pour que le blur soit perceptible sur le contenu qui passe derrière */
   .stepper-wrap.is-floating .liquid-stepper {
-    background: rgba(255, 255, 255, 0.76);
+    background: rgba(232, 232, 236, 0.88);
     box-shadow:
-      0 0 0 0.5px rgba(0, 0, 0, 0.10),
-      0 0 0 1px  rgba(255, 255, 255, 0.92),
-      0 2px  8px  rgba(0, 0, 0, 0.08),
-      0 12px 32px rgba(0, 0, 0, 0.13),
-      0 40px 80px rgba(0, 0, 0, 0.18),
-      0 60px 120px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(64px) saturate(115%) brightness(1.05);
-    -webkit-backdrop-filter: blur(64px) saturate(115%) brightness(1.05);
+      0 0 0 0.5px rgba(0, 0, 0, 0.12),
+      0 0 0 1.5px rgba(255, 255, 255, 0.88),
+      0 8px 20px rgba(0, 0, 0, 0.12),
+      0 20px 50px rgba(0, 0, 0, 0.16),
+      0 50px 100px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(56px) saturate(150%) brightness(1.08);
+    -webkit-backdrop-filter: blur(56px) saturate(150%) brightness(1.08);
   }
 
-  /* ─── INDICATOR PILL ─── */
+  /* ── INDICATOR — flat, zero effects ── */
 
   .stepper-indicator {
     position: absolute;
@@ -298,22 +228,18 @@
     border-radius: 999px;
     z-index: 2;
 
-    background: linear-gradient(180deg, #e01e1f 0%, #c51718 60%, #a81314 100%);
-
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.30) inset,   /* top gloss on pill */
-      0 4px 12px rgba(197, 23, 24, 0.30),
-      0 10px 28px rgba(197, 23, 24, 0.22),
-      0 18px 40px rgba(197, 23, 24, 0.14);
+    /* Flat rouge — aucun gradient, aucun reflet, aucune ombre */
+    background: #C51718;
+    box-shadow: none;
 
     transition:
-      transform 0.68s cubic-bezier(.19, 1, .22, 1),
-      width 0.68s cubic-bezier(.19, 1, .22, 1),
+      transform 0.68s cubic-bezier(.19,1,.22,1),
+      width 0.68s cubic-bezier(.19,1,.22,1),
       opacity 0.26s ease;
     will-change: transform, width;
   }
 
-  /* ─── STEPPER ITEMS ─── */
+  /* ── STEPPER ITEMS ── */
 
   .stepper-item {
     position: relative;
@@ -333,10 +259,10 @@
     white-space: nowrap;
     overflow: hidden;
     transition:
-      width    0.54s cubic-bezier(.19, 1, .22, 1),
-      min-width 0.54s cubic-bezier(.19, 1, .22, 1),
-      padding  0.54s cubic-bezier(.19, 1, .22, 1),
-      color    0.34s ease;
+      width 0.54s cubic-bezier(.19,1,.22,1),
+      min-width 0.54s cubic-bezier(.19,1,.22,1),
+      padding 0.54s cubic-bezier(.19,1,.22,1),
+      color 0.34s ease;
   }
 
   .stepper-item:hover { color: rgba(29, 29, 31, 0.65); }
@@ -348,34 +274,17 @@
     gap: 8px;
     justify-content: center;
     color: #fff;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.18);
   }
 
   .stepper-number { font-weight: 700; }
 
-  .stepper-label {
-    display: none;
-    font-size: 18px;
-    font-weight: 520;
-    letter-spacing: -0.04em;
-  }
-
+  .stepper-label { display: none; font-size: 18px; font-weight: 520; letter-spacing: -0.04em; }
   .stepper-item.active .stepper-label { display: inline; }
+  .stepper-item.active .stepper-number::after { content: " —"; margin-left: 4px; font-weight: 400; opacity: 0.7; }
 
-  .stepper-item.active .stepper-number::after {
-    content: " —";
-    margin-left: 4px;
-    font-weight: 400;
-    opacity: 0.7;
-  }
+  /* ── SECTIONS ── */
 
-  /* ─── SECTIONS ─── */
-
-  .sections-stack {
-    display: grid;
-    gap: 16px;
-    margin-top: 28px;
-  }
+  .sections-stack { display: grid; gap: 16px; margin-top: 28px; }
 
   .section {
     scroll-margin-top: 80px;
@@ -402,41 +311,15 @@
   }
 
   .section-header:hover { background: #fafafa; }
-
   .section-heading { min-width: 0; }
 
-  .section-kicker {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--red);
-    font-size: 11px;
-    font-weight: 750;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
-
-  .section-title {
-    display: block;
-    color: var(--ink);
-    font-size: 22px;
-    font-weight: 620;
-    letter-spacing: -0.04em;
-    line-height: 1.18;
-  }
-
-  .section-badge {
-    padding: 6px 11px;
-    border-radius: 999px;
-    background: var(--red-soft);
-    color: var(--red);
-    font-size: 12px;
-    font-weight: 650;
-  }
+  .section-kicker { display: block; margin-bottom: 6px; color: var(--red); font-size: 11px; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
+  .section-title { display: block; color: var(--ink); font-size: 22px; font-weight: 620; letter-spacing: -0.04em; line-height: 1.18; }
+  .section-badge { padding: 6px 11px; border-radius: 999px; background: var(--red-soft); color: var(--red); font-size: 12px; font-weight: 650; }
 
   .section-toggle {
     position: relative;
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     border-radius: 999px;
     background: #f5f5f7;
     flex-shrink: 0;
@@ -446,10 +329,8 @@
   .section-toggle::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 7px;
-    height: 7px;
+    top: 50%; left: 50%;
+    width: 7px; height: 7px;
     border-right: 1.7px solid var(--muted);
     border-bottom: 1.7px solid var(--muted);
     transform: translate(-50%, -62%) rotate(45deg);
@@ -459,58 +340,26 @@
   .section.open .section-toggle { background: var(--red-soft); transform: rotate(180deg); }
   .section.open .section-toggle::before { border-color: var(--red); }
 
-  .section-body {
-    display: none;
-    padding: 0 26px 30px;
-  }
-
+  .section-body { display: none; padding: 0 26px 30px; }
   .section.open .section-body { display: block; }
-
   .section-inner { max-width: 850px; }
 
-  .section-objective {
-    margin: 0 0 22px;
-    padding-top: 2px;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.65;
-  }
+  .section-objective { margin: 0 0 22px; padding-top: 2px; color: var(--muted); font-size: 15px; line-height: 1.65; }
 
-  .steps-list {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+  .steps-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 
-  .step-item {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 12px;
-    align-items: flex-start;
-  }
+  .step-item { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: flex-start; }
 
   .step-dot {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; margin-top: 1px;
     border: 1.5px solid var(--red);
     border-radius: 999px;
     color: var(--red);
-    font-size: 12px;
-    font-weight: 650;
+    font-size: 12px; font-weight: 650;
   }
 
-  .step-text {
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.58;
-  }
-
+  .step-text { color: var(--text); font-size: 15px; line-height: 1.58; }
   .step-text strong { color: var(--ink); font-weight: 650; }
 
   code {
@@ -527,84 +376,74 @@
   .step-text em { color: var(--muted); font-style: normal; }
 
   .tip-block {
-    margin-top: 22px;
-    padding: 18px 20px;
-    border: 1px solid rgba(197, 23, 24, 0.12);
+    margin-top: 22px; padding: 18px 20px;
+    border: 1px solid rgba(197,23,24,0.12);
     border-radius: 18px;
     background: var(--red-soft);
   }
 
-  .tip-label {
-    margin-bottom: 7px;
-    color: var(--red);
-    font-size: 11px;
-    font-weight: 750;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
+  .tip-label { margin-bottom: 7px; color: var(--red); font-size: 11px; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
   .tip-block p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
 
-  /* ─── COMPLETION ─── */
+  /* ── COMPLETION ── */
 
-  .completion-dock {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    min-height: 90px;
-  }
+  .completion-dock { display: flex; justify-content: center; margin-top: 10px; min-height: 90px; }
 
   .completion-pill {
-    width: 76px;
-    height: 76px;
-    padding: 8px;
+    width: 76px; height: 76px;
     border-radius: 999px;
     position: relative;
     pointer-events: none;
     opacity: 0;
     transform: scale(0.88);
-    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.19, 1, .22, 1);
-    background: rgba(255,255,255,0.82);
-    border: none;
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.19,1,.22,1);
+    background: rgba(240,240,242,0.92);
     box-shadow:
-      0 0 0 0.5px rgba(0,0,0,0.10),
-      0 0 0 1px rgba(255,255,255,0.90),
-      0 8px 24px rgba(0,0,0,0.10),
-      0 28px 56px rgba(0,0,0,0.14);
-    backdrop-filter: blur(48px) saturate(120%);
-    -webkit-backdrop-filter: blur(48px) saturate(120%);
+      0 0 0 0.5px rgba(0,0,0,0.12),
+      0 0 0 1.5px rgba(255,255,255,0.85),
+      0 8px 24px rgba(0,0,0,0.13),
+      0 28px 56px rgba(0,0,0,0.10);
+    backdrop-filter: blur(40px) saturate(140%);
+    -webkit-backdrop-filter: blur(40px) saturate(140%);
+    overflow: hidden;
   }
 
+  /* Gloss sur le pill de completion */
   .completion-pill::before {
     content: "";
     position: absolute;
-    inset: 9px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #e01e1f, #c51718, #a81314);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.28),
-      0 4px 14px rgba(197,23,24,0.32),
-      0 10px 28px rgba(197,23,24,0.20);
+    top: 0; left: 0; right: 0; height: 50%;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, transparent 100%);
+    z-index: 1;
   }
 
-  .completion-pill::after {
-    content: "";
+  /* Cercle rouge flat centré */
+  .completion-inner {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 22px;
-    height: 12px;
-    border-left: 5px solid #fff;
-    border-bottom: 5px solid #fff;
-    border-radius: 2px;
-    transform: translate(-50%, -58%) rotate(-45deg);
+    inset: 9px;
+    border-radius: 999px;
+    background: #C51718;
     z-index: 2;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.20));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Checkmark SVG-style via pseudo */
+  .completion-inner::after {
+    content: "";
+    display: block;
+    width: 20px; height: 11px;
+    border-left: 4px solid #fff;
+    border-bottom: 4px solid #fff;
+    border-radius: 1px;
+    transform: rotate(-45deg) translateY(-2px);
   }
 
   .completion-pill.is-visible { opacity: 1; transform: scale(1); }
 
-  /* ─── BOTTOM GRID ─── */
+  /* ── BOTTOM GRID ── */
 
   .bottom-grid {
     display: grid;
@@ -613,8 +452,7 @@
     margin-top: 44px;
   }
 
-  .checklist-block,
-  .practices-block {
+  .checklist-block, .practices-block {
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     background: var(--surface-solid);
@@ -622,25 +460,9 @@
     overflow: hidden;
   }
 
-  .block-top {
-    padding: 24px 24px 18px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .block-title {
-    margin: 0;
-    color: var(--ink);
-    font-size: 24px;
-    font-weight: 650;
-    letter-spacing: -0.045em;
-  }
-
-  .block-sub {
-    margin: 7px 0 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  .block-top { padding: 24px 24px 18px; border-bottom: 1px solid var(--line); }
+  .block-title { margin: 0; color: var(--ink); font-size: 24px; font-weight: 650; letter-spacing: -0.045em; }
+  .block-sub { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 
   .checklist-body { padding: 12px 24px 22px; }
 
@@ -657,78 +479,34 @@
   .checklist-item:last-child { border-bottom: none; }
 
   .cb {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 19px;
-    height: 19px;
-    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    width: 19px; height: 19px; margin-top: 2px;
     border: 1.5px solid #c9c9ce;
     border-radius: 5px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
+    color: #fff; font-size: 12px; font-weight: 700;
     transition: all 0.15s ease;
   }
 
   .checklist-item.done .cb { border-color: var(--red); background: var(--red); }
-
   .ci-text { color: var(--text); font-size: 14px; line-height: 1.55; }
   .checklist-item.done .ci-text { color: var(--muted); text-decoration: line-through; }
 
   .practices-grid { display: grid; gap: 12px; padding: 18px; }
 
-  .practice-card {
-    padding: 18px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: var(--surface-soft);
-  }
-
-  .practice-title {
-    margin: 0 0 6px;
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 650;
-    letter-spacing: -0.015em;
-  }
-
+  .practice-card { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface-soft); }
+  .practice-title { margin: 0 0 6px; color: var(--ink); font-size: 15px; font-weight: 650; letter-spacing: -0.015em; }
   .practice-desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
-  .flow-summary {
-    margin-top: 26px;
-    padding: 22px;
-    border-radius: var(--radius-lg);
-    background: #1d1d1f;
-    box-shadow: var(--shadow-soft);
-  }
-
-  .flow-title {
-    margin: 0 0 16px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 650;
-    letter-spacing: -0.03em;
-  }
-
+  .flow-summary { margin-top: 26px; padding: 22px; border-radius: var(--radius-lg); background: #1d1d1f; box-shadow: var(--shadow-soft); }
+  .flow-title { margin: 0 0 16px; color: #fff; font-size: 18px; font-weight: 650; letter-spacing: -0.03em; }
   .flow-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-
-  .flow-tag {
-    padding: 7px 11px;
-    border-radius: 9px;
-    background: rgba(255,255,255,0.11);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-  }
-
+  .flow-tag { padding: 7px 11px; border-radius: 9px; background: rgba(255,255,255,0.11); color: #fff; font-size: 13px; font-weight: 600; }
   .flow-arr { color: #ffb3b3; font-weight: 700; }
 
   @media (max-width: 900px) {
     .dam-guide { padding: 36px 18px 64px; }
     .guide-hero { padding: 44px 0 38px; }
     .intro-grid, .bottom-grid { grid-template-columns: 1fr; }
-    .liquid-stepper { max-width: min(620px, 100%); }
     .stepper-item { width: 42px; min-width: 42px; height: 42px; font-size: 18px; }
     .stepper-indicator { height: 42px; width: 42px; }
     .stepper-item.active { padding: 0 18px; }
@@ -741,12 +519,10 @@
     .context-card, .principle-card { padding: 26px; }
     .stepper-wrap.is-floating { bottom: 16px; padding: 0 14px; }
     .liquid-stepper { gap: 4px; padding: 6px; max-width: calc(100vw - 28px); }
-    .stepper-item { width: 36px; min-width: 36px; height: 36px; padding: 0; font-size: 16px; }
+    .stepper-item { width: 36px; min-width: 36px; height: 36px; font-size: 16px; }
     .stepper-indicator { top: 6px; left: 6px; height: 36px; width: 36px; }
     .stepper-item.active { padding: 0 13px; }
     .stepper-label { font-size: 14px; }
-    .completion-pill { width: 70px; height: 70px; }
-    .completion-pill::after { width: 20px; height: 11px; border-left-width: 4.5px; border-bottom-width: 4.5px; }
     .section-header { grid-template-columns: 1fr auto; padding: 20px; }
     .section-title { font-size: 18px; }
     .section-badge { display: none; }
@@ -958,7 +734,9 @@
       </article>
 
       <div class="completion-dock">
-        <div id="completionPill" class="completion-pill" aria-hidden="true"></div>
+        <div id="completionPill" class="completion-pill" aria-hidden="true">
+          <div class="completion-inner"></div>
+        </div>
       </div>
 
     </section>
@@ -1034,31 +812,26 @@
   let activeItem = document.querySelector(".stepper-item.active");
 
   function toggleSection(id) {
-    const section = document.getElementById(id);
-    section.classList.toggle("open");
+    document.getElementById(id).classList.toggle("open");
     setTimeout(refreshLayout, 320);
   }
 
   function checkItem(item) {
     item.classList.toggle("done");
-    const box = item.querySelector(".cb");
-    box.textContent = item.classList.contains("done") ? "✓" : "";
+    item.querySelector(".cb").textContent = item.classList.contains("done") ? "✓" : "";
   }
 
   function calculateStepperDockStart() {
-    const stepperHeight = stepperWrap.offsetHeight;
     const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
-    const viewportHeight = window.innerHeight;
-    stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
+    stepperDockStart = slotTop - window.innerHeight + stepperWrap.offsetHeight + dockBottom;
   }
 
   function moveIndicatorTo(item) {
-    if (!item || !stepperIndicator) return;
-    const itemRect = item.getBoundingClientRect();
-    const stepperRect = stepper.getBoundingClientRect();
-    const x = itemRect.left - stepperRect.left;
-    stepperIndicator.style.width = itemRect.width + "px";
-    stepperIndicator.style.transform = `translateX(${x}px)`;
+    if (!item) return;
+    const ir = item.getBoundingClientRect();
+    const sr = stepper.getBoundingClientRect();
+    stepperIndicator.style.width = ir.width + "px";
+    stepperIndicator.style.transform = `translateX(${ir.left - sr.left}px)`;
   }
 
   function setActiveItem(item) {
@@ -1071,13 +844,10 @@
 
   function shouldCompleteNow() {
     if (!lastSection) return false;
-    const rect = lastSection.getBoundingClientRect();
-    return rect.bottom <= window.innerHeight - 120;
+    return lastSection.getBoundingClientRect().bottom <= window.innerHeight - 120;
   }
 
   function updateStepperState() {
-    const scrollY = window.scrollY;
-    const shouldDock = scrollY >= stepperDockStart;
     const isComplete = shouldCompleteNow();
 
     if (isComplete) {
@@ -1092,7 +862,7 @@
     completionPill.classList.remove("is-visible");
     stepperWrap.classList.remove("is-hidden");
 
-    if (shouldDock) {
+    if (window.scrollY >= stepperDockStart) {
       stepperSlot.style.height = stepperWrap.offsetHeight + "px";
       stepperWrap.classList.add("is-floating");
       document.body.classList.add("stepper-is-floating");
@@ -1107,14 +877,13 @@
 
   function updateActiveSectionEarly() {
     const triggerLine = window.innerHeight * 0.76;
-    let currentSection = sections[0];
-    sections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= triggerLine) currentSection = section;
+    let current = sections[0];
+    sections.forEach(s => {
+      if (s.getBoundingClientRect().top <= triggerLine) current = s;
     });
-    const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
+    const item = document.querySelector(`.stepper-item[href="#${current.id}"]`);
     setActiveItem(item);
-    if (currentSection) currentSection.classList.add("open");
+    current.classList.add("open");
   }
 
   function refreshLayout() {
@@ -1124,19 +893,14 @@
     requestAnimationFrame(() => moveIndicatorTo(activeItem));
   }
 
-  window.addEventListener("scroll", () => {
-    updateActiveSectionEarly();
-    updateStepperState();
-  }, { passive: true });
-
+  window.addEventListener("scroll", () => { updateActiveSectionEarly(); updateStepperState(); }, { passive: true });
   window.addEventListener("resize", refreshLayout);
   window.addEventListener("load", refreshLayout);
-
   refreshLayout();
 
   stepperItems.forEach(item => {
-    item.addEventListener("click", event => {
-      event.preventDefault();
+    item.addEventListener("click", e => {
+      e.preventDefault();
       const target = document.querySelector(item.getAttribute("href"));
       if (!target) return;
       target.classList.add("open");
