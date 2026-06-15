@@ -2,36 +2,25 @@
   :root {
     --red: #C51718;
     --red-soft: #fff1f1;
-
     --ink: #1d1d1f;
     --text: #424245;
     --muted: #6e6e73;
     --line: rgba(0, 0, 0, 0.08);
-
     --bg: #f5f5f7;
     --surface: rgba(255, 255, 255, 0.78);
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
-
     --glass-border: rgba(255, 255, 255, 0.34);
-
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
     --shadow-floating: 0 30px 80px rgba(0, 0, 0, 0.14);
-
     --radius-lg: 28px;
-
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     --mono: "SF Mono", "Fira Mono", Consolas, monospace;
   }
 
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
     margin: 0;
@@ -43,9 +32,7 @@
     color: var(--ink);
   }
 
-  body.stepper-is-floating {
-    padding-bottom: 96px;
-  }
+  body.stepper-is-floating { padding-bottom: 96px; }
 
   .dam-guide {
     width: 100%;
@@ -111,9 +98,7 @@
     -webkit-backdrop-filter: blur(22px) saturate(160%);
   }
 
-  .context-card {
-    padding: 34px;
-  }
+  .context-card { padding: 34px; }
 
   .context-card::before {
     content: "";
@@ -138,9 +123,7 @@
     line-height: 1.72;
   }
 
-  .context-card p + p {
-    margin-top: 16px;
-  }
+  .context-card p + p { margin-top: 16px; }
 
   .context-card strong {
     color: var(--ink);
@@ -152,9 +135,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 34px;
-    background:
-      linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)),
-      var(--surface);
+    background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)), var(--surface);
   }
 
   .principle-kicker {
@@ -182,7 +163,7 @@
     line-height: 1.55;
   }
 
-  /* FLOATING STEPPER */
+  /* ─── STEPPER SLOT ─── */
 
   .stepper-slot {
     width: 100%;
@@ -212,120 +193,131 @@
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.42s cubic-bezier(.19, 1, .22, 1) both;
+    animation: dockIn 0.48s cubic-bezier(.19, 1, .22, 1) both;
   }
 
   @keyframes dockIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px) scale(0.985);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
   }
+
+  /* ─── LIQUID STEPPER — reworked glass ─── */
 
   .liquid-stepper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
     width: fit-content;
     max-width: min(720px, 100%);
-    padding: 7px;
+
+    /* Tight pill geometry */
+    padding: 6px;
     border-radius: 999px;
-    border: 1px solid var(--glass-border);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.16)),
-      linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.06)),
-      rgba(255,255,255,0.16);
+
+    /* Glass: very opaque white so blur shows through cleanly */
+    background: rgba(255, 255, 255, 0.82);
+
+    /* Three-layer border trick: outer glow + hairline inside */
+    border: none;
+    outline: none;
+
+    /* Deep shadow for floating feel + subtle coloured glow */
     box-shadow:
-      0 24px 60px rgba(0, 0, 0, 0.10),
-      0 8px 24px rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.46),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(30px) saturate(185%) contrast(0.92);
-    -webkit-backdrop-filter: blur(30px) saturate(185%) contrast(0.92);
+      0 0 0 0.5px rgba(0, 0, 0, 0.10),        /* hairline */
+      0 0 0 1px  rgba(255, 255, 255, 0.90),    /* inner white rim */
+      0 2px  6px  rgba(0, 0, 0, 0.06),
+      0 8px  24px rgba(0, 0, 0, 0.10),
+      0 28px 56px rgba(0, 0, 0, 0.14),
+      0 40px 80px rgba(0, 0, 0, 0.08);
+
+    /* Aggressive blur + slight desaturation of background */
+    backdrop-filter: blur(48px) saturate(120%) brightness(1.04);
+    -webkit-backdrop-filter: blur(48px) saturate(120%) brightness(1.04);
+
     pointer-events: auto;
     overflow: hidden;
     isolation: isolate;
+
     transition:
-      width 0.55s cubic-bezier(.19, 1, .22, 1),
-      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
-      height 0.55s cubic-bezier(.19, 1, .22, 1),
-      padding 0.55s cubic-bezier(.19, 1, .22, 1),
-      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
-      box-shadow 0.42s ease,
-      background 0.42s ease,
-      border-color 0.42s ease;
+      box-shadow 0.4s ease,
+      background 0.4s ease;
   }
 
+  /* Top gloss sheen — single strong line like polished glass */
   .liquid-stepper::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    z-index: 0;
-    backdrop-filter: blur(36px) saturate(190%) contrast(0.88);
-    -webkit-backdrop-filter: blur(36px) saturate(190%) contrast(0.88);
+    z-index: 10;
     background:
-      radial-gradient(circle at 22% 0%, rgba(255,255,255,0.28), transparent 34%),
-      radial-gradient(circle at 82% 100%, rgba(255,255,255,0.14), transparent 38%),
-      rgba(255,255,255,0.06);
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.10) 28%,
+        transparent 50%
+      );
   }
 
+  /* Subtle inner shadow on bottom to close the glass form */
   .liquid-stepper::after {
     content: "";
     position: absolute;
-    inset: 1px;
+    inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    z-index: 0;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.34), transparent 36%),
-      linear-gradient(135deg, rgba(255,255,255,0.18), transparent 42%),
-      linear-gradient(315deg, rgba(255,255,255,0.08), transparent 48%);
+    z-index: 9;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   }
 
+  /* Floating state: crank up shadow + make bg slightly more transparent so blur effect is legible */
   .stepper-wrap.is-floating .liquid-stepper {
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.14)),
-      linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.06)),
-      rgba(255,255,255,0.14);
-    border-color: rgba(255,255,255,0.36);
+    background: rgba(255, 255, 255, 0.76);
     box-shadow:
-      var(--shadow-floating),
-      0 10px 28px rgba(0, 0, 0, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.50),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
+      0 0 0 0.5px rgba(0, 0, 0, 0.10),
+      0 0 0 1px  rgba(255, 255, 255, 0.92),
+      0 2px  8px  rgba(0, 0, 0, 0.08),
+      0 12px 32px rgba(0, 0, 0, 0.13),
+      0 40px 80px rgba(0, 0, 0, 0.18),
+      0 60px 120px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(64px) saturate(115%) brightness(1.05);
+    -webkit-backdrop-filter: blur(64px) saturate(115%) brightness(1.05);
   }
+
+  /* ─── INDICATOR PILL ─── */
 
   .stepper-indicator {
     position: absolute;
-    top: 7px;
-    left: 7px;
+    top: 6px;
+    left: 6px;
     height: 48px;
     width: 48px;
     border-radius: 999px;
-    z-index: 1;
-    background: linear-gradient(180deg, #d61d1f, #c51718);
+    z-index: 2;
+
+    background: linear-gradient(180deg, #e01e1f 0%, #c51718 60%, #a81314 100%);
+
     box-shadow:
-      0 12px 30px rgba(197, 23, 24, 0.28),
-      0 4px 12px rgba(197, 23, 24, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      0 1px 0 rgba(255,255,255,0.30) inset,   /* top gloss on pill */
+      0 4px 12px rgba(197, 23, 24, 0.30),
+      0 10px 28px rgba(197, 23, 24, 0.22),
+      0 18px 40px rgba(197, 23, 24, 0.14);
+
     transition:
-      transform 0.72s cubic-bezier(.19, 1, .22, 1),
-      width 0.72s cubic-bezier(.19, 1, .22, 1),
-      opacity 0.28s ease;
+      transform 0.68s cubic-bezier(.19, 1, .22, 1),
+      width 0.68s cubic-bezier(.19, 1, .22, 1),
+      opacity 0.26s ease;
     will-change: transform, width;
   }
 
+  /* ─── STEPPER ITEMS ─── */
+
   .stepper-item {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,7 +325,7 @@
     min-width: 48px;
     height: 48px;
     border-radius: 999px;
-    color: rgba(29, 29, 31, 0.42);
+    color: rgba(29, 29, 31, 0.38);
     text-decoration: none;
     font-size: 20px;
     font-weight: 520;
@@ -341,28 +333,25 @@
     white-space: nowrap;
     overflow: hidden;
     transition:
-      width 0.54s cubic-bezier(.19, 1, .22, 1),
+      width    0.54s cubic-bezier(.19, 1, .22, 1),
       min-width 0.54s cubic-bezier(.19, 1, .22, 1),
-      padding 0.54s cubic-bezier(.19, 1, .22, 1),
-      color 0.38s ease;
+      padding  0.54s cubic-bezier(.19, 1, .22, 1),
+      color    0.34s ease;
   }
 
-  .stepper-item:hover {
-    color: rgba(29, 29, 31, 0.72);
-  }
+  .stepper-item:hover { color: rgba(29, 29, 31, 0.65); }
 
   .stepper-item.active {
     width: auto;
     min-width: 0;
-    padding: 0 24px;
+    padding: 0 22px;
     gap: 8px;
     justify-content: center;
     color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.18);
   }
 
-  .stepper-number {
-    font-weight: 700;
-  }
+  .stepper-number { font-weight: 700; }
 
   .stepper-label {
     display: none;
@@ -371,17 +360,16 @@
     letter-spacing: -0.04em;
   }
 
-  .stepper-item.active .stepper-label {
-    display: inline;
-  }
+  .stepper-item.active .stepper-label { display: inline; }
 
   .stepper-item.active .stepper-number::after {
-    content: " -";
-    margin-left: 6px;
-    font-weight: 700;
+    content: " —";
+    margin-left: 4px;
+    font-weight: 400;
+    opacity: 0.7;
   }
 
-  /* SECTIONS */
+  /* ─── SECTIONS ─── */
 
   .sections-stack {
     display: grid;
@@ -413,13 +401,9 @@
     cursor: pointer;
   }
 
-  .section-header:hover {
-    background: #fafafa;
-  }
+  .section-header:hover { background: #fafafa; }
 
-  .section-heading {
-    min-width: 0;
-  }
+  .section-heading { min-width: 0; }
 
   .section-kicker {
     display: block;
@@ -472,27 +456,17 @@
     transition: border-color 0.2s ease;
   }
 
-  .section.open .section-toggle {
-    background: var(--red-soft);
-    transform: rotate(180deg);
-  }
-
-  .section.open .section-toggle::before {
-    border-color: var(--red);
-  }
+  .section.open .section-toggle { background: var(--red-soft); transform: rotate(180deg); }
+  .section.open .section-toggle::before { border-color: var(--red); }
 
   .section-body {
     display: none;
     padding: 0 26px 30px;
   }
 
-  .section.open .section-body {
-    display: block;
-  }
+  .section.open .section-body { display: block; }
 
-  .section-inner {
-    max-width: 850px;
-  }
+  .section-inner { max-width: 850px; }
 
   .section-objective {
     margin: 0 0 22px;
@@ -537,10 +511,7 @@
     line-height: 1.58;
   }
 
-  .step-text strong {
-    color: var(--ink);
-    font-weight: 650;
-  }
+  .step-text strong { color: var(--ink); font-weight: 650; }
 
   code {
     display: inline-block;
@@ -553,10 +524,7 @@
     font-weight: 600;
   }
 
-  .step-text em {
-    color: var(--muted);
-    font-style: normal;
-  }
+  .step-text em { color: var(--muted); font-style: normal; }
 
   .tip-block {
     margin-top: 22px;
@@ -575,14 +543,9 @@
     text-transform: uppercase;
   }
 
-  .tip-block p {
-    margin: 0;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-  }
+  .tip-block p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
 
-  /* COMPLETION BADGE */
+  /* ─── COMPLETION ─── */
 
   .completion-dock {
     display: flex;
@@ -600,21 +563,16 @@
     pointer-events: none;
     opacity: 0;
     transform: scale(0.88);
-    transition:
-      opacity 0.45s ease,
-      transform 0.55s cubic-bezier(.19, 1, .22, 1);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.16)),
-      linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.06)),
-      rgba(255,255,255,0.16);
-    border: 1px solid rgba(255,255,255,0.34);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.19, 1, .22, 1);
+    background: rgba(255,255,255,0.82);
+    border: none;
     box-shadow:
-      0 24px 60px rgba(0, 0, 0, 0.10),
-      0 8px 24px rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.46),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(30px) saturate(185%) contrast(0.92);
-    -webkit-backdrop-filter: blur(30px) saturate(185%) contrast(0.92);
+      0 0 0 0.5px rgba(0,0,0,0.10),
+      0 0 0 1px rgba(255,255,255,0.90),
+      0 8px 24px rgba(0,0,0,0.10),
+      0 28px 56px rgba(0,0,0,0.14);
+    backdrop-filter: blur(48px) saturate(120%);
+    -webkit-backdrop-filter: blur(48px) saturate(120%);
   }
 
   .completion-pill::before {
@@ -622,10 +580,11 @@
     position: absolute;
     inset: 9px;
     border-radius: 999px;
-    background: linear-gradient(180deg, #d61d1f, #c51718);
+    background: linear-gradient(180deg, #e01e1f, #c51718, #a81314);
     box-shadow:
-      0 10px 24px rgba(197, 23, 24, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      inset 0 1px 0 rgba(255,255,255,0.28),
+      0 4px 14px rgba(197,23,24,0.32),
+      0 10px 28px rgba(197,23,24,0.20);
   }
 
   .completion-pill::after {
@@ -640,14 +599,12 @@
     border-radius: 2px;
     transform: translate(-50%, -58%) rotate(-45deg);
     z-index: 2;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.20));
   }
 
-  .completion-pill.is-visible {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .completion-pill.is-visible { opacity: 1; transform: scale(1); }
 
-  /* BOTTOM CONTENT */
+  /* ─── BOTTOM GRID ─── */
 
   .bottom-grid {
     display: grid;
@@ -685,9 +642,7 @@
     line-height: 1.5;
   }
 
-  .checklist-body {
-    padding: 12px 24px 22px;
-  }
+  .checklist-body { padding: 12px 24px 22px; }
 
   .checklist-item {
     display: grid;
@@ -699,9 +654,7 @@
     cursor: pointer;
   }
 
-  .checklist-item:last-child {
-    border-bottom: none;
-  }
+  .checklist-item:last-child { border-bottom: none; }
 
   .cb {
     display: flex;
@@ -718,27 +671,12 @@
     transition: all 0.15s ease;
   }
 
-  .checklist-item.done .cb {
-    border-color: var(--red);
-    background: var(--red);
-  }
+  .checklist-item.done .cb { border-color: var(--red); background: var(--red); }
 
-  .ci-text {
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.55;
-  }
+  .ci-text { color: var(--text); font-size: 14px; line-height: 1.55; }
+  .checklist-item.done .ci-text { color: var(--muted); text-decoration: line-through; }
 
-  .checklist-item.done .ci-text {
-    color: var(--muted);
-    text-decoration: line-through;
-  }
-
-  .practices-grid {
-    display: grid;
-    gap: 12px;
-    padding: 18px;
-  }
+  .practices-grid { display: grid; gap: 12px; padding: 18px; }
 
   .practice-card {
     padding: 18px;
@@ -755,12 +693,7 @@
     letter-spacing: -0.015em;
   }
 
-  .practice-desc {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.55;
-  }
+  .practice-desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
   .flow-summary {
     margin-top: 26px;
@@ -778,142 +711,46 @@
     letter-spacing: -0.03em;
   }
 
-  .flow-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-  }
+  .flow-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
   .flow-tag {
     padding: 7px 11px;
     border-radius: 9px;
-    background: rgba(255, 255, 255, 0.11);
+    background: rgba(255,255,255,0.11);
     color: #fff;
     font-size: 13px;
     font-weight: 600;
   }
 
-  .flow-arr {
-    color: #ffb3b3;
-    font-weight: 700;
-  }
+  .flow-arr { color: #ffb3b3; font-weight: 700; }
 
   @media (max-width: 900px) {
-    .dam-guide {
-      padding: 36px 18px 64px;
-    }
-
-    .guide-hero {
-      padding: 44px 0 38px;
-    }
-
-    .intro-grid,
-    .bottom-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .liquid-stepper {
-      max-width: min(620px, 100%);
-    }
-
-    .stepper-item {
-      width: 42px;
-      min-width: 42px;
-      height: 42px;
-      font-size: 18px;
-    }
-
-    .stepper-indicator {
-      height: 42px;
-      width: 42px;
-    }
-
-    .stepper-item.active {
-      padding: 0 18px;
-    }
-
-    .stepper-label {
-      font-size: 16px;
-    }
+    .dam-guide { padding: 36px 18px 64px; }
+    .guide-hero { padding: 44px 0 38px; }
+    .intro-grid, .bottom-grid { grid-template-columns: 1fr; }
+    .liquid-stepper { max-width: min(620px, 100%); }
+    .stepper-item { width: 42px; min-width: 42px; height: 42px; font-size: 18px; }
+    .stepper-indicator { height: 42px; width: 42px; }
+    .stepper-item.active { padding: 0 18px; }
+    .stepper-label { font-size: 16px; }
   }
 
   @media (max-width: 640px) {
-    body.stepper-is-floating {
-      padding-bottom: 86px;
-    }
-
-    .hero-title {
-      font-size: 46px;
-    }
-
-    .context-card,
-    .principle-card {
-      padding: 26px;
-    }
-
-    .stepper-wrap.is-floating {
-      bottom: 16px;
-      padding: 0 14px;
-    }
-
-    .liquid-stepper {
-      gap: 4px;
-      padding: 6px;
-      max-width: calc(100vw - 28px);
-    }
-
-    .stepper-item {
-      width: 36px;
-      min-width: 36px;
-      height: 36px;
-      padding: 0;
-      font-size: 16px;
-    }
-
-    .stepper-indicator {
-      top: 6px;
-      left: 6px;
-      height: 36px;
-      width: 36px;
-    }
-
-    .stepper-item.active {
-      padding: 0 13px;
-    }
-
-    .stepper-label {
-      font-size: 14px;
-    }
-
-    .completion-pill {
-      width: 70px;
-      height: 70px;
-    }
-
-    .completion-pill::after {
-      width: 20px;
-      height: 11px;
-      border-left-width: 4.5px;
-      border-bottom-width: 4.5px;
-    }
-
-    .section-header {
-      grid-template-columns: 1fr auto;
-      padding: 20px;
-    }
-
-    .section-title {
-      font-size: 18px;
-    }
-
-    .section-badge {
-      display: none;
-    }
-
-    .section-body {
-      padding: 0 20px 24px;
-    }
+    body.stepper-is-floating { padding-bottom: 86px; }
+    .hero-title { font-size: 46px; }
+    .context-card, .principle-card { padding: 26px; }
+    .stepper-wrap.is-floating { bottom: 16px; padding: 0 14px; }
+    .liquid-stepper { gap: 4px; padding: 6px; max-width: calc(100vw - 28px); }
+    .stepper-item { width: 36px; min-width: 36px; height: 36px; padding: 0; font-size: 16px; }
+    .stepper-indicator { top: 6px; left: 6px; height: 36px; width: 36px; }
+    .stepper-item.active { padding: 0 13px; }
+    .stepper-label { font-size: 14px; }
+    .completion-pill { width: 70px; height: 70px; }
+    .completion-pill::after { width: 20px; height: 11px; border-left-width: 4.5px; border-bottom-width: 4.5px; }
+    .section-header { grid-template-columns: 1fr auto; padding: 20px; }
+    .section-title { font-size: 18px; }
+    .section-badge { display: none; }
+    .section-body { padding: 0 20px 24px; }
   }
 </style>
 
@@ -923,36 +760,21 @@
     <header class="guide-hero">
       <div class="eyebrow">Symrise Library · Admin Documentation</div>
       <h1 class="hero-title">DAM Admin User Guide</h1>
-      <p class="hero-subtitle">
-        Guide complet pour ajouter et rendre visibles des assets dans le Media Center,
-        du chargement dans le back-end à l’affichage sur le front-end.
-      </p>
+      <p class="hero-subtitle">Guide complet pour ajouter et rendre visibles des assets dans le Media Center, du chargement dans le back-end à l'affichage sur le front-end.</p>
     </header>
 
     <section class="intro-grid">
       <div class="glass-card context-card">
         <h2 class="context-title">Back-end vs front-end</h2>
-        <p>
-          Le <strong>back-end</strong> est l’espace d’administration du DAM :
-          c’est là qu’on charge les assets, complète les métadonnées, crée les filtres
-          et organise les Libraries.
-        </p>
-        <p>
-          Le <strong>front-end</strong> est l’interface visible par les utilisateurs :
-          c’est le Media Center où les assets sont consultés, recherchés et téléchargés.
-        </p>
+        <p>Le <strong>back-end</strong> est l'espace d'administration du DAM : c'est là qu'on charge les assets, complète les métadonnées, crée les filtres et organise les Libraries.</p>
+        <p>Le <strong>front-end</strong> est l'interface visible par les utilisateurs : c'est le Media Center où les assets sont consultés, recherchés et téléchargés.</p>
       </div>
-
       <div class="glass-card principle-card">
         <div>
           <div class="principle-kicker">Key principle</div>
-          <p class="principle-text">
-            Un asset uploadé dans le DAM n’est pas automatiquement visible dans le Media Center.
-          </p>
+          <p class="principle-text">Un asset uploadé dans le DAM n'est pas automatiquement visible dans le Media Center.</p>
         </div>
-        <div class="principle-note">
-          Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.
-        </div>
+        <div class="principle-note">Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.</div>
       </div>
     </section>
 
@@ -960,36 +782,12 @@
       <div id="stepperWrap" class="stepper-wrap">
         <nav id="stepper" class="liquid-stepper" aria-label="Process navigation">
           <span id="stepperIndicator" class="stepper-indicator" aria-hidden="true"></span>
-
-          <a href="#s1" class="stepper-item active">
-            <span class="stepper-number">1</span>
-            <span class="stepper-label">Upload</span>
-          </a>
-
-          <a href="#s2" class="stepper-item">
-            <span class="stepper-number">2</span>
-            <span class="stepper-label">Metadata</span>
-          </a>
-
-          <a href="#s3" class="stepper-item">
-            <span class="stepper-number">3</span>
-            <span class="stepper-label">Filter</span>
-          </a>
-
-          <a href="#s4" class="stepper-item">
-            <span class="stepper-number">4</span>
-            <span class="stepper-label">Library</span>
-          </a>
-
-          <a href="#s5" class="stepper-item">
-            <span class="stepper-number">5</span>
-            <span class="stepper-label">Front-end</span>
-          </a>
-
-          <a href="#s6" class="stepper-item">
-            <span class="stepper-number">6</span>
-            <span class="stepper-label">Gallery</span>
-          </a>
+          <a href="#s1" class="stepper-item active"><span class="stepper-number">1</span><span class="stepper-label">Upload</span></a>
+          <a href="#s2" class="stepper-item"><span class="stepper-number">2</span><span class="stepper-label">Metadata</span></a>
+          <a href="#s3" class="stepper-item"><span class="stepper-number">3</span><span class="stepper-label">Filter</span></a>
+          <a href="#s4" class="stepper-item"><span class="stepper-number">4</span><span class="stepper-label">Library</span></a>
+          <a href="#s5" class="stepper-item"><span class="stepper-number">5</span><span class="stepper-label">Front-end</span></a>
+          <a href="#s6" class="stepper-item"><span class="stepper-number">6</span><span class="stepper-label">Gallery</span></a>
         </nav>
       </div>
     </div>
@@ -1018,7 +816,7 @@
             </ul>
             <div class="tip-block">
               <div class="tip-label">À noter</div>
-              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l’étape suivante.</p>
+              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l'étape suivante.</p>
             </div>
           </div>
         </div>
@@ -1037,14 +835,14 @@
           <div class="section-inner">
             <p class="section-objective">Vérifier que les assets sont correctement qualifiés avant de créer le filtre.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l'asset est clair et compréhensible.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Compléter les champs de métadonnées nécessaires.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span></li>
               <li class="step-item"><span class="step-dot">4</span><span class="step-text">Contrôler que les informations sont cohérentes avec les autres assets du DAM.</span></li>
             </ul>
             <div class="tip-block">
-              <div class="tip-label">Pourquoi c’est important</div>
-              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d’apparaître correctement dans les filtres et les Libraries.</p>
+              <div class="tip-label">Pourquoi c'est important</div>
+              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d'apparaître correctement dans les filtres et les Libraries.</p>
             </div>
           </div>
         </div>
@@ -1061,12 +859,12 @@
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement une Library avec les bons assets.</p>
+            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d'alimenter automatiquement une Library avec les bons assets.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l'asset dans la barre de recherche.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Vérifier que les bons résultats apparaissent.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur l’icône <code>Save</code> <em>icône disquette</em>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur l'icône <code>Save</code> <em>icône disquette</em>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Sélectionner <code>Save as</code>.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span></li>
               <li class="step-item"><span class="step-dot">7</span><span class="step-text">Enregistrer le filtre.</span></li>
@@ -1098,7 +896,7 @@
               <li class="step-item"><span class="step-dot">4</span><span class="step-text">Sélectionner <code>symrise.celum.cloud</code>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Assets</code> dans le menu de gauche.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Add a filter</code>.</span></li>
-              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Sélectionner le filtre créé à l’étape précédente.</span></li>
+              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Sélectionner le filtre créé à l'étape précédente.</span></li>
               <li class="step-item"><span class="step-dot">8</span><span class="step-text">Cliquer sur <code>Create</code> en haut à droite.</span></li>
             </ul>
           </div>
@@ -1121,7 +919,7 @@
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Experience</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Cliquer sur <code>Edit Portal</code>.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Aller dans l’onglet <code>Libraries</code>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Aller dans l'onglet <code>Libraries</code>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Save</code>.</span></li>
             </ul>
@@ -1140,7 +938,7 @@
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
+            <p class="section-objective">Ajouter une galerie d'assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller sur la page à mettre à jour.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span></li>
@@ -1153,7 +951,7 @@
             </ul>
             <div class="tip-block">
               <div class="tip-label">Vérification</div>
-              <p>Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
+              <p>Toujours contrôler l'affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
             </div>
           </div>
         </div>
@@ -1169,10 +967,10 @@
       <div class="checklist-block">
         <div class="block-top">
           <h2 class="block-title">Checklist de dépannage</h2>
-          <p class="block-sub">À vérifier si le contenu n’apparaît pas dans le Media Center.</p>
+          <p class="block-sub">À vérifier si le contenu n'apparaît pas dans le Media Center.</p>
         </div>
         <div class="checklist-body">
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L'asset a bien été uploadé dans le bon dossier.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le filtre contient bien les bons assets.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library est bien reliée au filtre.</span></div>
@@ -1180,7 +978,6 @@
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span></div>
         </div>
       </div>
-
       <div class="practices-block">
         <div class="block-top">
           <h2 class="block-title">Bonnes pratiques</h2>
@@ -1197,11 +994,11 @@
           </div>
           <div class="practice-card">
             <h3 class="practice-title">Contrôle front-end</h3>
-            <p class="practice-desc">Vérifier systématiquement l’affichage côté utilisateur après toute modification.</p>
+            <p class="practice-desc">Vérifier systématiquement l'affichage côté utilisateur après toute modification.</p>
           </div>
           <div class="practice-card">
             <h3 class="practice-title">Une Library par thème</h3>
-            <p class="practice-desc">Créer des Libraries ciblées plutôt qu’une seule grande Library globale.</p>
+            <p class="practice-desc">Créer des Libraries ciblées plutôt qu'une seule grande Library globale.</p>
           </div>
         </div>
       </div>
@@ -1210,16 +1007,11 @@
     <section class="flow-summary">
       <h2 class="flow-title">Résumé rapide</h2>
       <div class="flow-list">
-        <span class="flow-tag">Upload</span>
-        <span class="flow-arr">→</span>
-        <span class="flow-tag">Metadata & tags</span>
-        <span class="flow-arr">→</span>
-        <span class="flow-tag">Filter</span>
-        <span class="flow-arr">→</span>
-        <span class="flow-tag">Library</span>
-        <span class="flow-arr">→</span>
-        <span class="flow-tag">Front-end</span>
-        <span class="flow-arr">→</span>
+        <span class="flow-tag">Upload</span><span class="flow-arr">→</span>
+        <span class="flow-tag">Metadata & tags</span><span class="flow-arr">→</span>
+        <span class="flow-tag">Filter</span><span class="flow-arr">→</span>
+        <span class="flow-tag">Library</span><span class="flow-arr">→</span>
+        <span class="flow-tag">Front-end</span><span class="flow-arr">→</span>
         <span class="flow-tag">Asset Gallery</span>
       </div>
     </section>
@@ -1262,30 +1054,24 @@
 
   function moveIndicatorTo(item) {
     if (!item || !stepperIndicator) return;
-
     const itemRect = item.getBoundingClientRect();
     const stepperRect = stepper.getBoundingClientRect();
     const x = itemRect.left - stepperRect.left;
-
     stepperIndicator.style.width = itemRect.width + "px";
     stepperIndicator.style.transform = `translateX(${x}px)`;
   }
 
   function setActiveItem(item) {
     if (!item || item === activeItem) return;
-
-    stepperItems.forEach(step => step.classList.remove("active"));
+    stepperItems.forEach(s => s.classList.remove("active"));
     item.classList.add("active");
     activeItem = item;
-
     requestAnimationFrame(() => moveIndicatorTo(item));
   }
 
   function shouldCompleteNow() {
     if (!lastSection) return false;
-
     const rect = lastSection.getBoundingClientRect();
-
     return rect.bottom <= window.innerHeight - 120;
   }
 
@@ -1322,20 +1108,13 @@
   function updateActiveSectionEarly() {
     const triggerLine = window.innerHeight * 0.76;
     let currentSection = sections[0];
-
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= triggerLine) {
-        currentSection = section;
-      }
+      if (rect.top <= triggerLine) currentSection = section;
     });
-
     const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
     setActiveItem(item);
-
-    if (currentSection) {
-      currentSection.classList.add("open");
-    }
+    if (currentSection) currentSection.classList.add("open");
   }
 
   function refreshLayout() {
@@ -1358,18 +1137,11 @@
   stepperItems.forEach(item => {
     item.addEventListener("click", event => {
       event.preventDefault();
-
       const target = document.querySelector(item.getAttribute("href"));
       if (!target) return;
-
       target.classList.add("open");
       setActiveItem(item);
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(refreshLayout, 520);
     });
   });
