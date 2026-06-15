@@ -13,9 +13,9 @@
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
 
-    --glass: rgba(238, 238, 240, 0.54);
-    --glass-strong: rgba(255, 255, 255, 0.72);
-    --glass-border: rgba(255, 255, 255, 0.82);
+    --glass: rgba(255, 255, 255, 0.22);
+    --glass-2: rgba(255, 255, 255, 0.14);
+    --glass-border: rgba(255, 255, 255, 0.42);
 
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
@@ -184,7 +184,7 @@
     line-height: 1.55;
   }
 
-  /* LIQUID GLASS STEPPER */
+  /* FLOATING STEPPER */
 
   .stepper-slot {
     width: 100%;
@@ -198,6 +198,12 @@
     transition:
       opacity 0.32s ease,
       transform 0.42s cubic-bezier(.19, 1, .22, 1);
+  }
+
+  .stepper-wrap.is-hidden {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    pointer-events: none;
   }
 
   .stepper-wrap.is-floating {
@@ -232,47 +238,50 @@
     max-width: min(720px, 100%);
     padding: 7px;
     border-radius: 999px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.36)),
-      radial-gradient(circle at 50% 0%, rgba(255,255,255,0.88), transparent 56%),
-      var(--glass);
     border: 1px solid var(--glass-border);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.10)),
+      linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04)),
+      rgba(255,255,255,0.16);
     box-shadow:
       0 18px 50px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.82),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
-    backdrop-filter: blur(34px) saturate(190%);
-    -webkit-backdrop-filter: blur(34px) saturate(190%);
+      inset 0 1px 0 rgba(255, 255, 255, 0.46),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
     pointer-events: auto;
     overflow: hidden;
-    transition:
-      width 0.55s cubic-bezier(.19, 1, .22, 1),
-      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
-      height 0.55s cubic-bezier(.19, 1, .22, 1),
-      padding 0.55s cubic-bezier(.19, 1, .22, 1),
-      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
-      box-shadow 0.42s ease,
-      background 0.42s ease;
+    isolation: isolate;
   }
 
   .liquid-stepper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    z-index: 0;
+  }
+
+  .liquid-stepper::after {
     content: "";
     position: absolute;
     inset: 1px;
     border-radius: inherit;
     pointer-events: none;
     background:
-      linear-gradient(135deg, rgba(255,255,255,0.42), transparent 42%),
-      linear-gradient(315deg, rgba(255,255,255,0.24), transparent 48%);
-    mix-blend-mode: screen;
+      linear-gradient(180deg, rgba(255,255,255,0.24), transparent 42%),
+      radial-gradient(circle at 30% 0%, rgba(255,255,255,0.20), transparent 42%);
     z-index: 0;
   }
 
   .stepper-wrap.is-floating .liquid-stepper {
     box-shadow:
       var(--shadow-floating),
-      inset 0 1px 0 rgba(255, 255, 255, 0.86),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
+      inset 0 1px 0 rgba(255, 255, 255, 0.48),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
   }
 
   .stepper-indicator {
@@ -288,8 +297,8 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.24);
     z-index: 1;
     transition:
-      transform 0.62s cubic-bezier(.19, 1, .22, 1),
-      width 0.62s cubic-bezier(.19, 1, .22, 1),
+      transform 0.72s cubic-bezier(.19, 1, .22, 1),
+      width 0.72s cubic-bezier(.19, 1, .22, 1),
       opacity 0.28s ease;
     will-change: transform, width;
   }
@@ -315,9 +324,7 @@
       width 0.54s cubic-bezier(.19, 1, .22, 1),
       min-width 0.54s cubic-bezier(.19, 1, .22, 1),
       padding 0.54s cubic-bezier(.19, 1, .22, 1),
-      color 0.38s ease,
-      opacity 0.34s ease,
-      transform 0.42s cubic-bezier(.19, 1, .22, 1);
+      color 0.38s ease;
   }
 
   .stepper-item:hover {
@@ -354,97 +361,6 @@
     font-weight: 700;
   }
 
-  /* ÉTAT FINAL : STEPPER COLLAPSÉ EN CHECK */
-
-  .stepper-wrap.is-complete {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 24px;
-    z-index: 100;
-    padding: 0 24px;
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-  }
-
-  .stepper-wrap.is-complete .liquid-stepper {
-    width: 76px;
-    max-width: 76px;
-    height: 76px;
-    padding: 8px;
-    gap: 0;
-    border-radius: 999px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.34)),
-      rgba(226, 226, 228, 0.68);
-    box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.13),
-      inset 0 1px 0 rgba(255, 255, 255, 0.82),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
-    pointer-events: auto;
-  }
-
-  .stepper-wrap.is-complete .stepper-indicator {
-    opacity: 0;
-  }
-
-  .stepper-wrap.is-complete .stepper-item {
-    width: 0;
-    min-width: 0;
-    height: 0;
-    padding: 0;
-    opacity: 0;
-    transform: scale(0.82);
-    pointer-events: none;
-  }
-
-  .stepper-wrap.is-complete .liquid-stepper::after {
-    content: "";
-    position: absolute;
-    width: 58px;
-    height: 58px;
-    border-radius: 999px;
-    background: var(--red);
-    box-shadow:
-      0 10px 24px rgba(197, 23, 24, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
-    z-index: 3;
-    animation: completePop 0.52s cubic-bezier(.19, 1, .22, 1) both;
-  }
-
-  .stepper-wrap.is-complete .liquid-stepper .checkmark {
-    opacity: 1;
-    transform: translateY(-1px) rotate(-45deg) scale(1);
-  }
-
-  .checkmark {
-    position: absolute;
-    z-index: 4;
-    width: 22px;
-    height: 12px;
-    border-left: 5px solid #fff;
-    border-bottom: 5px solid #fff;
-    border-radius: 2px;
-    opacity: 0;
-    transform: translateY(-1px) rotate(-45deg) scale(0.72);
-    transition:
-      opacity 0.34s ease 0.12s,
-      transform 0.42s cubic-bezier(.19, 1, .22, 1) 0.12s;
-    pointer-events: none;
-  }
-
-  @keyframes completePop {
-    from {
-      transform: scale(0.84);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-
   /* SECTIONS */
 
   .sections-stack {
@@ -460,10 +376,6 @@
     border-radius: var(--radius-lg);
     background: var(--surface-solid);
     box-shadow: var(--shadow-card);
-  }
-
-  .completion-trigger {
-    height: 1px;
   }
 
   .section-header {
@@ -648,6 +560,70 @@
     color: var(--text);
     font-size: 14px;
     line-height: 1.6;
+  }
+
+  /* COMPLETION BADGE */
+
+  .completion-dock {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    min-height: 90px;
+  }
+
+  .completion-pill {
+    width: 76px;
+    height: 76px;
+    padding: 8px;
+    border-radius: 999px;
+    position: relative;
+    border: 1px solid var(--glass-border);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.10)),
+      linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04)),
+      rgba(255,255,255,0.16);
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.48),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    opacity: 0;
+    transform: scale(0.88);
+    pointer-events: none;
+    transition:
+      opacity 0.45s ease,
+      transform 0.55s cubic-bezier(.19, 1, .22, 1);
+  }
+
+  .completion-pill::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 999px;
+    background: var(--red);
+    box-shadow:
+      0 10px 24px rgba(197, 23, 24, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .completion-pill::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 12px;
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+    border-radius: 2px;
+    transform: translate(-50%, -58%) rotate(-45deg);
+    z-index: 2;
+  }
+
+  .completion-pill.is-visible {
+    opacity: 1;
+    transform: scale(1);
   }
 
   /* BOTTOM CONTENT */
@@ -855,8 +831,7 @@
       padding: 26px;
     }
 
-    .stepper-wrap.is-floating,
-    .stepper-wrap.is-complete {
+    .stepper-wrap.is-floating {
       bottom: 16px;
       padding: 0 14px;
     }
@@ -890,18 +865,12 @@
       font-size: 14px;
     }
 
-    .stepper-wrap.is-complete .liquid-stepper {
+    .completion-pill {
       width: 70px;
-      max-width: 70px;
       height: 70px;
     }
 
-    .stepper-wrap.is-complete .liquid-stepper::after {
-      width: 54px;
-      height: 54px;
-    }
-
-    .checkmark {
+    .completion-pill::after {
       width: 20px;
       height: 11px;
       border-left-width: 4.5px;
@@ -970,7 +939,6 @@
       <div id="stepperWrap" class="stepper-wrap">
         <nav id="stepper" class="liquid-stepper" aria-label="Process navigation">
           <span id="stepperIndicator" class="stepper-indicator" aria-hidden="true"></span>
-          <span class="checkmark" aria-hidden="true"></span>
 
           <a href="#s1" class="stepper-item active">
             <span class="stepper-number">1</span>
@@ -1016,13 +984,9 @@
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Ajouter un ou plusieurs fichiers dans le bon dossier du DAM et compléter leurs informations.
-            </p>
-
+            <p class="section-objective">Ajouter un ou plusieurs fichiers dans le bon dossier du DAM et compléter leurs informations.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Explore</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sélectionner le dossier dans lequel les assets doivent être chargés.</span></li>
@@ -1031,13 +995,9 @@
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Ajouter les <strong>tags</strong> appropriés.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Save and Finish</code>.</span></li>
             </ul>
-
             <div class="tip-block">
               <div class="tip-label">À noter</div>
-              <p>
-                Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement
-                des filtres créés à l’étape suivante.
-              </p>
+              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l’étape suivante.</p>
             </div>
           </div>
         </div>
@@ -1052,26 +1012,18 @@
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Vérifier que les assets sont correctement qualifiés avant de créer le filtre.
-            </p>
-
+            <p class="section-objective">Vérifier que les assets sont correctement qualifiés avant de créer le filtre.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Compléter les champs de métadonnées nécessaires.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span></li>
               <li class="step-item"><span class="step-dot">4</span><span class="step-text">Contrôler que les informations sont cohérentes avec les autres assets du DAM.</span></li>
             </ul>
-
             <div class="tip-block">
               <div class="tip-label">Pourquoi c’est important</div>
-              <p>
-                Des metadata incomplètes ou des tags manquants peuvent empêcher les assets
-                d’apparaître correctement dans les filtres et les Libraries.
-              </p>
+              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d’apparaître correctement dans les filtres et les Libraries.</p>
             </div>
           </div>
         </div>
@@ -1086,14 +1038,9 @@
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement
-              une Library avec les bons assets.
-            </p>
-
+            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement une Library avec les bons assets.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span></li>
@@ -1103,14 +1050,9 @@
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span></li>
               <li class="step-item"><span class="step-dot">7</span><span class="step-text">Enregistrer le filtre.</span></li>
             </ul>
-
             <div class="tip-block">
               <div class="tip-label">Convention de nommage</div>
-              <p>
-                Utiliser un nom descriptif et cohérent avec la future Library.
-                Ex : <strong>Care & Wellness pictures</strong> pour le filtre →
-                <strong>Care & Wellness</strong> pour la Library.
-              </p>
+              <p>Utiliser un nom descriptif et cohérent avec la future Library. Ex : <strong>Care & Wellness pictures</strong> pour le filtre → <strong>Care & Wellness</strong> pour la Library.</p>
             </div>
           </div>
         </div>
@@ -1125,13 +1067,9 @@
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.
-            </p>
-
+            <p class="section-objective">Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur <code>New</code>.</span></li>
@@ -1155,13 +1093,9 @@
           <span class="section-badge">Front-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.
-            </p>
-
+            <p class="section-objective">Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Experience</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span></li>
@@ -1183,13 +1117,9 @@
           <span class="section-badge">Front-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
-
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">
-              Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.
-            </p>
-
+            <p class="section-objective">Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller sur la page à mettre à jour.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span></li>
@@ -1200,18 +1130,17 @@
               <li class="step-item"><span class="step-dot">7</span><span class="step-text">Vérifier que le contenu apparaît correctement sur la page.</span></li>
               <li class="step-item"><span class="step-dot">8</span><span class="step-text">Cliquer sur <code>Update</code> en bas à gauche.</span></li>
             </ul>
-
             <div class="tip-block">
               <div class="tip-label">Vérification</div>
-              <p>
-                Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.
-              </p>
+              <p>Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
             </div>
           </div>
         </div>
       </article>
 
-      <div id="completionTrigger" class="completion-trigger" aria-hidden="true"></div>
+      <div class="completion-dock">
+        <div id="completionPill" class="completion-pill" aria-hidden="true"></div>
+      </div>
 
     </section>
 
@@ -1221,32 +1150,13 @@
           <h2 class="block-title">Checklist de dépannage</h2>
           <p class="block-sub">À vérifier si le contenu n’apparaît pas dans le Media Center.</p>
         </div>
-
         <div class="checklist-body">
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span>
-          </div>
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span>
-          </div>
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">Le filtre contient bien les bons assets.</span>
-          </div>
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">La Library est bien reliée au filtre.</span>
-          </div>
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">La Library a bien été ajoutée dans le portail.</span>
-          </div>
-          <div class="checklist-item" onclick="checkItem(this)">
-            <span class="cb"></span>
-            <span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span>
-          </div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le filtre contient bien les bons assets.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library est bien reliée au filtre.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library a bien été ajoutée dans le portail.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span></div>
         </div>
       </div>
 
@@ -1255,35 +1165,22 @@
           <h2 class="block-title">Bonnes pratiques</h2>
           <p class="block-sub">Quelques réflexes simples pour garder un Media Center propre et fiable.</p>
         </div>
-
         <div class="practices-grid">
           <div class="practice-card">
             <h3 class="practice-title">Nommage cohérent</h3>
-            <p class="practice-desc">
-              Garder une logique entre le filtre et la Library.
-              Ex : <em>Care & Wellness pictures</em> → <em>Care & Wellness</em>.
-            </p>
+            <p class="practice-desc">Garder une logique entre le filtre et la Library. Ex : <em>Care & Wellness pictures</em> → <em>Care & Wellness</em>.</p>
           </div>
-
           <div class="practice-card">
             <h3 class="practice-title">Tags avant publication</h3>
-            <p class="practice-desc">
-              Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.
-            </p>
+            <p class="practice-desc">Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.</p>
           </div>
-
           <div class="practice-card">
             <h3 class="practice-title">Contrôle front-end</h3>
-            <p class="practice-desc">
-              Vérifier systématiquement l’affichage côté utilisateur après toute modification.
-            </p>
+            <p class="practice-desc">Vérifier systématiquement l’affichage côté utilisateur après toute modification.</p>
           </div>
-
           <div class="practice-card">
             <h3 class="practice-title">Une Library par thème</h3>
-            <p class="practice-desc">
-              Créer des Libraries ciblées plutôt qu’une seule grande Library globale.
-            </p>
+            <p class="practice-desc">Créer des Libraries ciblées plutôt qu’une seule grande Library globale.</p>
           </div>
         </div>
       </div>
@@ -1316,11 +1213,11 @@
   const stepperWrap = document.getElementById("stepperWrap");
   const stepper = document.getElementById("stepper");
   const stepperIndicator = document.getElementById("stepperIndicator");
-  const completionTrigger = document.getElementById("completionTrigger");
+  const completionPill = document.getElementById("completionPill");
+  const lastSection = document.getElementById("s6");
 
   const dockBottom = 24;
   let stepperDockStart = 0;
-  let completeStart = 0;
   let activeItem = document.querySelector(".stepper-item.active");
 
   function toggleSection(id) {
@@ -1335,31 +1232,18 @@
     box.textContent = item.classList.contains("done") ? "✓" : "";
   }
 
-  function calculateStepperPositions() {
+  function calculateStepperDockStart() {
     const stepperHeight = stepperWrap.offsetHeight;
     const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
     const viewportHeight = window.innerHeight;
-
     stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
-
-    if (completionTrigger) {
-      const triggerTop =
-        completionTrigger.getBoundingClientRect().top + window.scrollY;
-
-      /*
-        Le check apparaît uniquement lorsque l’on dépasse réellement
-        la carte de la partie 6, pas pendant les sections précédentes.
-      */
-      completeStart = triggerTop - viewportHeight + stepperHeight + dockBottom;
-    }
   }
 
   function moveIndicatorTo(item) {
-    if (!item || !stepperIndicator || stepperWrap.classList.contains("is-complete")) return;
+    if (!item || !stepperIndicator) return;
 
     const itemRect = item.getBoundingClientRect();
     const stepperRect = stepper.getBoundingClientRect();
-
     const x = itemRect.left - stepperRect.left;
 
     stepperIndicator.style.width = itemRect.width + "px";
@@ -1376,28 +1260,43 @@
     requestAnimationFrame(() => moveIndicatorTo(item));
   }
 
-  function updateStepperDock() {
+  function shouldCompleteNow() {
+    if (!lastSection) return false;
+
+    const rect = lastSection.getBoundingClientRect();
+
+    /*
+      Le check ne s’active que lorsque le bas de la section 6
+      est remonté au-dessus d’une zone basse de l’écran.
+      Donc pas pendant la partie 4 ou 5.
+    */
+    return rect.bottom <= window.innerHeight - 120;
+  }
+
+  function updateStepperState() {
     const scrollY = window.scrollY;
     const shouldDock = scrollY >= stepperDockStart;
-    const shouldComplete = scrollY >= completeStart;
+    const isComplete = shouldCompleteNow();
 
-    if (shouldComplete) {
-      stepperSlot.style.height = stepperWrap.offsetHeight + "px";
+    if (isComplete) {
       stepperWrap.classList.remove("is-floating");
-      stepperWrap.classList.add("is-complete");
-      document.body.classList.add("stepper-is-floating");
+      stepperWrap.classList.add("is-hidden");
+      stepperSlot.style.height = "";
+      document.body.classList.remove("stepper-is-floating");
+      completionPill.classList.add("is-visible");
       return;
     }
+
+    completionPill.classList.remove("is-visible");
+    stepperWrap.classList.remove("is-hidden");
 
     if (shouldDock) {
       stepperSlot.style.height = stepperWrap.offsetHeight + "px";
       stepperWrap.classList.add("is-floating");
-      stepperWrap.classList.remove("is-complete");
       document.body.classList.add("stepper-is-floating");
     } else {
       stepperSlot.style.height = "";
       stepperWrap.classList.remove("is-floating");
-      stepperWrap.classList.remove("is-complete");
       document.body.classList.remove("stepper-is-floating");
     }
 
@@ -1405,16 +1304,11 @@
   }
 
   function updateActiveSectionEarly() {
-    /*
-      On change l’étape active un peu avant que la section soit pleinement
-      installée dans l’écran, pour un ressenti plus naturel.
-    */
-    const triggerLine = window.innerHeight * 0.68;
+    const triggerLine = window.innerHeight * 0.76;
     let currentSection = sections[0];
 
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
-
       if (rect.top <= triggerLine) {
         currentSection = section;
       }
@@ -1429,15 +1323,15 @@
   }
 
   function refreshLayout() {
-    calculateStepperPositions();
+    calculateStepperDockStart();
     updateActiveSectionEarly();
-    updateStepperDock();
+    updateStepperState();
     requestAnimationFrame(() => moveIndicatorTo(activeItem));
   }
 
   window.addEventListener("scroll", () => {
     updateActiveSectionEarly();
-    updateStepperDock();
+    updateStepperState();
   }, { passive: true });
 
   window.addEventListener("resize", refreshLayout);
