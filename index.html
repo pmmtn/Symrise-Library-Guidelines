@@ -222,6 +222,7 @@
   }
 
   .liquid-stepper {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -240,8 +241,13 @@
     -webkit-backdrop-filter: blur(28px) saturate(180%);
     pointer-events: auto;
     transition:
-      box-shadow 0.28s ease,
-      background 0.28s ease;
+      width 0.4s cubic-bezier(.2,.8,.2,1),
+      max-width 0.4s cubic-bezier(.2,.8,.2,1),
+      height 0.4s cubic-bezier(.2,.8,.2,1),
+      padding 0.4s cubic-bezier(.2,.8,.2,1),
+      border-radius 0.4s cubic-bezier(.2,.8,.2,1),
+      box-shadow 0.3s ease,
+      background 0.3s ease;
   }
 
   .stepper-wrap.is-floating .liquid-stepper {
@@ -273,7 +279,9 @@
       padding 0.28s cubic-bezier(.2,.8,.2,1),
       background 0.24s ease,
       color 0.24s ease,
-      box-shadow 0.24s ease;
+      box-shadow 0.24s ease,
+      opacity 0.2s ease,
+      transform 0.25s cubic-bezier(.2,.8,.2,1);
   }
 
   .stepper-item:hover {
@@ -312,6 +320,92 @@
     content: " -";
     margin-left: 6px;
     font-weight: 700;
+  }
+
+  /* ÉTAT FINAL : STEPPER COLLAPSÉ EN CHECK */
+
+  .stepper-wrap.is-complete {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    z-index: 100;
+    padding: 0 24px;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .stepper-wrap.is-complete .liquid-stepper {
+    width: 76px;
+    max-width: 76px;
+    height: 76px;
+    padding: 8px;
+    gap: 0;
+    border-radius: 999px;
+    background: rgba(226, 226, 228, 0.68);
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.78),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    pointer-events: auto;
+  }
+
+  .stepper-wrap.is-complete .stepper-item {
+    width: 0;
+    min-width: 0;
+    height: 0;
+    padding: 0;
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+  }
+
+  .stepper-wrap.is-complete .liquid-stepper::before {
+    content: "";
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 999px;
+    background: var(--red);
+    box-shadow:
+      0 10px 24px rgba(197, 23, 24, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    animation: completePop 0.42s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  .stepper-wrap.is-complete .liquid-stepper::after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 12px;
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+    transform: translateY(-2px) rotate(-45deg);
+    border-radius: 2px;
+    animation: checkDraw 0.42s cubic-bezier(.2,.8,.2,1) 0.08s both;
+  }
+
+  @keyframes completePop {
+    from {
+      transform: scale(0.82);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes checkDraw {
+    from {
+      opacity: 0;
+      transform: translateY(-2px) rotate(-45deg) scale(0.78);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-2px) rotate(-45deg) scale(1);
+    }
   }
 
   /* SECTIONS */
@@ -715,7 +809,8 @@
       padding: 26px;
     }
 
-    .stepper-wrap.is-floating {
+    .stepper-wrap.is-floating,
+    .stepper-wrap.is-complete {
       bottom: 16px;
       padding: 0 14px;
     }
@@ -740,6 +835,24 @@
 
     .stepper-label {
       font-size: 14px;
+    }
+
+    .stepper-wrap.is-complete .liquid-stepper {
+      width: 70px;
+      max-width: 70px;
+      height: 70px;
+    }
+
+    .stepper-wrap.is-complete .liquid-stepper::before {
+      width: 54px;
+      height: 54px;
+    }
+
+    .stepper-wrap.is-complete .liquid-stepper::after {
+      width: 20px;
+      height: 11px;
+      border-left-width: 4.5px;
+      border-bottom-width: 4.5px;
     }
 
     .section-header {
@@ -865,7 +978,10 @@
 
             <div class="tip-block">
               <div class="tip-label">À noter</div>
-              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l’étape suivante.</p>
+              <p>
+                Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement
+                des filtres créés à l’étape suivante.
+              </p>
             </div>
           </div>
         </div>
@@ -883,7 +999,9 @@
 
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Vérifier que les assets sont correctement qualifiés avant de créer le filtre.</p>
+            <p class="section-objective">
+              Vérifier que les assets sont correctement qualifiés avant de créer le filtre.
+            </p>
 
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span></li>
@@ -894,7 +1012,10 @@
 
             <div class="tip-block">
               <div class="tip-label">Pourquoi c’est important</div>
-              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d’apparaître correctement dans les filtres et les Libraries.</p>
+              <p>
+                Des metadata incomplètes ou des tags manquants peuvent empêcher les assets
+                d’apparaître correctement dans les filtres et les Libraries.
+              </p>
             </div>
           </div>
         </div>
@@ -912,7 +1033,10 @@
 
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement une Library avec les bons assets.</p>
+            <p class="section-objective">
+              Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement
+              une Library avec les bons assets.
+            </p>
 
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
@@ -926,7 +1050,11 @@
 
             <div class="tip-block">
               <div class="tip-label">Convention de nommage</div>
-              <p>Utiliser un nom descriptif et cohérent avec la future Library. Ex : <strong>Care & Wellness pictures</strong> pour le filtre → <strong>Care & Wellness</strong> pour la Library.</p>
+              <p>
+                Utiliser un nom descriptif et cohérent avec la future Library.
+                Ex : <strong>Care & Wellness pictures</strong> pour le filtre →
+                <strong>Care & Wellness</strong> pour la Library.
+              </p>
             </div>
           </div>
         </div>
@@ -944,7 +1072,9 @@
 
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.</p>
+            <p class="section-objective">
+              Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.
+            </p>
 
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span></li>
@@ -972,7 +1102,9 @@
 
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.</p>
+            <p class="section-objective">
+              Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.
+            </p>
 
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Experience</code>.</span></li>
@@ -998,7 +1130,9 @@
 
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
+            <p class="section-objective">
+              Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.
+            </p>
 
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller sur la page à mettre à jour.</span></li>
@@ -1013,7 +1147,9 @@
 
             <div class="tip-block">
               <div class="tip-label">Vérification</div>
-              <p>Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
+              <p>
+                Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.
+              </p>
             </div>
           </div>
         </div>
@@ -1029,12 +1165,30 @@
         </div>
 
         <div class="checklist-body">
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le filtre contient bien les bons assets.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library est bien reliée au filtre.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library a bien été ajoutée dans le portail.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span>
+          </div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span>
+          </div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">Le filtre contient bien les bons assets.</span>
+          </div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">La Library est bien reliée au filtre.</span>
+          </div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">La Library a bien été ajoutée dans le portail.</span>
+          </div>
+          <div class="checklist-item" onclick="checkItem(this)">
+            <span class="cb"></span>
+            <span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span>
+          </div>
         </div>
       </div>
 
@@ -1047,22 +1201,31 @@
         <div class="practices-grid">
           <div class="practice-card">
             <h3 class="practice-title">Nommage cohérent</h3>
-            <p class="practice-desc">Garder une logique entre le filtre et la Library. Ex : <em>Care & Wellness pictures</em> → <em>Care & Wellness</em>.</p>
+            <p class="practice-desc">
+              Garder une logique entre le filtre et la Library.
+              Ex : <em>Care & Wellness pictures</em> → <em>Care & Wellness</em>.
+            </p>
           </div>
 
           <div class="practice-card">
             <h3 class="practice-title">Tags avant publication</h3>
-            <p class="practice-desc">Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.</p>
+            <p class="practice-desc">
+              Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.
+            </p>
           </div>
 
           <div class="practice-card">
             <h3 class="practice-title">Contrôle front-end</h3>
-            <p class="practice-desc">Vérifier systématiquement l’affichage côté utilisateur après toute modification.</p>
+            <p class="practice-desc">
+              Vérifier systématiquement l’affichage côté utilisateur après toute modification.
+            </p>
           </div>
 
           <div class="practice-card">
             <h3 class="practice-title">Une Library par thème</h3>
-            <p class="practice-desc">Créer des Libraries ciblées plutôt qu’une seule grande Library globale.</p>
+            <p class="practice-desc">
+              Créer des Libraries ciblées plutôt qu’une seule grande Library globale.
+            </p>
           </div>
         </div>
       </div>
@@ -1093,13 +1256,16 @@
   const stepperItems = document.querySelectorAll(".stepper-item");
   const stepperSlot = document.getElementById("stepperSlot");
   const stepperWrap = document.getElementById("stepperWrap");
+  const lastSection = document.getElementById("s6");
 
   const dockBottom = 24;
   let stepperDockStart = 0;
+  let completeStart = 0;
 
   function toggleSection(id) {
     const section = document.getElementById(id);
     section.classList.toggle("open");
+    setTimeout(refreshStepperDock, 260);
   }
 
   function checkItem(item) {
@@ -1108,34 +1274,57 @@
     box.textContent = item.classList.contains("done") ? "✓" : "";
   }
 
-  function calculateStepperDockStart() {
+  function calculateStepperPositions() {
     const stepperHeight = stepperWrap.offsetHeight;
     const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
     const viewportHeight = window.innerHeight;
 
     /*
-      Point exact où la barre, dans son flux naturel,
-      arrive au niveau du bas de l'écran.
+      Moment où la barre atteint naturellement son point de docking
+      en bas de l’écran.
     */
     stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
+
+    /*
+      Moment où la section 6 est dépassée.
+      La barre devient alors une pastille check.
+    */
+    if (lastSection) {
+      const lastSectionBottom =
+        lastSection.getBoundingClientRect().bottom + window.scrollY;
+
+      completeStart = lastSectionBottom - viewportHeight + 130;
+    }
   }
 
   function updateStepperDock() {
-    const shouldDock = window.scrollY >= stepperDockStart;
+    const scrollY = window.scrollY;
+    const shouldDock = scrollY >= stepperDockStart;
+    const shouldComplete = scrollY >= completeStart;
+
+    if (shouldComplete) {
+      stepperSlot.style.height = stepperWrap.offsetHeight + "px";
+      stepperWrap.classList.remove("is-floating");
+      stepperWrap.classList.add("is-complete");
+      document.body.classList.add("stepper-is-floating");
+      return;
+    }
 
     if (shouldDock) {
       stepperSlot.style.height = stepperWrap.offsetHeight + "px";
       stepperWrap.classList.add("is-floating");
+      stepperWrap.classList.remove("is-complete");
       document.body.classList.add("stepper-is-floating");
     } else {
       stepperSlot.style.height = "";
       stepperWrap.classList.remove("is-floating");
+      stepperWrap.classList.remove("is-complete");
       document.body.classList.remove("stepper-is-floating");
     }
   }
 
   function refreshStepperDock() {
-    calculateStepperDockStart();
+    calculateStepperPositions();
     updateStepperDock();
   }
 
@@ -1187,6 +1376,8 @@
 
       stepperItems.forEach(step => step.classList.remove("active"));
       item.classList.add("active");
+
+      setTimeout(refreshStepperDock, 420);
     });
   });
 </script>
