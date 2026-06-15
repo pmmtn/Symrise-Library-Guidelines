@@ -1,42 +1,74 @@
-
+```html
 <style>
   :root {
     --red: #C51718;
+    --red-2: #d82022;
     --red-soft: #fff1f1;
+
     --ink: #1d1d1f;
     --text: #424245;
     --muted: #6e6e73;
     --line: rgba(0, 0, 0, 0.08);
+
     --bg: #f5f5f7;
     --surface: rgba(255, 255, 255, 0.78);
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
-    --radius-lg: 28px;
+
+    --glass-base: rgba(255, 255, 255, 0.18);
+    --glass-highlight: rgba(255, 255, 255, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.42);
+    --glass-inner-line: rgba(255, 255, 255, 0.32);
+
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
+    --shadow-floating:
+      0 32px 90px rgba(0, 0, 0, 0.18),
+      0 12px 34px rgba(0, 0, 0, 0.08);
+
+    --radius-lg: 28px;
+
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     --mono: "SF Mono", "Fira Mono", Consolas, monospace;
   }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
     margin: 0;
     background:
       radial-gradient(circle at 15% 0%, rgba(197, 23, 24, 0.08), transparent 32%),
       radial-gradient(circle at 85% 10%, rgba(197, 23, 24, 0.05), transparent 28%),
-      var(--bg);
+      linear-gradient(180deg, #f8f8fa 0%, #f3f3f5 100%);
     font-family: var(--font);
     color: var(--ink);
   }
 
-  body.stepper-is-floating { padding-bottom: 96px; }
+  body.stepper-is-floating {
+    padding-bottom: 96px;
+  }
 
-  .dam-guide { width: 100%; min-height: 100vh; padding: 56px 24px 80px; }
-  .guide-shell { width: min(1120px, 100%); margin: 0 auto; }
+  .dam-guide {
+    width: 100%;
+    min-height: 100vh;
+    padding: 56px 24px 80px;
+  }
 
-  .guide-hero { padding: 72px 0 56px; border-bottom: 1px solid var(--line); }
+  .guide-shell {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+
+  .guide-hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
 
   .eyebrow {
     margin-bottom: 16px;
@@ -82,11 +114,14 @@
     border-radius: var(--radius-lg);
     background: var(--surface);
     box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
   }
 
-  .context-card { padding: 34px; }
+  .context-card {
+    padding: 34px;
+  }
+
   .context-card::before {
     content: "";
     position: absolute;
@@ -95,37 +130,84 @@
     background: var(--red);
   }
 
-  .context-title { margin: 0 0 14px; color: var(--ink); font-size: 22px; font-weight: 620; letter-spacing: -0.03em; }
-  .context-card p { margin: 0; color: var(--text); font-size: 15px; line-height: 1.72; }
-  .context-card p + p { margin-top: 16px; }
-  .context-card strong { color: var(--ink); font-weight: 650; }
+  .context-title {
+    margin: 0 0 14px;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 620;
+    letter-spacing: -0.03em;
+  }
+
+  .context-card p {
+    margin: 0;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.72;
+  }
+
+  .context-card p + p {
+    margin-top: 16px;
+  }
+
+  .context-card strong {
+    color: var(--ink);
+    font-weight: 650;
+  }
 
   .principle-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 34px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)), var(--surface);
+    background:
+      linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)),
+      var(--surface);
   }
 
-  .principle-kicker { margin-bottom: 18px; color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
-  .principle-text { margin: 0; color: var(--ink); font-size: 26px; font-weight: 620; letter-spacing: -0.045em; line-height: 1.12; }
-  .principle-note { margin-top: 22px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .principle-kicker {
+    margin-bottom: 18px;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
 
-  /* ── STEPPER SLOT ── */
+  .principle-text {
+    margin: 0;
+    color: var(--ink);
+    font-size: 26px;
+    font-weight: 620;
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+  }
 
-  .stepper-slot { width: 100%; margin: 34px 0 46px; }
+  .principle-note {
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* FLOATING STEPPER — APPLE / VISIONOS-LIKE GLASS */
+
+  .stepper-slot {
+    width: 100%;
+    margin: 34px 0 46px;
+  }
 
   .stepper-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    transition: opacity 0.32s ease, transform 0.42s cubic-bezier(.19,1,.22,1);
+    transition:
+      opacity 0.42s ease,
+      transform 0.62s cubic-bezier(.16, 1, .3, 1);
   }
 
   .stepper-wrap.is-hidden {
     opacity: 0;
-    transform: translateY(10px) scale(0.985);
+    transform: translateY(14px) scale(0.975);
     pointer-events: none;
   }
 
@@ -137,113 +219,147 @@
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.48s cubic-bezier(.19,1,.22,1) both;
+    animation: dockIn 0.58s cubic-bezier(.16, 1, .3, 1) both;
   }
 
   @keyframes dockIn {
-    from { opacity: 0; transform: translateY(16px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.975);
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
   }
-
-  /* ── LIQUID STEPPER ── */
 
   .liquid-stepper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
     width: fit-content;
     max-width: min(720px, 100%);
-    padding: 6px;
+    padding: 7px;
     border-radius: 999px;
-
-    /* Fond très opaque blanc — le blur doit couvrir ce qu'il y a dessous */
-    background: rgba(240, 240, 242, 0.92);
-
-    /* Ombre extérieure profonde + double anneau de bord */
-    box-shadow:
-      0 0 0 0.5px rgba(0, 0, 0, 0.12),
-      0 0 0 1.5px rgba(255, 255, 255, 0.85),
-      0 4px 12px rgba(0, 0, 0, 0.10),
-      0 12px 32px rgba(0, 0, 0, 0.13),
-      0 28px 60px rgba(0, 0, 0, 0.10);
-
-    /* Blur fort — l'effet verre ne se voit que sur fond coloré/contrasté */
-    backdrop-filter: blur(40px) saturate(140%) brightness(1.06);
-    -webkit-backdrop-filter: blur(40px) saturate(140%) brightness(1.06);
-
-    pointer-events: auto;
     overflow: hidden;
     isolation: isolate;
+    pointer-events: auto;
 
-    transition: box-shadow 0.4s ease, background 0.4s ease;
+    border: 1px solid var(--glass-border);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.50), rgba(255,255,255,0.18) 42%, rgba(255,255,255,0.10)),
+      radial-gradient(circle at 50% -40%, rgba(255,255,255,0.72), transparent 54%),
+      radial-gradient(circle at 18% 18%, rgba(255,255,255,0.32), transparent 38%),
+      rgba(255,255,255,0.16);
+
+    box-shadow:
+      0 26px 70px rgba(0, 0, 0, 0.12),
+      0 8px 22px rgba(0, 0, 0, 0.06),
+      inset 0 1px 1px rgba(255, 255, 255, 0.68),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.18),
+      inset 0 0 0 0.5px rgba(255,255,255,0.26);
+
+    backdrop-filter: blur(42px) saturate(190%) brightness(1.08) contrast(0.96);
+    -webkit-backdrop-filter: blur(42px) saturate(190%) brightness(1.08) contrast(0.96);
+
+    transition:
+      width 0.68s cubic-bezier(.16, 1, .3, 1),
+      max-width 0.68s cubic-bezier(.16, 1, .3, 1),
+      height 0.68s cubic-bezier(.16, 1, .3, 1),
+      padding 0.68s cubic-bezier(.16, 1, .3, 1),
+      border-radius 0.68s cubic-bezier(.16, 1, .3, 1),
+      box-shadow 0.48s ease,
+      background 0.48s ease,
+      border-color 0.48s ease;
   }
 
-  /* Gloss supérieur — ligne lumineuse sur le bord haut */
   .liquid-stepper::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 50%;
-    border-radius: 999px 999px 0 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0) 100%);
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
     pointer-events: none;
-    z-index: 10;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.42), transparent 34%),
+      linear-gradient(135deg, rgba(255,255,255,0.26), transparent 44%),
+      radial-gradient(circle at 75% 110%, rgba(255,255,255,0.20), transparent 45%);
+    opacity: 0.9;
+    mix-blend-mode: screen;
   }
 
-  /* Bord intérieur sombre en bas — ferme la forme */
   .liquid-stepper::after {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: 1px;
+    z-index: 0;
     border-radius: inherit;
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.50);
     pointer-events: none;
-    z-index: 10;
-  }
-
-  /* État flottant : on monte les ombres, on baisse légèrement l'opacité du fond
-     pour que le blur soit perceptible sur le contenu qui passe derrière */
-  .stepper-wrap.is-floating .liquid-stepper {
-    background: rgba(232, 232, 236, 0.88);
     box-shadow:
-      0 0 0 0.5px rgba(0, 0, 0, 0.12),
-      0 0 0 1.5px rgba(255, 255, 255, 0.88),
-      0 8px 20px rgba(0, 0, 0, 0.12),
-      0 20px 50px rgba(0, 0, 0, 0.16),
-      0 50px 100px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(56px) saturate(150%) brightness(1.08);
-    -webkit-backdrop-filter: blur(56px) saturate(150%) brightness(1.08);
+      inset 0 1px 0 rgba(255,255,255,0.62),
+      inset 0 -1px 0 rgba(0,0,0,0.035),
+      inset 1px 0 0 rgba(255,255,255,0.20),
+      inset -1px 0 0 rgba(255,255,255,0.12);
   }
 
-  /* ── INDICATOR — flat, zero effects ── */
+  .stepper-wrap.is-floating .liquid-stepper {
+    border-color: rgba(255,255,255,0.46);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.52), rgba(255,255,255,0.17) 44%, rgba(255,255,255,0.10)),
+      radial-gradient(circle at 50% -35%, rgba(255,255,255,0.78), transparent 56%),
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.34), transparent 40%),
+      rgba(255,255,255,0.14);
+    box-shadow:
+      var(--shadow-floating),
+      inset 0 1px 1px rgba(255, 255, 255, 0.70),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.16),
+      inset 0 0 0 0.5px rgba(255,255,255,0.30);
+  }
 
   .stepper-indicator {
     position: absolute;
-    top: 6px;
-    left: 6px;
+    top: 7px;
+    left: 7px;
     height: 48px;
     width: 48px;
     border-radius: 999px;
-    z-index: 2;
+    z-index: 1;
 
-    /* Flat rouge — aucun gradient, aucun reflet, aucune ombre */
-    background: #C51718;
-    box-shadow: none;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 42%),
+      linear-gradient(180deg, var(--red-2), var(--red));
+
+    box-shadow:
+      0 14px 34px rgba(197, 23, 24, 0.30),
+      0 4px 12px rgba(197, 23, 24, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.08);
 
     transition:
-      transform 0.68s cubic-bezier(.19,1,.22,1),
-      width 0.68s cubic-bezier(.19,1,.22,1),
-      opacity 0.26s ease;
+      transform 0.82s cubic-bezier(.16, 1, .3, 1),
+      width 0.82s cubic-bezier(.16, 1, .3, 1),
+      opacity 0.34s ease,
+      filter 0.34s ease;
     will-change: transform, width;
   }
 
-  /* ── STEPPER ITEMS ── */
+  .stepper-indicator::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.18), transparent 42%);
+    pointer-events: none;
+  }
 
   .stepper-item {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -251,40 +367,63 @@
     min-width: 48px;
     height: 48px;
     border-radius: 999px;
-    color: rgba(29, 29, 31, 0.38);
+    color: rgba(29, 29, 31, 0.45);
     text-decoration: none;
     font-size: 20px;
     font-weight: 520;
     letter-spacing: -0.04em;
     white-space: nowrap;
     overflow: hidden;
+
     transition:
-      width 0.54s cubic-bezier(.19,1,.22,1),
-      min-width 0.54s cubic-bezier(.19,1,.22,1),
-      padding 0.54s cubic-bezier(.19,1,.22,1),
-      color 0.34s ease;
+      width 0.64s cubic-bezier(.16, 1, .3, 1),
+      min-width 0.64s cubic-bezier(.16, 1, .3, 1),
+      padding 0.64s cubic-bezier(.16, 1, .3, 1),
+      color 0.42s ease,
+      opacity 0.42s ease;
   }
 
-  .stepper-item:hover { color: rgba(29, 29, 31, 0.65); }
+  .stepper-item:hover {
+    color: rgba(29, 29, 31, 0.76);
+  }
 
   .stepper-item.active {
     width: auto;
     min-width: 0;
-    padding: 0 22px;
+    padding: 0 24px;
     gap: 8px;
     justify-content: center;
     color: #fff;
   }
 
-  .stepper-number { font-weight: 700; }
+  .stepper-number {
+    font-weight: 700;
+  }
 
-  .stepper-label { display: none; font-size: 18px; font-weight: 520; letter-spacing: -0.04em; }
-  .stepper-item.active .stepper-label { display: inline; }
-  .stepper-item.active .stepper-number::after { content: " —"; margin-left: 4px; font-weight: 400; opacity: 0.7; }
+  .stepper-label {
+    display: none;
+    font-size: 18px;
+    font-weight: 520;
+    letter-spacing: -0.04em;
+  }
 
-  /* ── SECTIONS ── */
+  .stepper-item.active .stepper-label {
+    display: inline;
+  }
 
-  .sections-stack { display: grid; gap: 16px; margin-top: 28px; }
+  .stepper-item.active .stepper-number::after {
+    content: " -";
+    margin-left: 6px;
+    font-weight: 700;
+  }
+
+  /* SECTIONS */
+
+  .sections-stack {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+  }
 
   .section {
     scroll-margin-top: 80px;
@@ -310,16 +449,46 @@
     cursor: pointer;
   }
 
-  .section-header:hover { background: #fafafa; }
-  .section-heading { min-width: 0; }
+  .section-header:hover {
+    background: #fafafa;
+  }
 
-  .section-kicker { display: block; margin-bottom: 6px; color: var(--red); font-size: 11px; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
-  .section-title { display: block; color: var(--ink); font-size: 22px; font-weight: 620; letter-spacing: -0.04em; line-height: 1.18; }
-  .section-badge { padding: 6px 11px; border-radius: 999px; background: var(--red-soft); color: var(--red); font-size: 12px; font-weight: 650; }
+  .section-heading {
+    min-width: 0;
+  }
+
+  .section-kicker {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    display: block;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 620;
+    letter-spacing: -0.04em;
+    line-height: 1.18;
+  }
+
+  .section-badge {
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: var(--red-soft);
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 650;
+  }
 
   .section-toggle {
     position: relative;
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
     border-radius: 999px;
     background: #f5f5f7;
     flex-shrink: 0;
@@ -329,38 +498,85 @@
   .section-toggle::before {
     content: "";
     position: absolute;
-    top: 50%; left: 50%;
-    width: 7px; height: 7px;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
     border-right: 1.7px solid var(--muted);
     border-bottom: 1.7px solid var(--muted);
     transform: translate(-50%, -62%) rotate(45deg);
     transition: border-color 0.2s ease;
   }
 
-  .section.open .section-toggle { background: var(--red-soft); transform: rotate(180deg); }
-  .section.open .section-toggle::before { border-color: var(--red); }
+  .section.open .section-toggle {
+    background: var(--red-soft);
+    transform: rotate(180deg);
+  }
 
-  .section-body { display: none; padding: 0 26px 30px; }
-  .section.open .section-body { display: block; }
-  .section-inner { max-width: 850px; }
+  .section.open .section-toggle::before {
+    border-color: var(--red);
+  }
 
-  .section-objective { margin: 0 0 22px; padding-top: 2px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+  .section-body {
+    display: none;
+    padding: 0 26px 30px;
+  }
 
-  .steps-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .section.open .section-body {
+    display: block;
+  }
 
-  .step-item { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: flex-start; }
+  .section-inner {
+    max-width: 850px;
+  }
+
+  .section-objective {
+    margin: 0 0 22px;
+    padding-top: 2px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .steps-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: flex-start;
+  }
 
   .step-dot {
-    display: flex; align-items: center; justify-content: center;
-    width: 24px; height: 24px; margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-top: 1px;
     border: 1.5px solid var(--red);
     border-radius: 999px;
     color: var(--red);
-    font-size: 12px; font-weight: 650;
+    font-size: 12px;
+    font-weight: 650;
   }
 
-  .step-text { color: var(--text); font-size: 15px; line-height: 1.58; }
-  .step-text strong { color: var(--ink); font-weight: 650; }
+  .step-text {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.58;
+  }
+
+  .step-text strong {
+    color: var(--ink);
+    font-weight: 650;
+  }
 
   code {
     display: inline-block;
@@ -373,77 +589,106 @@
     font-weight: 600;
   }
 
-  .step-text em { color: var(--muted); font-style: normal; }
+  .step-text em {
+    color: var(--muted);
+    font-style: normal;
+  }
 
   .tip-block {
-    margin-top: 22px; padding: 18px 20px;
-    border: 1px solid rgba(197,23,24,0.12);
+    margin-top: 22px;
+    padding: 18px 20px;
+    border: 1px solid rgba(197, 23, 24, 0.12);
     border-radius: 18px;
     background: var(--red-soft);
   }
 
-  .tip-label { margin-bottom: 7px; color: var(--red); font-size: 11px; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
-  .tip-block p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
+  .tip-label {
+    margin-bottom: 7px;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
 
-  /* ── COMPLETION ── */
+  .tip-block p {
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
 
-  .completion-dock { display: flex; justify-content: center; margin-top: 10px; min-height: 90px; }
+  /* COMPLETION BADGE */
+
+  .completion-dock {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    min-height: 90px;
+  }
 
   .completion-pill {
-    width: 76px; height: 76px;
+    width: 76px;
+    height: 76px;
+    padding: 8px;
     border-radius: 999px;
     position: relative;
     pointer-events: none;
     opacity: 0;
-    transform: scale(0.88);
-    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.19,1,.22,1);
-    background: rgba(240,240,242,0.92);
+    transform: scale(0.86) translateY(10px);
+    transition:
+      opacity 0.50s ease,
+      transform 0.70s cubic-bezier(.16, 1, .3, 1);
+
+    border: 1px solid rgba(255,255,255,0.42);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.50), rgba(255,255,255,0.16)),
+      radial-gradient(circle at 50% -30%, rgba(255,255,255,0.72), transparent 58%),
+      rgba(255,255,255,0.16);
+
     box-shadow:
-      0 0 0 0.5px rgba(0,0,0,0.12),
-      0 0 0 1.5px rgba(255,255,255,0.85),
-      0 8px 24px rgba(0,0,0,0.13),
-      0 28px 56px rgba(0,0,0,0.10);
-    backdrop-filter: blur(40px) saturate(140%);
-    -webkit-backdrop-filter: blur(40px) saturate(140%);
-    overflow: hidden;
+      0 26px 70px rgba(0, 0, 0, 0.13),
+      0 8px 22px rgba(0, 0, 0, 0.06),
+      inset 0 1px 1px rgba(255, 255, 255, 0.68),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(42px) saturate(190%) brightness(1.08) contrast(0.96);
+    -webkit-backdrop-filter: blur(42px) saturate(190%) brightness(1.08) contrast(0.96);
   }
 
-  /* Gloss sur le pill de completion */
   .completion-pill::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; height: 50%;
-    border-radius: 999px 999px 0 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, transparent 100%);
-    z-index: 1;
-  }
-
-  /* Cercle rouge flat centré */
-  .completion-inner {
-    position: absolute;
     inset: 9px;
     border-radius: 999px;
-    background: #C51718;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 42%),
+      linear-gradient(180deg, var(--red-2), var(--red));
+    box-shadow:
+      0 10px 24px rgba(197, 23, 24, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.26);
   }
 
-  /* Checkmark SVG-style via pseudo */
-  .completion-inner::after {
+  .completion-pill::after {
     content: "";
-    display: block;
-    width: 20px; height: 11px;
-    border-left: 4px solid #fff;
-    border-bottom: 4px solid #fff;
-    border-radius: 1px;
-    transform: rotate(-45deg) translateY(-2px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 12px;
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+    border-radius: 2px;
+    transform: translate(-50%, -58%) rotate(-45deg);
+    z-index: 2;
   }
 
-  .completion-pill.is-visible { opacity: 1; transform: scale(1); }
+  .completion-pill.is-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 
-  /* ── BOTTOM GRID ── */
+  /* BOTTOM CONTENT */
 
   .bottom-grid {
     display: grid;
@@ -452,7 +697,8 @@
     margin-top: 44px;
   }
 
-  .checklist-block, .practices-block {
+  .checklist-block,
+  .practices-block {
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     background: var(--surface-solid);
@@ -460,11 +706,29 @@
     overflow: hidden;
   }
 
-  .block-top { padding: 24px 24px 18px; border-bottom: 1px solid var(--line); }
-  .block-title { margin: 0; color: var(--ink); font-size: 24px; font-weight: 650; letter-spacing: -0.045em; }
-  .block-sub { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .block-top {
+    padding: 24px 24px 18px;
+    border-bottom: 1px solid var(--line);
+  }
 
-  .checklist-body { padding: 12px 24px 22px; }
+  .block-title {
+    margin: 0;
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 650;
+    letter-spacing: -0.045em;
+  }
+
+  .block-sub {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .checklist-body {
+    padding: 12px 24px 22px;
+  }
 
   .checklist-item {
     display: grid;
@@ -476,57 +740,235 @@
     cursor: pointer;
   }
 
-  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item:last-child {
+    border-bottom: none;
+  }
 
   .cb {
-    display: flex; align-items: center; justify-content: center;
-    width: 19px; height: 19px; margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    margin-top: 2px;
     border: 1.5px solid #c9c9ce;
     border-radius: 5px;
-    color: #fff; font-size: 12px; font-weight: 700;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
     transition: all 0.15s ease;
   }
 
-  .checklist-item.done .cb { border-color: var(--red); background: var(--red); }
-  .ci-text { color: var(--text); font-size: 14px; line-height: 1.55; }
-  .checklist-item.done .ci-text { color: var(--muted); text-decoration: line-through; }
+  .checklist-item.done .cb {
+    border-color: var(--red);
+    background: var(--red);
+  }
 
-  .practices-grid { display: grid; gap: 12px; padding: 18px; }
+  .ci-text {
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.55;
+  }
 
-  .practice-card { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface-soft); }
-  .practice-title { margin: 0 0 6px; color: var(--ink); font-size: 15px; font-weight: 650; letter-spacing: -0.015em; }
-  .practice-desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+  .checklist-item.done .ci-text {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
 
-  .flow-summary { margin-top: 26px; padding: 22px; border-radius: var(--radius-lg); background: #1d1d1f; box-shadow: var(--shadow-soft); }
-  .flow-title { margin: 0 0 16px; color: #fff; font-size: 18px; font-weight: 650; letter-spacing: -0.03em; }
-  .flow-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .flow-tag { padding: 7px 11px; border-radius: 9px; background: rgba(255,255,255,0.11); color: #fff; font-size: 13px; font-weight: 600; }
-  .flow-arr { color: #ffb3b3; font-weight: 700; }
+  .practices-grid {
+    display: grid;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .practice-card {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface-soft);
+  }
+
+  .practice-title {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+
+  .practice-desc {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .flow-summary {
+    margin-top: 26px;
+    padding: 22px;
+    border-radius: var(--radius-lg);
+    background: #1d1d1f;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .flow-title {
+    margin: 0 0 16px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+
+  .flow-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .flow-tag {
+    padding: 7px 11px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.11);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .flow-arr {
+    color: #ffb3b3;
+    font-weight: 700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 
   @media (max-width: 900px) {
-    .dam-guide { padding: 36px 18px 64px; }
-    .guide-hero { padding: 44px 0 38px; }
-    .intro-grid, .bottom-grid { grid-template-columns: 1fr; }
-    .stepper-item { width: 42px; min-width: 42px; height: 42px; font-size: 18px; }
-    .stepper-indicator { height: 42px; width: 42px; }
-    .stepper-item.active { padding: 0 18px; }
-    .stepper-label { font-size: 16px; }
+    .dam-guide {
+      padding: 36px 18px 64px;
+    }
+
+    .guide-hero {
+      padding: 44px 0 38px;
+    }
+
+    .intro-grid,
+    .bottom-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .liquid-stepper {
+      max-width: min(620px, 100%);
+    }
+
+    .stepper-item {
+      width: 42px;
+      min-width: 42px;
+      height: 42px;
+      font-size: 18px;
+    }
+
+    .stepper-indicator {
+      height: 42px;
+      width: 42px;
+    }
+
+    .stepper-item.active {
+      padding: 0 18px;
+    }
+
+    .stepper-label {
+      font-size: 16px;
+    }
   }
 
   @media (max-width: 640px) {
-    body.stepper-is-floating { padding-bottom: 86px; }
-    .hero-title { font-size: 46px; }
-    .context-card, .principle-card { padding: 26px; }
-    .stepper-wrap.is-floating { bottom: 16px; padding: 0 14px; }
-    .liquid-stepper { gap: 4px; padding: 6px; max-width: calc(100vw - 28px); }
-    .stepper-item { width: 36px; min-width: 36px; height: 36px; font-size: 16px; }
-    .stepper-indicator { top: 6px; left: 6px; height: 36px; width: 36px; }
-    .stepper-item.active { padding: 0 13px; }
-    .stepper-label { font-size: 14px; }
-    .section-header { grid-template-columns: 1fr auto; padding: 20px; }
-    .section-title { font-size: 18px; }
-    .section-badge { display: none; }
-    .section-body { padding: 0 20px 24px; }
+    body.stepper-is-floating {
+      padding-bottom: 86px;
+    }
+
+    .hero-title {
+      font-size: 46px;
+    }
+
+    .context-card,
+    .principle-card {
+      padding: 26px;
+    }
+
+    .stepper-wrap.is-floating {
+      bottom: 16px;
+      padding: 0 14px;
+    }
+
+    .liquid-stepper {
+      gap: 4px;
+      padding: 6px;
+      max-width: calc(100vw - 28px);
+    }
+
+    .stepper-item {
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .stepper-indicator {
+      top: 6px;
+      left: 6px;
+      height: 36px;
+      width: 36px;
+    }
+
+    .stepper-item.active {
+      padding: 0 13px;
+    }
+
+    .stepper-label {
+      font-size: 14px;
+    }
+
+    .completion-pill {
+      width: 70px;
+      height: 70px;
+    }
+
+    .completion-pill::after {
+      width: 20px;
+      height: 11px;
+      border-left-width: 4.5px;
+      border-bottom-width: 4.5px;
+    }
+
+    .section-header {
+      grid-template-columns: 1fr auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 18px;
+    }
+
+    .section-badge {
+      display: none;
+    }
+
+    .section-body {
+      padding: 0 20px 24px;
+    }
   }
 </style>
 
@@ -536,21 +978,36 @@
     <header class="guide-hero">
       <div class="eyebrow">Symrise Library · Admin Documentation</div>
       <h1 class="hero-title">DAM Admin User Guide</h1>
-      <p class="hero-subtitle">Guide complet pour ajouter et rendre visibles des assets dans le Media Center, du chargement dans le back-end à l'affichage sur le front-end.</p>
+      <p class="hero-subtitle">
+        Guide complet pour ajouter et rendre visibles des assets dans le Media Center,
+        du chargement dans le back-end à l’affichage sur le front-end.
+      </p>
     </header>
 
     <section class="intro-grid">
       <div class="glass-card context-card">
         <h2 class="context-title">Back-end vs front-end</h2>
-        <p>Le <strong>back-end</strong> est l'espace d'administration du DAM : c'est là qu'on charge les assets, complète les métadonnées, crée les filtres et organise les Libraries.</p>
-        <p>Le <strong>front-end</strong> est l'interface visible par les utilisateurs : c'est le Media Center où les assets sont consultés, recherchés et téléchargés.</p>
+        <p>
+          Le <strong>back-end</strong> est l’espace d’administration du DAM :
+          c’est là qu’on charge les assets, complète les métadonnées, crée les filtres
+          et organise les Libraries.
+        </p>
+        <p>
+          Le <strong>front-end</strong> est l’interface visible par les utilisateurs :
+          c’est le Media Center où les assets sont consultés, recherchés et téléchargés.
+        </p>
       </div>
+
       <div class="glass-card principle-card">
         <div>
           <div class="principle-kicker">Key principle</div>
-          <p class="principle-text">Un asset uploadé dans le DAM n'est pas automatiquement visible dans le Media Center.</p>
+          <p class="principle-text">
+            Un asset uploadé dans le DAM n’est pas automatiquement visible dans le Media Center.
+          </p>
         </div>
-        <div class="principle-note">Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.</div>
+        <div class="principle-note">
+          Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.
+        </div>
       </div>
     </section>
 
@@ -558,12 +1015,36 @@
       <div id="stepperWrap" class="stepper-wrap">
         <nav id="stepper" class="liquid-stepper" aria-label="Process navigation">
           <span id="stepperIndicator" class="stepper-indicator" aria-hidden="true"></span>
-          <a href="#s1" class="stepper-item active"><span class="stepper-number">1</span><span class="stepper-label">Upload</span></a>
-          <a href="#s2" class="stepper-item"><span class="stepper-number">2</span><span class="stepper-label">Metadata</span></a>
-          <a href="#s3" class="stepper-item"><span class="stepper-number">3</span><span class="stepper-label">Filter</span></a>
-          <a href="#s4" class="stepper-item"><span class="stepper-number">4</span><span class="stepper-label">Library</span></a>
-          <a href="#s5" class="stepper-item"><span class="stepper-number">5</span><span class="stepper-label">Front-end</span></a>
-          <a href="#s6" class="stepper-item"><span class="stepper-number">6</span><span class="stepper-label">Gallery</span></a>
+
+          <a href="#s1" class="stepper-item active">
+            <span class="stepper-number">1</span>
+            <span class="stepper-label">Upload</span>
+          </a>
+
+          <a href="#s2" class="stepper-item">
+            <span class="stepper-number">2</span>
+            <span class="stepper-label">Metadata</span>
+          </a>
+
+          <a href="#s3" class="stepper-item">
+            <span class="stepper-number">3</span>
+            <span class="stepper-label">Filter</span>
+          </a>
+
+          <a href="#s4" class="stepper-item">
+            <span class="stepper-number">4</span>
+            <span class="stepper-label">Library</span>
+          </a>
+
+          <a href="#s5" class="stepper-item">
+            <span class="stepper-number">5</span>
+            <span class="stepper-label">Front-end</span>
+          </a>
+
+          <a href="#s6" class="stepper-item">
+            <span class="stepper-number">6</span>
+            <span class="stepper-label">Gallery</span>
+          </a>
         </nav>
       </div>
     </div>
@@ -592,7 +1073,7 @@
             </ul>
             <div class="tip-block">
               <div class="tip-label">À noter</div>
-              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l'étape suivante.</p>
+              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l’étape suivante.</p>
             </div>
           </div>
         </div>
@@ -611,14 +1092,14 @@
           <div class="section-inner">
             <p class="section-objective">Vérifier que les assets sont correctement qualifiés avant de créer le filtre.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l'asset est clair et compréhensible.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Compléter les champs de métadonnées nécessaires.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span></li>
               <li class="step-item"><span class="step-dot">4</span><span class="step-text">Contrôler que les informations sont cohérentes avec les autres assets du DAM.</span></li>
             </ul>
             <div class="tip-block">
-              <div class="tip-label">Pourquoi c'est important</div>
-              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d'apparaître correctement dans les filtres et les Libraries.</p>
+              <div class="tip-label">Pourquoi c’est important</div>
+              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d’apparaître correctement dans les filtres et les Libraries.</p>
             </div>
           </div>
         </div>
@@ -635,12 +1116,12 @@
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d'alimenter automatiquement une Library avec les bons assets.</p>
+            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement une Library avec les bons assets.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l'asset dans la barre de recherche.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Vérifier que les bons résultats apparaissent.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur l'icône <code>Save</code> <em>icône disquette</em>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur l’icône <code>Save</code> <em>icône disquette</em>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Sélectionner <code>Save as</code>.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span></li>
               <li class="step-item"><span class="step-dot">7</span><span class="step-text">Enregistrer le filtre.</span></li>
@@ -672,7 +1153,7 @@
               <li class="step-item"><span class="step-dot">4</span><span class="step-text">Sélectionner <code>symrise.celum.cloud</code>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Assets</code> dans le menu de gauche.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Add a filter</code>.</span></li>
-              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Sélectionner le filtre créé à l'étape précédente.</span></li>
+              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Sélectionner le filtre créé à l’étape précédente.</span></li>
               <li class="step-item"><span class="step-dot">8</span><span class="step-text">Cliquer sur <code>Create</code> en haut à droite.</span></li>
             </ul>
           </div>
@@ -695,7 +1176,7 @@
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Experience</code>.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span></li>
               <li class="step-item"><span class="step-dot">3</span><span class="step-text">Cliquer sur <code>Edit Portal</code>.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Aller dans l'onglet <code>Libraries</code>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Aller dans l’onglet <code>Libraries</code>.</span></li>
               <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span></li>
               <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Save</code>.</span></li>
             </ul>
@@ -714,7 +1195,7 @@
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Ajouter une galerie d'assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
+            <p class="section-objective">Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
             <ul class="steps-list">
               <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller sur la page à mettre à jour.</span></li>
               <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span></li>
@@ -727,16 +1208,14 @@
             </ul>
             <div class="tip-block">
               <div class="tip-label">Vérification</div>
-              <p>Toujours contrôler l'affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
+              <p>Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
             </div>
           </div>
         </div>
       </article>
 
       <div class="completion-dock">
-        <div id="completionPill" class="completion-pill" aria-hidden="true">
-          <div class="completion-inner"></div>
-        </div>
+        <div id="completionPill" class="completion-pill" aria-hidden="true"></div>
       </div>
 
     </section>
@@ -745,10 +1224,10 @@
       <div class="checklist-block">
         <div class="block-top">
           <h2 class="block-title">Checklist de dépannage</h2>
-          <p class="block-sub">À vérifier si le contenu n'apparaît pas dans le Media Center.</p>
+          <p class="block-sub">À vérifier si le contenu n’apparaît pas dans le Media Center.</p>
         </div>
         <div class="checklist-body">
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L'asset a bien été uploadé dans le bon dossier.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le filtre contient bien les bons assets.</span></div>
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library est bien reliée au filtre.</span></div>
@@ -756,6 +1235,7 @@
           <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span></div>
         </div>
       </div>
+
       <div class="practices-block">
         <div class="block-top">
           <h2 class="block-title">Bonnes pratiques</h2>
@@ -772,11 +1252,11 @@
           </div>
           <div class="practice-card">
             <h3 class="practice-title">Contrôle front-end</h3>
-            <p class="practice-desc">Vérifier systématiquement l'affichage côté utilisateur après toute modification.</p>
+            <p class="practice-desc">Vérifier systématiquement l’affichage côté utilisateur après toute modification.</p>
           </div>
           <div class="practice-card">
             <h3 class="practice-title">Une Library par thème</h3>
-            <p class="practice-desc">Créer des Libraries ciblées plutôt qu'une seule grande Library globale.</p>
+            <p class="practice-desc">Créer des Libraries ciblées plutôt qu’une seule grande Library globale.</p>
           </div>
         </div>
       </div>
@@ -785,11 +1265,16 @@
     <section class="flow-summary">
       <h2 class="flow-title">Résumé rapide</h2>
       <div class="flow-list">
-        <span class="flow-tag">Upload</span><span class="flow-arr">→</span>
-        <span class="flow-tag">Metadata & tags</span><span class="flow-arr">→</span>
-        <span class="flow-tag">Filter</span><span class="flow-arr">→</span>
-        <span class="flow-tag">Library</span><span class="flow-arr">→</span>
-        <span class="flow-tag">Front-end</span><span class="flow-arr">→</span>
+        <span class="flow-tag">Upload</span>
+        <span class="flow-arr">→</span>
+        <span class="flow-tag">Metadata & tags</span>
+        <span class="flow-arr">→</span>
+        <span class="flow-tag">Filter</span>
+        <span class="flow-arr">→</span>
+        <span class="flow-tag">Library</span>
+        <span class="flow-arr">→</span>
+        <span class="flow-tag">Front-end</span>
+        <span class="flow-arr">→</span>
         <span class="flow-tag">Asset Gallery</span>
       </div>
     </section>
@@ -812,42 +1297,56 @@
   let activeItem = document.querySelector(".stepper-item.active");
 
   function toggleSection(id) {
-    document.getElementById(id).classList.toggle("open");
-    setTimeout(refreshLayout, 320);
+    const section = document.getElementById(id);
+    section.classList.toggle("open");
+    setTimeout(refreshLayout, 360);
   }
 
   function checkItem(item) {
     item.classList.toggle("done");
-    item.querySelector(".cb").textContent = item.classList.contains("done") ? "✓" : "";
+    const box = item.querySelector(".cb");
+    box.textContent = item.classList.contains("done") ? "✓" : "";
   }
 
   function calculateStepperDockStart() {
+    const stepperHeight = stepperWrap.offsetHeight;
     const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
-    stepperDockStart = slotTop - window.innerHeight + stepperWrap.offsetHeight + dockBottom;
+    const viewportHeight = window.innerHeight;
+    stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
   }
 
   function moveIndicatorTo(item) {
-    if (!item) return;
-    const ir = item.getBoundingClientRect();
-    const sr = stepper.getBoundingClientRect();
-    stepperIndicator.style.width = ir.width + "px";
-    stepperIndicator.style.transform = `translateX(${ir.left - sr.left}px)`;
+    if (!item || !stepperIndicator) return;
+
+    const itemRect = item.getBoundingClientRect();
+    const stepperRect = stepper.getBoundingClientRect();
+    const x = itemRect.left - stepperRect.left;
+
+    stepperIndicator.style.width = itemRect.width + "px";
+    stepperIndicator.style.transform = `translate3d(${x}px, 0, 0)`;
   }
 
   function setActiveItem(item) {
     if (!item || item === activeItem) return;
-    stepperItems.forEach(s => s.classList.remove("active"));
+
+    stepperItems.forEach(step => step.classList.remove("active"));
     item.classList.add("active");
     activeItem = item;
+
     requestAnimationFrame(() => moveIndicatorTo(item));
   }
 
   function shouldCompleteNow() {
     if (!lastSection) return false;
-    return lastSection.getBoundingClientRect().bottom <= window.innerHeight - 120;
+
+    const rect = lastSection.getBoundingClientRect();
+
+    return rect.bottom <= window.innerHeight - 120;
   }
 
   function updateStepperState() {
+    const scrollY = window.scrollY;
+    const shouldDock = scrollY >= stepperDockStart;
     const isComplete = shouldCompleteNow();
 
     if (isComplete) {
@@ -862,7 +1361,7 @@
     completionPill.classList.remove("is-visible");
     stepperWrap.classList.remove("is-hidden");
 
-    if (window.scrollY >= stepperDockStart) {
+    if (shouldDock) {
       stepperSlot.style.height = stepperWrap.offsetHeight + "px";
       stepperWrap.classList.add("is-floating");
       document.body.classList.add("stepper-is-floating");
@@ -876,14 +1375,23 @@
   }
 
   function updateActiveSectionEarly() {
-    const triggerLine = window.innerHeight * 0.76;
-    let current = sections[0];
-    sections.forEach(s => {
-      if (s.getBoundingClientRect().top <= triggerLine) current = s;
+    const triggerLine = window.innerHeight * 0.78;
+    let currentSection = sections[0];
+
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+
+      if (rect.top <= triggerLine) {
+        currentSection = section;
+      }
     });
-    const item = document.querySelector(`.stepper-item[href="#${current.id}"]`);
+
+    const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
     setActiveItem(item);
-    current.classList.add("open");
+
+    if (currentSection) {
+      currentSection.classList.add("open");
+    }
   }
 
   function refreshLayout() {
@@ -893,20 +1401,33 @@
     requestAnimationFrame(() => moveIndicatorTo(activeItem));
   }
 
-  window.addEventListener("scroll", () => { updateActiveSectionEarly(); updateStepperState(); }, { passive: true });
+  window.addEventListener("scroll", () => {
+    updateActiveSectionEarly();
+    updateStepperState();
+  }, { passive: true });
+
   window.addEventListener("resize", refreshLayout);
   window.addEventListener("load", refreshLayout);
+
   refreshLayout();
 
   stepperItems.forEach(item => {
-    item.addEventListener("click", e => {
-      e.preventDefault();
+    item.addEventListener("click", event => {
+      event.preventDefault();
+
       const target = document.querySelector(item.getAttribute("href"));
       if (!target) return;
+
       target.classList.add("open");
       setActiveItem(item);
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(refreshLayout, 520);
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      setTimeout(refreshLayout, 560);
     });
   });
 </script>
+```
