@@ -15,12 +15,15 @@
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
 
+    --glass: rgba(226, 226, 228, 0.62);
+    --glass-border: rgba(255, 255, 255, 0.68);
+
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
+    --shadow-floating: 0 24px 70px rgba(0, 0, 0, 0.16);
 
     --radius-lg: 28px;
     --radius-md: 20px;
-    --radius-sm: 12px;
 
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     --mono: "SF Mono", "Fira Mono", Consolas, monospace;
@@ -42,6 +45,10 @@
       var(--bg);
     font-family: var(--font);
     color: var(--ink);
+  }
+
+  body.has-floating-stepper {
+    padding-bottom: 116px;
   }
 
   .dam-guide {
@@ -179,91 +186,121 @@
     line-height: 1.55;
   }
 
-  .pipeline-card {
-    margin: 24px 0 42px;
-    padding: 26px 26px 22px;
-    border-radius: var(--radius-lg);
-    background: var(--surface-solid);
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--line);
+  /* LIQUID GLASS STEPPER */
+
+  .stepper-placeholder {
+    height: 0;
   }
 
-  .pipeline-header {
+  .liquid-stepper-wrap {
+    width: 100%;
+    margin: 34px 0 46px;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 24px;
+    justify-content: center;
   }
 
-  .block-label {
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
+  .liquid-stepper-wrap.is-floating {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    z-index: 100;
+    margin: 0;
+    padding: 0 24px;
+    pointer-events: none;
   }
 
-  .pipeline-helper {
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .pipeline {
+  .liquid-stepper {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 10px;
+    align-items: center;
+    width: min(900px, 100%);
+    padding: 10px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    transition:
+      width 0.28s ease,
+      transform 0.28s ease,
+      box-shadow 0.28s ease,
+      background 0.28s ease;
   }
 
-  .pipe-step {
+  .liquid-stepper-wrap.is-floating .liquid-stepper {
+    width: min(820px, 100%);
+    box-shadow:
+      var(--shadow-floating),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+  }
+
+  .stepper-item {
     position: relative;
-    min-height: 126px;
-    padding: 16px;
-    border-radius: 20px;
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-  }
-
-  .pipe-step:not(:last-child)::after {
-    content: "→";
-    position: absolute;
-    top: 50%;
-    right: -11px;
-    z-index: 2;
-    transform: translateY(-50%);
-    color: var(--red);
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .pipe-bubble {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
-    margin-bottom: 18px;
+    min-height: 64px;
+    padding: 0 16px;
     border-radius: 999px;
+    color: rgba(29, 29, 31, 0.42);
+    text-decoration: none;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    overflow: hidden;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      padding 0.25s ease;
+  }
+
+  .stepper-item:hover {
+    color: rgba(29, 29, 31, 0.72);
+  }
+
+  .stepper-item.active {
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0 30px;
     background: var(--red);
     color: #fff;
-    font-size: 14px;
-    font-weight: 650;
+    box-shadow:
+      0 12px 28px rgba(197, 23, 24, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
   }
 
-  .pipe-label {
-    color: var(--ink);
-    font-size: 14px;
-    font-weight: 650;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+  .stepper-number {
+    font-weight: 700;
   }
 
-  .pipe-meta {
-    margin-top: 6px;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.35;
+  .stepper-label {
+    display: none;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.055em;
   }
+
+  .stepper-item.active .stepper-label {
+    display: inline;
+  }
+
+  .stepper-item.active .stepper-number::after {
+    content: " -";
+    margin-left: 7px;
+    font-weight: 700;
+  }
+
+  /* SECTIONS */
 
   .sections-stack {
     display: grid;
@@ -272,6 +309,7 @@
   }
 
   .section {
+    scroll-margin-top: 120px;
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
@@ -281,11 +319,11 @@
 
   .section-header {
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: 16px;
     width: 100%;
-    padding: 22px 24px;
+    padding: 24px 26px;
     border: none;
     background: transparent;
     color: inherit;
@@ -298,24 +336,27 @@
     background: #fafafa;
   }
 
-  .section-num {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
-    background: var(--red);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 650;
+  .section-heading {
+    min-width: 0;
+  }
+
+  .section-kicker {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
   }
 
   .section-title {
+    display: block;
     color: var(--ink);
-    font-size: 21px;
-    font-weight: 600;
-    letter-spacing: -0.035em;
+    font-size: 22px;
+    font-weight: 620;
+    letter-spacing: -0.04em;
+    line-height: 1.18;
   }
 
   .section-badge {
@@ -327,7 +368,6 @@
     font-weight: 650;
   }
 
-  /* Chevron propre, centré, dessiné en CSS */
   .section-toggle {
     position: relative;
     width: 34px;
@@ -362,15 +402,18 @@
 
   .section-body {
     display: none;
-    padding: 0 24px 28px 78px;
+    padding: 0 26px 30px;
   }
 
   .section.open .section-body {
     display: block;
   }
 
+  .section-inner {
+    max-width: 850px;
+  }
+
   .section-objective {
-    max-width: 760px;
     margin: 0 0 22px;
     padding-top: 2px;
     color: var(--muted);
@@ -381,7 +424,6 @@
   .steps-list {
     display: grid;
     gap: 10px;
-    max-width: 840px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -436,7 +478,6 @@
   }
 
   .tip-block {
-    max-width: 840px;
     margin-top: 22px;
     padding: 18px 20px;
     border: 1px solid rgba(197, 23, 24, 0.12);
@@ -459,6 +500,8 @@
     font-size: 14px;
     line-height: 1.6;
   }
+
+  /* BOTTOM CONTENT */
 
   .bottom-grid {
     display: grid;
@@ -624,16 +667,29 @@
       grid-template-columns: 1fr;
     }
 
-    .pipeline {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .liquid-stepper {
+      width: min(720px, 100%);
     }
 
-    .pipe-step:nth-child(3)::after {
-      display: none;
+    .stepper-item {
+      min-height: 56px;
+      font-size: 22px;
+    }
+
+    .stepper-item.active {
+      padding: 0 22px;
+    }
+
+    .stepper-label {
+      font-size: 20px;
     }
   }
 
   @media (max-width: 640px) {
+    body.has-floating-stepper {
+      padding-bottom: 98px;
+    }
+
     .hero-title {
       font-size: 46px;
     }
@@ -643,25 +699,32 @@
       padding: 26px;
     }
 
-    .pipeline {
-      grid-template-columns: 1fr;
+    .liquid-stepper-wrap.is-floating {
+      bottom: 18px;
+      padding: 0 14px;
     }
 
-    .pipe-step {
-      min-height: auto;
+    .liquid-stepper {
+      padding: 8px;
     }
 
-    .pipe-step:not(:last-child)::after {
-      content: "↓";
-      top: auto;
-      right: 50%;
-      bottom: -18px;
-      transform: translateX(50%);
+    .stepper-item {
+      min-height: 48px;
+      padding: 0 8px;
+      font-size: 18px;
+    }
+
+    .stepper-item.active {
+      padding: 0 16px;
+    }
+
+    .stepper-label {
+      font-size: 17px;
     }
 
     .section-header {
-      grid-template-columns: auto 1fr auto;
-      padding: 18px;
+      grid-template-columns: 1fr auto;
+      padding: 20px;
     }
 
     .section-title {
@@ -673,7 +736,7 @@
     }
 
     .section-body {
-      padding: 0 18px 24px;
+      padding: 0 20px 24px;
     }
   }
 </style>
@@ -717,304 +780,361 @@
       </div>
     </section>
 
-    <section class="pipeline-card">
-      <div class="pipeline-header">
-        <div class="block-label">Process overview</div>
-        <div class="pipeline-helper">6 étapes pour publier un asset correctement</div>
-      </div>
+    <div id="stepperAnchor"></div>
 
-      <div class="pipeline">
-        <div class="pipe-step">
-          <div class="pipe-bubble">1</div>
-          <div class="pipe-label">Upload</div>
-          <div class="pipe-meta">Charger les fichiers</div>
-        </div>
+    <div id="stepperWrap" class="liquid-stepper-wrap">
+      <nav class="liquid-stepper" aria-label="Process navigation">
+        <a href="#s1" class="stepper-item active" data-step="1">
+          <span class="stepper-number">1</span>
+          <span class="stepper-label">Upload</span>
+        </a>
 
-        <div class="pipe-step">
-          <div class="pipe-bubble">2</div>
-          <div class="pipe-label">Metadata & tags</div>
-          <div class="pipe-meta">Qualifier les assets</div>
-        </div>
+        <a href="#s2" class="stepper-item" data-step="2">
+          <span class="stepper-number">2</span>
+          <span class="stepper-label">Metadata</span>
+        </a>
 
-        <div class="pipe-step">
-          <div class="pipe-bubble">3</div>
-          <div class="pipe-label">Filter</div>
-          <div class="pipe-meta">Identifier les bons assets</div>
-        </div>
+        <a href="#s3" class="stepper-item" data-step="3">
+          <span class="stepper-number">3</span>
+          <span class="stepper-label">Filter</span>
+        </a>
 
-        <div class="pipe-step">
-          <div class="pipe-bubble">4</div>
-          <div class="pipe-label">Library</div>
-          <div class="pipe-meta">Créer le groupe d’assets</div>
-        </div>
+        <a href="#s4" class="stepper-item" data-step="4">
+          <span class="stepper-number">4</span>
+          <span class="stepper-label">Library</span>
+        </a>
 
-        <div class="pipe-step">
-          <div class="pipe-bubble">5</div>
-          <div class="pipe-label">Front-end</div>
-          <div class="pipe-meta">Ajouter la Library au portail</div>
-        </div>
+        <a href="#s5" class="stepper-item" data-step="5">
+          <span class="stepper-number">5</span>
+          <span class="stepper-label">Front-end</span>
+        </a>
 
-        <div class="pipe-step">
-          <div class="pipe-bubble">6</div>
-          <div class="pipe-label">Asset Gallery</div>
-          <div class="pipe-meta">Afficher sur la page</div>
-        </div>
-      </div>
-    </section>
+        <a href="#s6" class="stepper-item" data-step="6">
+          <span class="stepper-number">6</span>
+          <span class="stepper-label">Gallery</span>
+        </a>
+      </nav>
+    </div>
 
     <section class="sections-stack">
 
-      <article id="s1" class="section open">
+      <article id="s1" class="section open" data-step="1">
         <button class="section-header" type="button" onclick="toggleSection('s1')">
-          <span class="section-num">1</span>
-          <span class="section-title">Charger les assets dans le back-end</span>
+          <span class="section-heading">
+            <span class="section-kicker">Step 01 · Upload</span>
+            <span class="section-title">Charger les assets dans le back-end</span>
+          </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
 
         <div class="section-body">
-          <p class="section-objective">
-            Ajouter un ou plusieurs fichiers dans le bon dossier du DAM et compléter leurs informations.
-          </p>
-
-          <ul class="steps-list">
-            <li class="step-item">
-              <span class="step-dot">1</span>
-              <span class="step-text">Aller dans <code>Explore</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">2</span>
-              <span class="step-text">Sélectionner le dossier dans lequel les assets doivent être chargés.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">3</span>
-              <span class="step-text">Cliquer sur <code>Upload asset</code> et importer les fichiers souhaités.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">4</span>
-              <span class="step-text">Compléter les <strong>métadonnées</strong> nécessaires.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">5</span>
-              <span class="step-text">Ajouter les <strong>tags</strong> appropriés.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">6</span>
-              <span class="step-text">Cliquer sur <code>Save and Finish</code>.</span>
-            </li>
-          </ul>
-
-          <div class="tip-block">
-            <div class="tip-label">À noter</div>
-            <p>
-              Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement
-              des filtres créés à l’étape suivante.
+          <div class="section-inner">
+            <p class="section-objective">
+              Ajouter un ou plusieurs fichiers dans le bon dossier du DAM et compléter leurs informations.
             </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Aller dans <code>Explore</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Sélectionner le dossier dans lequel les assets doivent être chargés.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Cliquer sur <code>Upload asset</code> et importer les fichiers souhaités.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Compléter les <strong>métadonnées</strong> nécessaires.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">5</span>
+                <span class="step-text">Ajouter les <strong>tags</strong> appropriés.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">6</span>
+                <span class="step-text">Cliquer sur <code>Save and Finish</code>.</span>
+              </li>
+            </ul>
+
+            <div class="tip-block">
+              <div class="tip-label">À noter</div>
+              <p>
+                Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement
+                des filtres créés à l’étape suivante.
+              </p>
+            </div>
           </div>
         </div>
       </article>
 
-      <article id="s2" class="section">
+      <article id="s2" class="section" data-step="2">
         <button class="section-header" type="button" onclick="toggleSection('s2')">
-          <span class="section-num">2</span>
-          <span class="section-title">Créer un filtre</span>
+          <span class="section-heading">
+            <span class="section-kicker">Step 02 · Metadata</span>
+            <span class="section-title">Compléter les metadata et les tags</span>
+          </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
 
         <div class="section-body">
-          <p class="section-objective">
-            Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement
-            une Library avec les bons assets.
-          </p>
-
-          <ul class="steps-list">
-            <li class="step-item">
-              <span class="step-dot">1</span>
-              <span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">2</span>
-              <span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">3</span>
-              <span class="step-text">Vérifier que les bons résultats apparaissent.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">4</span>
-              <span class="step-text">Cliquer sur l’icône <code>Save</code> <em>icône disquette</em>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">5</span>
-              <span class="step-text">Sélectionner <code>Save as</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">6</span>
-              <span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">7</span>
-              <span class="step-text">Enregistrer le filtre.</span>
-            </li>
-          </ul>
-
-          <div class="tip-block">
-            <div class="tip-label">Convention de nommage</div>
-            <p>
-              Utiliser un nom descriptif et cohérent avec la future Library.
-              Ex : <strong>Care & Wellness pictures</strong> pour le filtre →
-              <strong>Care & Wellness</strong> pour la Library.
+          <div class="section-inner">
+            <p class="section-objective">
+              Vérifier que les assets sont correctement qualifiés avant de créer le filtre.
             </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Compléter les champs de métadonnées nécessaires.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Contrôler que les informations sont cohérentes avec les autres assets du DAM.</span>
+              </li>
+            </ul>
+
+            <div class="tip-block">
+              <div class="tip-label">Pourquoi c’est important</div>
+              <p>
+                Des metadata incomplètes ou des tags manquants peuvent empêcher les assets
+                d’apparaître correctement dans les filtres et les Libraries.
+              </p>
+            </div>
           </div>
         </div>
       </article>
 
-      <article id="s3" class="section">
+      <article id="s3" class="section" data-step="3">
         <button class="section-header" type="button" onclick="toggleSection('s3')">
-          <span class="section-num">3</span>
-          <span class="section-title">Créer une Library</span>
+          <span class="section-heading">
+            <span class="section-kicker">Step 03 · Filter</span>
+            <span class="section-title">Créer un filtre</span>
+          </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
 
         <div class="section-body">
-          <p class="section-objective">
-            Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.
-          </p>
-
-          <ul class="steps-list">
-            <li class="step-item">
-              <span class="step-dot">1</span>
-              <span class="step-text">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">2</span>
-              <span class="step-text">Cliquer sur <code>New</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">3</span>
-              <span class="step-text">Renseigner le nom dans le champ <code>Library name</code>. <em>Ex : Care & Wellness</em></span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">4</span>
-              <span class="step-text">Sélectionner <code>symrise.celum.cloud</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">5</span>
-              <span class="step-text">Cliquer sur <code>Assets</code> dans le menu de gauche.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">6</span>
-              <span class="step-text">Cliquer sur <code>Add a filter</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">7</span>
-              <span class="step-text">Sélectionner le filtre créé à l’étape précédente.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">8</span>
-              <span class="step-text">Cliquer sur <code>Create</code> en haut à droite.</span>
-            </li>
-          </ul>
-        </div>
-      </article>
-
-      <article id="s4" class="section">
-        <button class="section-header" type="button" onclick="toggleSection('s4')">
-          <span class="section-num">4</span>
-          <span class="section-title">Ajouter la Library dans le front-end</span>
-          <span class="section-badge">Front-end</span>
-          <span class="section-toggle" aria-hidden="true"></span>
-        </button>
-
-        <div class="section-body">
-          <p class="section-objective">
-            Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.
-          </p>
-
-          <ul class="steps-list">
-            <li class="step-item">
-              <span class="step-dot">1</span>
-              <span class="step-text">Aller dans <code>Experience</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">2</span>
-              <span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">3</span>
-              <span class="step-text">Cliquer sur <code>Edit Portal</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">4</span>
-              <span class="step-text">Aller dans l’onglet <code>Libraries</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">5</span>
-              <span class="step-text">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">6</span>
-              <span class="step-text">Cliquer sur <code>Save</code>.</span>
-            </li>
-          </ul>
-        </div>
-      </article>
-
-      <article id="s5" class="section">
-        <button class="section-header" type="button" onclick="toggleSection('s5')">
-          <span class="section-num">5</span>
-          <span class="section-title">Afficher la Library sur une page</span>
-          <span class="section-badge">Front-end</span>
-          <span class="section-toggle" aria-hidden="true"></span>
-        </button>
-
-        <div class="section-body">
-          <p class="section-objective">
-            Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.
-          </p>
-
-          <ul class="steps-list">
-            <li class="step-item">
-              <span class="step-dot">1</span>
-              <span class="step-text">Aller sur la page à mettre à jour.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">2</span>
-              <span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">3</span>
-              <span class="step-text">Dans <code>Choose layout</code>, sélectionner une mise en page en <strong>une colonne</strong>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">4</span>
-              <span class="step-text">Cliquer sur <code>+ Add widget</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">5</span>
-              <span class="step-text">Sélectionner le widget <code>Asset Gallery</code>.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">6</span>
-              <span class="step-text">Dans le panneau de gauche, aller dans <code>Library</code> et sélectionner la Library créée.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">7</span>
-              <span class="step-text">Vérifier que le contenu apparaît correctement sur la page.</span>
-            </li>
-            <li class="step-item">
-              <span class="step-dot">8</span>
-              <span class="step-text">Cliquer sur <code>Update</code> en bas à gauche.</span>
-            </li>
-          </ul>
-
-          <div class="tip-block">
-            <div class="tip-label">Vérification</div>
-            <p>
-              Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.
+          <div class="section-inner">
+            <p class="section-objective">
+              Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement
+              une Library avec les bons assets.
             </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Vérifier que les bons résultats apparaissent.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Cliquer sur l’icône <code>Save</code> <em>icône disquette</em>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">5</span>
+                <span class="step-text">Sélectionner <code>Save as</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">6</span>
+                <span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">7</span>
+                <span class="step-text">Enregistrer le filtre.</span>
+              </li>
+            </ul>
+
+            <div class="tip-block">
+              <div class="tip-label">Convention de nommage</div>
+              <p>
+                Utiliser un nom descriptif et cohérent avec la future Library.
+                Ex : <strong>Care & Wellness pictures</strong> pour le filtre →
+                <strong>Care & Wellness</strong> pour la Library.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article id="s4" class="section" data-step="4">
+        <button class="section-header" type="button" onclick="toggleSection('s4')">
+          <span class="section-heading">
+            <span class="section-kicker">Step 04 · Library</span>
+            <span class="section-title">Créer une Library</span>
+          </span>
+          <span class="section-badge">Back-end</span>
+          <span class="section-toggle" aria-hidden="true"></span>
+        </button>
+
+        <div class="section-body">
+          <div class="section-inner">
+            <p class="section-objective">
+              Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.
+            </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Cliquer sur <code>New</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Renseigner le nom dans le champ <code>Library name</code>. <em>Ex : Care & Wellness</em></span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Sélectionner <code>symrise.celum.cloud</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">5</span>
+                <span class="step-text">Cliquer sur <code>Assets</code> dans le menu de gauche.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">6</span>
+                <span class="step-text">Cliquer sur <code>Add a filter</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">7</span>
+                <span class="step-text">Sélectionner le filtre créé à l’étape précédente.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">8</span>
+                <span class="step-text">Cliquer sur <code>Create</code> en haut à droite.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article id="s5" class="section" data-step="5">
+        <button class="section-header" type="button" onclick="toggleSection('s5')">
+          <span class="section-heading">
+            <span class="section-kicker">Step 05 · Front-end</span>
+            <span class="section-title">Ajouter la Library dans le front-end</span>
+          </span>
+          <span class="section-badge">Front-end</span>
+          <span class="section-toggle" aria-hidden="true"></span>
+        </button>
+
+        <div class="section-body">
+          <div class="section-inner">
+            <p class="section-objective">
+              Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.
+            </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Aller dans <code>Experience</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Cliquer sur <code>Edit Portal</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Aller dans l’onglet <code>Libraries</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">5</span>
+                <span class="step-text">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">6</span>
+                <span class="step-text">Cliquer sur <code>Save</code>.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article id="s6" class="section" data-step="6">
+        <button class="section-header" type="button" onclick="toggleSection('s6')">
+          <span class="section-heading">
+            <span class="section-kicker">Step 06 · Asset Gallery</span>
+            <span class="section-title">Afficher la Library sur une page</span>
+          </span>
+          <span class="section-badge">Front-end</span>
+          <span class="section-toggle" aria-hidden="true"></span>
+        </button>
+
+        <div class="section-body">
+          <div class="section-inner">
+            <p class="section-objective">
+              Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.
+            </p>
+
+            <ul class="steps-list">
+              <li class="step-item">
+                <span class="step-dot">1</span>
+                <span class="step-text">Aller sur la page à mettre à jour.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">2</span>
+                <span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">3</span>
+                <span class="step-text">Dans <code>Choose layout</code>, sélectionner une mise en page en <strong>une colonne</strong>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">4</span>
+                <span class="step-text">Cliquer sur <code>+ Add widget</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">5</span>
+                <span class="step-text">Sélectionner le widget <code>Asset Gallery</code>.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">6</span>
+                <span class="step-text">Dans le panneau de gauche, aller dans <code>Library</code> et sélectionner la Library créée.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">7</span>
+                <span class="step-text">Vérifier que le contenu apparaît correctement sur la page.</span>
+              </li>
+              <li class="step-item">
+                <span class="step-dot">8</span>
+                <span class="step-text">Cliquer sur <code>Update</code> en bas à gauche.</span>
+              </li>
+            </ul>
+
+            <div class="tip-block">
+              <div class="tip-label">Vérification</div>
+              <p>
+                Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.
+              </p>
+            </div>
           </div>
         </div>
       </article>
@@ -1116,6 +1236,11 @@
 </div>
 
 <script>
+  const stepperWrap = document.getElementById("stepperWrap");
+  const stepperAnchor = document.getElementById("stepperAnchor");
+  const sections = document.querySelectorAll(".section");
+  const stepperItems = document.querySelectorAll(".stepper-item");
+
   function toggleSection(id) {
     const section = document.getElementById(id);
     section.classList.toggle("open");
@@ -1126,5 +1251,62 @@
     const box = item.querySelector(".cb");
     box.textContent = item.classList.contains("done") ? "✓" : "";
   }
+
+  function updateFloatingStepper() {
+    const anchorTop = stepperAnchor.getBoundingClientRect().top;
+    const shouldFloat = anchorTop < -20;
+
+    stepperWrap.classList.toggle("is-floating", shouldFloat);
+    document.body.classList.toggle("has-floating-stepper", shouldFloat);
+  }
+
+  window.addEventListener("scroll", updateFloatingStepper, { passive: true });
+  window.addEventListener("resize", updateFloatingStepper);
+  updateFloatingStepper();
+
+  const sectionObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const activeId = entry.target.id;
+
+          stepperItems.forEach(item => {
+            item.classList.toggle(
+              "active",
+              item.getAttribute("href") === "#" + activeId
+            );
+          });
+
+          entry.target.classList.add("open");
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0.22,
+      rootMargin: "-18% 0px -60% 0px"
+    }
+  );
+
+  sections.forEach(section => sectionObserver.observe(section));
+
+  stepperItems.forEach(item => {
+    item.addEventListener("click", event => {
+      event.preventDefault();
+
+      const target = document.querySelector(item.getAttribute("href"));
+      if (!target) return;
+
+      target.classList.add("open");
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      stepperItems.forEach(step => step.classList.remove("active"));
+      item.classList.add("active");
+    });
+  });
 </script>
 ```
