@@ -13,12 +13,13 @@
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
 
-    --glass: rgba(226, 226, 228, 0.58);
-    --glass-border: rgba(255, 255, 255, 0.74);
+    --glass: rgba(238, 238, 240, 0.54);
+    --glass-strong: rgba(255, 255, 255, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.82);
 
     --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
-    --shadow-floating: 0 24px 70px rgba(0, 0, 0, 0.13);
+    --shadow-floating: 0 26px 80px rgba(0, 0, 0, 0.16);
 
     --radius-lg: 28px;
 
@@ -108,8 +109,8 @@
     border-radius: var(--radius-lg);
     background: var(--surface);
     box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
   }
 
   .context-card {
@@ -154,7 +155,7 @@
     justify-content: space-between;
     padding: 34px;
     background:
-      linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.62)),
+      linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)),
       var(--surface);
   }
 
@@ -195,8 +196,8 @@
     display: flex;
     justify-content: center;
     transition:
-      opacity 0.22s ease,
-      transform 0.28s cubic-bezier(.2,.8,.2,1);
+      opacity 0.32s ease,
+      transform 0.42s cubic-bezier(.19, 1, .22, 1);
   }
 
   .stepper-wrap.is-floating {
@@ -207,13 +208,13 @@
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.28s cubic-bezier(.2,.8,.2,1) both;
+    animation: dockIn 0.42s cubic-bezier(.19, 1, .22, 1) both;
   }
 
   @keyframes dockIn {
     from {
       opacity: 0;
-      transform: translateY(14px) scale(0.985);
+      transform: translateY(12px) scale(0.985);
     }
     to {
       opacity: 1;
@@ -231,34 +232,71 @@
     max-width: min(720px, 100%);
     padding: 7px;
     border-radius: 999px;
-    background: var(--glass);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.36)),
+      radial-gradient(circle at 50% 0%, rgba(255,255,255,0.88), transparent 56%),
+      var(--glass);
     border: 1px solid var(--glass-border);
     box-shadow:
       0 18px 50px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
+    backdrop-filter: blur(34px) saturate(190%);
+    -webkit-backdrop-filter: blur(34px) saturate(190%);
     pointer-events: auto;
+    overflow: hidden;
     transition:
-      width 0.4s cubic-bezier(.2,.8,.2,1),
-      max-width 0.4s cubic-bezier(.2,.8,.2,1),
-      height 0.4s cubic-bezier(.2,.8,.2,1),
-      padding 0.4s cubic-bezier(.2,.8,.2,1),
-      border-radius 0.4s cubic-bezier(.2,.8,.2,1),
-      box-shadow 0.3s ease,
-      background 0.3s ease;
+      width 0.55s cubic-bezier(.19, 1, .22, 1),
+      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
+      height 0.55s cubic-bezier(.19, 1, .22, 1),
+      padding 0.55s cubic-bezier(.19, 1, .22, 1),
+      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
+      box-shadow 0.42s ease,
+      background 0.42s ease;
+  }
+
+  .liquid-stepper::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.42), transparent 42%),
+      linear-gradient(315deg, rgba(255,255,255,0.24), transparent 48%);
+    mix-blend-mode: screen;
+    z-index: 0;
   }
 
   .stepper-wrap.is-floating .liquid-stepper {
     box-shadow:
       var(--shadow-floating),
-      inset 0 1px 0 rgba(255, 255, 255, 0.74),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+      inset 0 1px 0 rgba(255, 255, 255, 0.86),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
+  }
+
+  .stepper-indicator {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    height: 48px;
+    width: 48px;
+    border-radius: 999px;
+    background: var(--red);
+    box-shadow:
+      0 12px 30px rgba(197, 23, 24, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    z-index: 1;
+    transition:
+      transform 0.62s cubic-bezier(.19, 1, .22, 1),
+      width 0.62s cubic-bezier(.19, 1, .22, 1),
+      opacity 0.28s ease;
+    will-change: transform, width;
   }
 
   .stepper-item {
     position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -274,14 +312,12 @@
     white-space: nowrap;
     overflow: hidden;
     transition:
-      width 0.28s cubic-bezier(.2,.8,.2,1),
-      min-width 0.28s cubic-bezier(.2,.8,.2,1),
-      padding 0.28s cubic-bezier(.2,.8,.2,1),
-      background 0.24s ease,
-      color 0.24s ease,
-      box-shadow 0.24s ease,
-      opacity 0.2s ease,
-      transform 0.25s cubic-bezier(.2,.8,.2,1);
+      width 0.54s cubic-bezier(.19, 1, .22, 1),
+      min-width 0.54s cubic-bezier(.19, 1, .22, 1),
+      padding 0.54s cubic-bezier(.19, 1, .22, 1),
+      color 0.38s ease,
+      opacity 0.34s ease,
+      transform 0.42s cubic-bezier(.19, 1, .22, 1);
   }
 
   .stepper-item:hover {
@@ -294,11 +330,7 @@
     padding: 0 24px;
     gap: 8px;
     justify-content: center;
-    background: var(--red);
     color: #fff;
-    box-shadow:
-      0 10px 24px rgba(197, 23, 24, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
   }
 
   .stepper-number {
@@ -343,12 +375,18 @@
     padding: 8px;
     gap: 0;
     border-radius: 999px;
-    background: rgba(226, 226, 228, 0.68);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.34)),
+      rgba(226, 226, 228, 0.68);
     box-shadow:
-      0 18px 50px rgba(0, 0, 0, 0.10),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+      0 20px 60px rgba(0, 0, 0, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.045);
     pointer-events: auto;
+  }
+
+  .stepper-wrap.is-complete .stepper-indicator {
+    opacity: 0;
   }
 
   .stepper-wrap.is-complete .stepper-item {
@@ -357,11 +395,11 @@
     height: 0;
     padding: 0;
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.82);
     pointer-events: none;
   }
 
-  .stepper-wrap.is-complete .liquid-stepper::before {
+  .stepper-wrap.is-complete .liquid-stepper::after {
     content: "";
     position: absolute;
     width: 58px;
@@ -371,40 +409,39 @@
     box-shadow:
       0 10px 24px rgba(197, 23, 24, 0.26),
       inset 0 1px 0 rgba(255, 255, 255, 0.24);
-    animation: completePop 0.42s cubic-bezier(.2,.8,.2,1) both;
+    z-index: 3;
+    animation: completePop 0.52s cubic-bezier(.19, 1, .22, 1) both;
   }
 
-  .stepper-wrap.is-complete .liquid-stepper::after {
-    content: "";
+  .stepper-wrap.is-complete .liquid-stepper .checkmark {
+    opacity: 1;
+    transform: translateY(-1px) rotate(-45deg) scale(1);
+  }
+
+  .checkmark {
     position: absolute;
+    z-index: 4;
     width: 22px;
     height: 12px;
     border-left: 5px solid #fff;
     border-bottom: 5px solid #fff;
-    transform: translateY(-2px) rotate(-45deg);
     border-radius: 2px;
-    animation: checkDraw 0.42s cubic-bezier(.2,.8,.2,1) 0.08s both;
+    opacity: 0;
+    transform: translateY(-1px) rotate(-45deg) scale(0.72);
+    transition:
+      opacity 0.34s ease 0.12s,
+      transform 0.42s cubic-bezier(.19, 1, .22, 1) 0.12s;
+    pointer-events: none;
   }
 
   @keyframes completePop {
     from {
-      transform: scale(0.82);
+      transform: scale(0.84);
       opacity: 0;
     }
     to {
       transform: scale(1);
       opacity: 1;
-    }
-  }
-
-  @keyframes checkDraw {
-    from {
-      opacity: 0;
-      transform: translateY(-2px) rotate(-45deg) scale(0.78);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(-2px) rotate(-45deg) scale(1);
     }
   }
 
@@ -423,6 +460,10 @@
     border-radius: var(--radius-lg);
     background: var(--surface-solid);
     box-shadow: var(--shadow-card);
+  }
+
+  .completion-trigger {
+    height: 1px;
   }
 
   .section-header {
@@ -786,6 +827,11 @@
       font-size: 18px;
     }
 
+    .stepper-indicator {
+      height: 42px;
+      width: 42px;
+    }
+
     .stepper-item.active {
       padding: 0 18px;
     }
@@ -829,6 +875,13 @@
       font-size: 16px;
     }
 
+    .stepper-indicator {
+      top: 6px;
+      left: 6px;
+      height: 36px;
+      width: 36px;
+    }
+
     .stepper-item.active {
       padding: 0 13px;
     }
@@ -843,12 +896,12 @@
       height: 70px;
     }
 
-    .stepper-wrap.is-complete .liquid-stepper::before {
+    .stepper-wrap.is-complete .liquid-stepper::after {
       width: 54px;
       height: 54px;
     }
 
-    .stepper-wrap.is-complete .liquid-stepper::after {
+    .checkmark {
       width: 20px;
       height: 11px;
       border-left-width: 4.5px;
@@ -915,7 +968,10 @@
 
     <div id="stepperSlot" class="stepper-slot">
       <div id="stepperWrap" class="stepper-wrap">
-        <nav class="liquid-stepper" aria-label="Process navigation">
+        <nav id="stepper" class="liquid-stepper" aria-label="Process navigation">
+          <span id="stepperIndicator" class="stepper-indicator" aria-hidden="true"></span>
+          <span class="checkmark" aria-hidden="true"></span>
+
           <a href="#s1" class="stepper-item active">
             <span class="stepper-number">1</span>
             <span class="stepper-label">Upload</span>
@@ -1155,6 +1211,8 @@
         </div>
       </article>
 
+      <div id="completionTrigger" class="completion-trigger" aria-hidden="true"></div>
+
     </section>
 
     <section class="bottom-grid">
@@ -1256,16 +1314,19 @@
   const stepperItems = document.querySelectorAll(".stepper-item");
   const stepperSlot = document.getElementById("stepperSlot");
   const stepperWrap = document.getElementById("stepperWrap");
-  const lastSection = document.getElementById("s6");
+  const stepper = document.getElementById("stepper");
+  const stepperIndicator = document.getElementById("stepperIndicator");
+  const completionTrigger = document.getElementById("completionTrigger");
 
   const dockBottom = 24;
   let stepperDockStart = 0;
   let completeStart = 0;
+  let activeItem = document.querySelector(".stepper-item.active");
 
   function toggleSection(id) {
     const section = document.getElementById(id);
     section.classList.toggle("open");
-    setTimeout(refreshStepperDock, 260);
+    setTimeout(refreshLayout, 320);
   }
 
   function checkItem(item) {
@@ -1279,22 +1340,40 @@
     const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
     const viewportHeight = window.innerHeight;
 
-    /*
-      Moment où la barre atteint naturellement son point de docking
-      en bas de l’écran.
-    */
     stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
 
-    /*
-      Moment où la section 6 est dépassée.
-      La barre devient alors une pastille check.
-    */
-    if (lastSection) {
-      const lastSectionBottom =
-        lastSection.getBoundingClientRect().bottom + window.scrollY;
+    if (completionTrigger) {
+      const triggerTop =
+        completionTrigger.getBoundingClientRect().top + window.scrollY;
 
-      completeStart = lastSectionBottom - viewportHeight + 130;
+      /*
+        Le check apparaît uniquement lorsque l’on dépasse réellement
+        la carte de la partie 6, pas pendant les sections précédentes.
+      */
+      completeStart = triggerTop - viewportHeight + stepperHeight + dockBottom;
     }
+  }
+
+  function moveIndicatorTo(item) {
+    if (!item || !stepperIndicator || stepperWrap.classList.contains("is-complete")) return;
+
+    const itemRect = item.getBoundingClientRect();
+    const stepperRect = stepper.getBoundingClientRect();
+
+    const x = itemRect.left - stepperRect.left;
+
+    stepperIndicator.style.width = itemRect.width + "px";
+    stepperIndicator.style.transform = `translateX(${x}px)`;
+  }
+
+  function setActiveItem(item) {
+    if (!item || item === activeItem) return;
+
+    stepperItems.forEach(step => step.classList.remove("active"));
+    item.classList.add("active");
+    activeItem = item;
+
+    requestAnimationFrame(() => moveIndicatorTo(item));
   }
 
   function updateStepperDock() {
@@ -1321,44 +1400,50 @@
       stepperWrap.classList.remove("is-complete");
       document.body.classList.remove("stepper-is-floating");
     }
+
+    requestAnimationFrame(() => moveIndicatorTo(activeItem));
   }
 
-  function refreshStepperDock() {
-    calculateStepperPositions();
-    updateStepperDock();
-  }
+  function updateActiveSectionEarly() {
+    /*
+      On change l’étape active un peu avant que la section soit pleinement
+      installée dans l’écran, pour un ressenti plus naturel.
+    */
+    const triggerLine = window.innerHeight * 0.68;
+    let currentSection = sections[0];
 
-  window.addEventListener("scroll", updateStepperDock, { passive: true });
-  window.addEventListener("resize", refreshStepperDock);
-  window.addEventListener("load", refreshStepperDock);
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
 
-  refreshStepperDock();
+      if (rect.top <= triggerLine) {
+        currentSection = section;
+      }
+    });
 
-  const sectionObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const activeId = entry.target.id;
+    const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
+    setActiveItem(item);
 
-          stepperItems.forEach(item => {
-            item.classList.toggle(
-              "active",
-              item.getAttribute("href") === "#" + activeId
-            );
-          });
-
-          entry.target.classList.add("open");
-        }
-      });
-    },
-    {
-      root: null,
-      threshold: 0.24,
-      rootMargin: "-20% 0px -55% 0px"
+    if (currentSection) {
+      currentSection.classList.add("open");
     }
-  );
+  }
 
-  sections.forEach(section => sectionObserver.observe(section));
+  function refreshLayout() {
+    calculateStepperPositions();
+    updateActiveSectionEarly();
+    updateStepperDock();
+    requestAnimationFrame(() => moveIndicatorTo(activeItem));
+  }
+
+  window.addEventListener("scroll", () => {
+    updateActiveSectionEarly();
+    updateStepperDock();
+  }, { passive: true });
+
+  window.addEventListener("resize", refreshLayout);
+  window.addEventListener("load", refreshLayout);
+
+  refreshLayout();
 
   stepperItems.forEach(item => {
     item.addEventListener("click", event => {
@@ -1368,16 +1453,14 @@
       if (!target) return;
 
       target.classList.add("open");
+      setActiveItem(item);
 
       target.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
 
-      stepperItems.forEach(step => step.classList.remove("active"));
-      item.classList.add("active");
-
-      setTimeout(refreshStepperDock, 420);
+      setTimeout(refreshLayout, 520);
     });
   });
 </script>
