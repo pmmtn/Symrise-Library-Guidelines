@@ -47,13 +47,28 @@
     z-index: 200;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 10px;
     padding: 12px 32px;
     background: rgba(245,245,247,0.82);
     backdrop-filter: blur(24px) saturate(160%);
     -webkit-backdrop-filter: blur(24px) saturate(160%);
     border-bottom: 1px solid var(--line);
+  }
+
+  .top-bar-label {
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+  .top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   /* Language switcher */
@@ -698,6 +713,10 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
+  <!-- Eyebrow label -->
+  <span class="top-bar-label" data-i18n="eyebrow">Symrise Library · Admin Documentation</span>
+
+  <div class="top-bar-actions">
   <!-- Language switcher -->
   <div class="lang-switcher" id="langSwitcher">
     <button class="lang-btn" id="langBtn" type="button" onclick="toggleLang()">
@@ -729,6 +748,7 @@
     </svg>
     <span data-i18n="downloadPDF">Télécharger en PDF</span>
   </button>
+  </div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -736,7 +756,6 @@
   <main class="guide-shell">
 
     <header class="guide-hero">
-      <div class="eyebrow" data-i18n="eyebrow">Symrise Library · Admin Documentation</div>
       <h1 class="hero-title" data-i18n="heroTitle">Upload Assets</h1>
       <p class="hero-subtitle" data-i18n="heroSubtitle">
         Guide complet pour ajouter et rendre visibles des assets dans la Symrise Library,
