@@ -3,62 +3,184 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DAM Admin User Guide · Preview</title>
+<title>DAM Admin User Guide · Symrise Library</title>
 
 <style>
   :root {
     --red: #C51718;
     --red-soft: #fff1f1;
-
     --ink: #1d1d1f;
     --text: #424245;
     --muted: #6e6e73;
     --line: rgba(0, 0, 0, 0.08);
-
     --bg: #f5f5f7;
     --surface: rgba(255, 255, 255, 0.78);
     --surface-solid: #ffffff;
     --surface-soft: #fbfbfd;
-
     --glass-border: rgba(255, 255, 255, 0.62);
-    --glass-stroke: rgba(255, 255, 255, 0.34);
-
-    --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.06);
-    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.045);
-    --shadow-floating: 0 22px 55px rgba(0, 0, 0, 0.12);
-
+    --shadow-soft: 0 18px 50px rgba(0,0,0,0.06);
+    --shadow-card: 0 8px 30px rgba(0,0,0,0.045);
     --radius-lg: 28px;
-
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     --mono: "SF Mono", "Fira Mono", Consolas, monospace;
   }
 
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
     margin: 0;
     background:
-      radial-gradient(circle at 15% 0%, rgba(197, 23, 24, 0.08), transparent 32%),
-      radial-gradient(circle at 85% 10%, rgba(197, 23, 24, 0.05), transparent 28%),
+      radial-gradient(circle at 15% 0%, rgba(197,23,24,0.08), transparent 32%),
+      radial-gradient(circle at 85% 10%, rgba(197,23,24,0.05), transparent 28%),
       var(--bg);
     font-family: var(--font);
     color: var(--ink);
   }
 
-  body.stepper-is-floating {
-    padding-bottom: 96px;
+  body.stepper-is-floating { padding-bottom: 96px; }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 32px;
+    background: rgba(245,245,247,0.82);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border-bottom: 1px solid var(--line);
   }
 
+  /* Language switcher */
+  .lang-switcher {
+    position: relative;
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface-solid);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .lang-btn:hover { background: #f5f5f7; }
+
+  .lang-btn svg {
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .lang-chevron {
+    width: 10px;
+    height: 10px;
+    color: var(--muted);
+    transition: transform 0.2s ease;
+  }
+
+  .lang-switcher.open .lang-chevron {
+    transform: rotate(180deg);
+  }
+
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 110px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface-solid);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.10);
+    overflow: hidden;
+    z-index: 300;
+  }
+
+  .lang-switcher.open .lang-dropdown { display: block; }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .lang-option:hover { background: #f5f5f7; }
+
+  .lang-option.active {
+    color: var(--red);
+    font-weight: 650;
+  }
+
+  .lang-flag {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  /* PDF Download CTA */
+  .pdf-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #d61d1f, #c51718);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(197,23,24,0.22), 0 2px 6px rgba(197,23,24,0.12);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+
+  .pdf-btn:hover {
+    box-shadow: 0 12px 28px rgba(197,23,24,0.30), 0 3px 8px rgba(197,23,24,0.14);
+    transform: translateY(-1px);
+  }
+
+  .pdf-btn:active { transform: translateY(0); }
+
+  .pdf-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
   .dam-guide {
     width: 100%;
     min-height: 100vh;
-    padding: 56px 24px 80px;
+    padding: 40px 24px 80px;
   }
 
   .guide-shell {
@@ -67,7 +189,7 @@
   }
 
   .guide-hero {
-    padding: 72px 0 56px;
+    padding: 56px 0 48px;
     border-bottom: 1px solid var(--line);
   }
 
@@ -95,7 +217,7 @@
     max-width: 680px;
     margin: 26px 0 0;
     color: var(--muted);
-    font-size: clamp(18px, 2vw, 23px);
+    font-size: clamp(17px, 2vw, 22px);
     font-weight: 400;
     letter-spacing: -0.02em;
     line-height: 1.45;
@@ -103,7 +225,7 @@
 
   .intro-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    grid-template-columns: minmax(0,1.1fr) minmax(280px,0.9fr);
     gap: 24px;
     margin: 34px 0 28px;
   }
@@ -111,7 +233,7 @@
   .glass-card {
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255,255,255,0.72);
     border-radius: var(--radius-lg);
     background: var(--surface);
     box-shadow: var(--shadow-soft);
@@ -119,9 +241,7 @@
     -webkit-backdrop-filter: blur(22px) saturate(160%);
   }
 
-  .context-card {
-    padding: 34px;
-  }
+  .context-card { padding: 34px; }
 
   .context-card::before {
     content: "";
@@ -139,30 +259,16 @@
     letter-spacing: -0.03em;
   }
 
-  .context-card p {
-    margin: 0;
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.72;
-  }
-
-  .context-card p + p {
-    margin-top: 16px;
-  }
-
-  .context-card strong {
-    color: var(--ink);
-    font-weight: 650;
-  }
+  .context-card p { margin: 0; color: var(--text); font-size: 15px; line-height: 1.72; }
+  .context-card p + p { margin-top: 16px; }
+  .context-card strong { color: var(--ink); font-weight: 650; }
 
   .principle-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 34px;
-    background:
-      linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62)),
-      var(--surface);
+    background: linear-gradient(145deg,rgba(255,255,255,0.92),rgba(255,255,255,0.62)), var(--surface);
   }
 
   .principle-kicker {
@@ -190,20 +296,14 @@
     line-height: 1.55;
   }
 
-  /* FLOATING STEPPER */
-
-  .stepper-slot {
-    width: 100%;
-    margin: 34px 0 46px;
-  }
+  /* ── STEPPER ── */
+  .stepper-slot { width: 100%; margin: 34px 0 46px; }
 
   .stepper-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    transition:
-      opacity 0.32s ease,
-      transform 0.42s cubic-bezier(.19, 1, .22, 1);
+    transition: opacity 0.32s ease, transform 0.42s cubic-bezier(.19,1,.22,1);
   }
 
   .stepper-wrap.is-hidden {
@@ -214,24 +314,16 @@
 
   .stepper-wrap.is-floating {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 24px;
+    left: 0; right: 0; bottom: 24px;
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.42s cubic-bezier(.19, 1, .22, 1) both;
+    animation: dockIn 0.42s cubic-bezier(.19,1,.22,1) both;
   }
 
   @keyframes dockIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px) scale(0.985);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(10px) scale(0.985); }
+    to   { opacity: 1; transform: translateY(0)  scale(1); }
   }
 
   .liquid-stepper {
@@ -241,39 +333,31 @@
     justify-content: center;
     gap: 6px;
     width: fit-content;
-    max-width: min(720px, 100%);
+    max-width: min(720px,100%);
     padding: 7px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.64);
-
-    /*
-      Frosted glass: milky, blurry, not transparent.
-      The content behind is diffused enough to be unreadable.
-    */
+    border: 1px solid rgba(255,255,255,0.64);
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.76), rgba(245,245,247,0.52)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.18)),
-      rgba(242, 242, 244, 0.58);
-
+      linear-gradient(180deg,rgba(255,255,255,0.76),rgba(245,245,247,0.52)),
+      linear-gradient(135deg,rgba(255,255,255,0.46),rgba(255,255,255,0.18)),
+      rgba(242,242,244,0.58);
     box-shadow:
-      0 22px 55px rgba(0, 0, 0, 0.11),
-      0 4px 16px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.74),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
-
+      0 22px 55px rgba(0,0,0,0.11),
+      0 4px 16px rgba(0,0,0,0.045),
+      inset 0 1px 0 rgba(255,255,255,0.74),
+      inset 0 -1px 0 rgba(255,255,255,0.24),
+      inset 0 0 0 0.5px rgba(255,255,255,0.32);
     backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
     -webkit-backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-
     pointer-events: auto;
     overflow: hidden;
     isolation: isolate;
     transition:
-      width 0.55s cubic-bezier(.19, 1, .22, 1),
-      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
-      height 0.55s cubic-bezier(.19, 1, .22, 1),
-      padding 0.55s cubic-bezier(.19, 1, .22, 1),
-      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
+      width 0.55s cubic-bezier(.19,1,.22,1),
+      max-width 0.55s cubic-bezier(.19,1,.22,1),
+      height 0.55s cubic-bezier(.19,1,.22,1),
+      padding 0.55s cubic-bezier(.19,1,.22,1),
+      border-radius 0.55s cubic-bezier(.19,1,.22,1),
       box-shadow 0.42s ease,
       background 0.42s ease,
       border-color 0.42s ease;
@@ -281,142 +365,96 @@
 
   .liquid-stepper::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* milky diffusion layer */
+    pointer-events: none; z-index: 0;
     background:
-      radial-gradient(circle at 22% 0%, rgba(255,255,255,0.58), transparent 42%),
-      radial-gradient(circle at 78% 100%, rgba(255,255,255,0.34), transparent 46%),
-      linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06), rgba(255,255,255,0.18)),
+      radial-gradient(circle at 22% 0%,rgba(255,255,255,0.58),transparent 42%),
+      radial-gradient(circle at 78% 100%,rgba(255,255,255,0.34),transparent 46%),
+      linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0.06),rgba(255,255,255,0.18)),
       rgba(255,255,255,0.18);
-
     backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
     -webkit-backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
   }
 
   .liquid-stepper::after {
     content: "";
-    position: absolute;
-    inset: 1px;
+    position: absolute; inset: 1px;
     border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* subtle glossy highlight */
+    pointer-events: none; z-index: 0;
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.48), transparent 34%),
-      linear-gradient(135deg, rgba(255,255,255,0.24), transparent 44%),
-      linear-gradient(315deg, rgba(255,255,255,0.12), transparent 50%);
+      linear-gradient(180deg,rgba(255,255,255,0.48),transparent 34%),
+      linear-gradient(135deg,rgba(255,255,255,0.24),transparent 44%),
+      linear-gradient(315deg,rgba(255,255,255,0.12),transparent 50%);
   }
 
   .stepper-wrap.is-floating .liquid-stepper {
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,245,247,0.50)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.16)),
-      rgba(242, 242, 244, 0.56);
-
-    border-color: rgba(255, 255, 255, 0.68);
-
+      linear-gradient(180deg,rgba(255,255,255,0.78),rgba(245,245,247,0.50)),
+      linear-gradient(135deg,rgba(255,255,255,0.46),rgba(255,255,255,0.16)),
+      rgba(242,242,244,0.56);
+    border-color: rgba(255,255,255,0.68);
     box-shadow:
-      0 28px 72px rgba(0, 0, 0, 0.13),
-      0 8px 24px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.34);
-
+      0 28px 72px rgba(0,0,0,0.13),
+      0 8px 24px rgba(0,0,0,0.045),
+      inset 0 1px 0 rgba(255,255,255,0.78),
+      inset 0 -1px 0 rgba(255,255,255,0.24),
+      inset 0 0 0 0.5px rgba(255,255,255,0.34);
     backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
     -webkit-backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
   }
 
   .stepper-indicator {
     position: absolute;
-    top: 7px;
-    left: 7px;
-    height: 48px;
-    width: 48px;
-    border-radius: 999px;
-    z-index: 1;
-    background: linear-gradient(180deg, #d61d1f, #c51718);
+    top: 7px; left: 7px;
+    height: 48px; width: 48px;
+    border-radius: 999px; z-index: 1;
+    background: linear-gradient(180deg,#d61d1f,#c51718);
     box-shadow:
-      0 12px 30px rgba(197, 23, 24, 0.26),
-      0 4px 10px rgba(197, 23, 24, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      0 12px 30px rgba(197,23,24,0.26),
+      0 4px 10px rgba(197,23,24,0.16),
+      inset 0 1px 0 rgba(255,255,255,0.24);
     transition:
-      transform 0.72s cubic-bezier(.19, 1, .22, 1),
-      width 0.72s cubic-bezier(.19, 1, .22, 1),
+      transform 0.72s cubic-bezier(.19,1,.22,1),
+      width 0.72s cubic-bezier(.19,1,.22,1),
       opacity 0.28s ease;
     will-change: transform, width;
   }
 
   .stepper-item {
-    position: relative;
-    z-index: 2;
+    position: relative; z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    min-width: 48px;
-    height: 48px;
+    width: 48px; min-width: 48px; height: 48px;
     border-radius: 999px;
-    color: rgba(29, 29, 31, 0.42);
+    color: rgba(29,29,31,0.42);
     text-decoration: none;
-    font-size: 20px;
-    font-weight: 520;
+    font-size: 20px; font-weight: 520;
     letter-spacing: -0.04em;
-    white-space: nowrap;
-    overflow: hidden;
+    white-space: nowrap; overflow: hidden;
     transition:
-      width 0.54s cubic-bezier(.19, 1, .22, 1),
-      min-width 0.54s cubic-bezier(.19, 1, .22, 1),
-      padding 0.54s cubic-bezier(.19, 1, .22, 1),
+      width 0.54s cubic-bezier(.19,1,.22,1),
+      min-width 0.54s cubic-bezier(.19,1,.22,1),
+      padding 0.54s cubic-bezier(.19,1,.22,1),
       color 0.38s ease;
   }
 
-  .stepper-item:hover {
-    color: rgba(29, 29, 31, 0.72);
-  }
+  .stepper-item:hover { color: rgba(29,29,31,0.72); }
 
   .stepper-item.active {
-    width: auto;
-    min-width: 0;
-    padding: 0 24px;
-    gap: 8px;
-    justify-content: center;
-    color: #fff;
+    width: auto; min-width: 0;
+    padding: 0 24px; gap: 8px;
+    justify-content: center; color: #fff;
   }
 
-  .stepper-number {
-    font-weight: 700;
-  }
+  .stepper-number { font-weight: 700; }
+  .stepper-label { display: none; font-size: 18px; font-weight: 520; letter-spacing: -0.04em; }
+  .stepper-item.active .stepper-label { display: inline; }
+  .stepper-item.active .stepper-number::after { content: " -"; margin-left: 6px; font-weight: 700; }
 
-  .stepper-label {
-    display: none;
-    font-size: 18px;
-    font-weight: 520;
-    letter-spacing: -0.04em;
-  }
-
-  .stepper-item.active .stepper-label {
-    display: inline;
-  }
-
-  .stepper-item.active .stepper-number::after {
-    content: " -";
-    margin-left: 6px;
-    font-weight: 700;
-  }
-
-  /* SECTIONS */
-
-  .sections-stack {
-    display: grid;
-    gap: 16px;
-    margin-top: 28px;
-  }
+  /* ── SECTIONS ── */
+  .sections-stack { display: grid; gap: 16px; margin-top: 28px; }
 
   .section {
     scroll-margin-top: 80px;
@@ -434,215 +472,116 @@
     gap: 16px;
     width: 100%;
     padding: 24px 26px;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-family: inherit;
-    text-align: left;
-    cursor: pointer;
+    border: none; background: transparent;
+    color: inherit; font-family: inherit;
+    text-align: left; cursor: pointer;
   }
 
-  .section-header:hover {
-    background: #fafafa;
-  }
-
-  .section-heading {
-    min-width: 0;
-  }
+  .section-header:hover { background: #fafafa; }
 
   .section-kicker {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--red);
-    font-size: 11px;
-    font-weight: 750;
-    letter-spacing: 0.13em;
+    display: block; margin-bottom: 6px;
+    color: var(--red); font-size: 11px;
+    font-weight: 750; letter-spacing: 0.13em;
     text-transform: uppercase;
   }
 
   .section-title {
-    display: block;
-    color: var(--ink);
-    font-size: 22px;
-    font-weight: 620;
-    letter-spacing: -0.04em;
-    line-height: 1.18;
+    display: block; color: var(--ink);
+    font-size: 22px; font-weight: 620;
+    letter-spacing: -0.04em; line-height: 1.18;
   }
 
   .section-badge {
-    padding: 6px 11px;
-    border-radius: 999px;
-    background: var(--red-soft);
-    color: var(--red);
-    font-size: 12px;
-    font-weight: 650;
+    padding: 6px 11px; border-radius: 999px;
+    background: var(--red-soft); color: var(--red);
+    font-size: 12px; font-weight: 650;
   }
 
   .section-toggle {
-    position: relative;
-    width: 34px;
-    height: 34px;
-    border-radius: 999px;
-    background: #f5f5f7;
-    flex-shrink: 0;
+    position: relative; width: 34px; height: 34px;
+    border-radius: 999px; background: #f5f5f7; flex-shrink: 0;
     transition: background 0.2s ease, transform 0.2s ease;
   }
 
   .section-toggle::before {
     content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 7px;
-    height: 7px;
+    position: absolute; top: 50%; left: 50%;
+    width: 7px; height: 7px;
     border-right: 1.7px solid var(--muted);
     border-bottom: 1.7px solid var(--muted);
-    transform: translate(-50%, -62%) rotate(45deg);
+    transform: translate(-50%,-62%) rotate(45deg);
     transition: border-color 0.2s ease;
   }
 
-  .section.open .section-toggle {
-    background: var(--red-soft);
-    transform: rotate(180deg);
-  }
+  .section.open .section-toggle { background: var(--red-soft); transform: rotate(180deg); }
+  .section.open .section-toggle::before { border-color: var(--red); }
 
-  .section.open .section-toggle::before {
-    border-color: var(--red);
-  }
-
-  .section-body {
-    display: none;
-    padding: 0 26px 30px;
-  }
-
-  .section.open .section-body {
-    display: block;
-  }
-
-  .section-inner {
-    max-width: 850px;
-  }
+  .section-body { display: none; padding: 0 26px 30px; }
+  .section.open .section-body { display: block; }
+  .section-inner { max-width: 850px; }
 
   .section-objective {
-    margin: 0 0 22px;
-    padding-top: 2px;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.65;
+    margin: 0 0 22px; padding-top: 2px;
+    color: var(--muted); font-size: 15px; line-height: 1.65;
   }
 
-  .steps-list {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+  .steps-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 
-  .step-item {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 12px;
-    align-items: flex-start;
-  }
+  .step-item { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: flex-start; }
 
   .step-dot {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-top: 1px;
-    border: 1.5px solid var(--red);
-    border-radius: 999px;
-    color: var(--red);
-    font-size: 12px;
-    font-weight: 650;
+    display: flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; margin-top: 1px;
+    border: 1.5px solid var(--red); border-radius: 999px;
+    color: var(--red); font-size: 12px; font-weight: 650;
   }
 
-  .step-text {
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.58;
-  }
-
-  .step-text strong {
-    color: var(--ink);
-    font-weight: 650;
-  }
+  .step-text { color: var(--text); font-size: 15px; line-height: 1.58; }
+  .step-text strong { color: var(--ink); font-weight: 650; }
 
   code {
-    display: inline-block;
-    padding: 3px 7px;
-    border-radius: 7px;
-    background: #f1f1f3;
-    color: var(--red);
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 600;
+    display: inline-block; padding: 3px 7px; border-radius: 7px;
+    background: #f1f1f3; color: var(--red);
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
   }
 
-  .step-text em {
-    color: var(--muted);
-    font-style: normal;
-  }
+  .step-text em { color: var(--muted); font-style: normal; }
 
   .tip-block {
-    margin-top: 22px;
-    padding: 18px 20px;
-    border: 1px solid rgba(197, 23, 24, 0.12);
-    border-radius: 18px;
-    background: var(--red-soft);
+    margin-top: 22px; padding: 18px 20px;
+    border: 1px solid rgba(197,23,24,0.12);
+    border-radius: 18px; background: var(--red-soft);
   }
 
   .tip-label {
-    margin-bottom: 7px;
-    color: var(--red);
-    font-size: 11px;
-    font-weight: 750;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    margin-bottom: 7px; color: var(--red);
+    font-size: 11px; font-weight: 750;
+    letter-spacing: 0.12em; text-transform: uppercase;
   }
 
-  .tip-block p {
-    margin: 0;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-  }
+  .tip-block p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
 
-  /* COMPLETION BADGE */
-
-  .completion-dock {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    min-height: 90px;
-  }
+  /* ── COMPLETION ── */
+  .completion-dock { display: flex; justify-content: center; margin-top: 10px; min-height: 90px; }
 
   .completion-pill {
-    width: 76px;
-    height: 76px;
-    padding: 8px;
-    border-radius: 999px;
-    position: relative;
-    pointer-events: none;
-    opacity: 0;
+    width: 76px; height: 76px; padding: 8px;
+    border-radius: 999px; position: relative;
+    pointer-events: none; opacity: 0;
     transform: scale(0.88);
-    transition:
-      opacity 0.45s ease,
-      transform 0.55s cubic-bezier(.19, 1, .22, 1);
-    border: 1px solid rgba(255, 255, 255, 0.68);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.19,1,.22,1);
+    border: 1px solid rgba(255,255,255,0.68);
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,245,247,0.50)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.16)),
-      rgba(242, 242, 244, 0.56);
+      linear-gradient(180deg,rgba(255,255,255,0.78),rgba(245,245,247,0.50)),
+      linear-gradient(135deg,rgba(255,255,255,0.46),rgba(255,255,255,0.16)),
+      rgba(242,242,244,0.56);
     box-shadow:
-      0 28px 72px rgba(0, 0, 0, 0.13),
-      0 8px 24px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.34);
+      0 28px 72px rgba(0,0,0,0.13),
+      0 8px 24px rgba(0,0,0,0.045),
+      inset 0 1px 0 rgba(255,255,255,0.78),
+      inset 0 -1px 0 rgba(255,255,255,0.24),
+      inset 0 0 0 0.5px rgba(255,255,255,0.34);
     backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
     -webkit-backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
     overflow: hidden;
@@ -650,509 +589,183 @@
 
   .completion-pill::before {
     content: "";
-    position: absolute;
-    inset: 9px;
+    position: absolute; inset: 9px;
     border-radius: 999px;
-    background: linear-gradient(180deg, #d61d1f, #c51718);
-    box-shadow:
-      0 10px 24px rgba(197, 23, 24, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    background: linear-gradient(180deg,#d61d1f,#c51718);
+    box-shadow: 0 10px 24px rgba(197,23,24,0.26), inset 0 1px 0 rgba(255,255,255,0.24);
   }
 
   .completion-pill::after {
     content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 22px;
-    height: 12px;
+    position: absolute; top: 50%; left: 50%;
+    width: 22px; height: 12px;
     border-left: 5px solid #fff;
     border-bottom: 5px solid #fff;
     border-radius: 2px;
-    transform: translate(-50%, -58%) rotate(-45deg);
+    transform: translate(-50%,-58%) rotate(-45deg);
     z-index: 2;
   }
 
-  .completion-pill.is-visible {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .completion-pill.is-visible { opacity: 1; transform: scale(1); }
 
-  /* BOTTOM CONTENT */
-
+  /* ── BOTTOM ── */
   .bottom-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
-    gap: 24px;
-    margin-top: 44px;
+    grid-template-columns: minmax(0,1fr) minmax(320px,0.85fr);
+    gap: 24px; margin-top: 44px;
   }
 
-  .checklist-block,
-  .practices-block {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--surface-solid);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
+  .checklist-block, .practices-block {
+    border: 1px solid var(--line); border-radius: var(--radius-lg);
+    background: var(--surface-solid); box-shadow: var(--shadow-card); overflow: hidden;
   }
 
-  .block-top {
-    padding: 24px 24px 18px;
-    border-bottom: 1px solid var(--line);
-  }
+  .block-top { padding: 24px 24px 18px; border-bottom: 1px solid var(--line); }
+  .block-title { margin: 0; color: var(--ink); font-size: 24px; font-weight: 650; letter-spacing: -0.045em; }
+  .block-sub { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 
-  .block-title {
-    margin: 0;
-    color: var(--ink);
-    font-size: 24px;
-    font-weight: 650;
-    letter-spacing: -0.045em;
-  }
-
-  .block-sub {
-    margin: 7px 0 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  .checklist-body {
-    padding: 12px 24px 22px;
-  }
+  .checklist-body { padding: 12px 24px 22px; }
 
   .checklist-item {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-    cursor: pointer;
+    display: grid; grid-template-columns: auto 1fr; gap: 12px;
+    align-items: flex-start; padding: 12px 0;
+    border-bottom: 1px solid var(--line); cursor: pointer;
   }
 
-  .checklist-item:last-child {
-    border-bottom: none;
-  }
+  .checklist-item:last-child { border-bottom: none; }
 
   .cb {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 19px;
-    height: 19px;
-    margin-top: 2px;
-    border: 1.5px solid #c9c9ce;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    width: 19px; height: 19px; margin-top: 2px;
+    border: 1.5px solid #c9c9ce; border-radius: 5px;
+    color: #fff; font-size: 12px; font-weight: 700;
     transition: all 0.15s ease;
   }
 
-  .checklist-item.done .cb {
-    border-color: var(--red);
-    background: var(--red);
+  .checklist-item.done .cb { border-color: var(--red); background: var(--red); }
+  .ci-text { color: var(--text); font-size: 14px; line-height: 1.55; }
+  .checklist-item.done .ci-text { color: var(--muted); text-decoration: line-through; }
+
+  .practices-grid { display: grid; gap: 12px; padding: 18px; }
+
+  .practice-card { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface-soft); }
+  .practice-title { margin: 0 0 6px; color: var(--ink); font-size: 15px; font-weight: 650; letter-spacing: -0.015em; }
+  .practice-desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+  .flow-summary { margin-top: 26px; padding: 22px; border-radius: var(--radius-lg); background: #1d1d1f; box-shadow: var(--shadow-soft); }
+  .flow-title { margin: 0 0 16px; color: #fff; font-size: 18px; font-weight: 650; letter-spacing: -0.03em; }
+  .flow-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .flow-tag { padding: 7px 11px; border-radius: 9px; background: rgba(255,255,255,0.11); color: #fff; font-size: 13px; font-weight: 600; }
+  .flow-arr { color: #ffb3b3; font-weight: 700; }
+
+  /* ── PRINT ── */
+  @media print {
+    .top-bar { display: none !important; }
+    .stepper-slot { display: none !important; }
+    body { background: #fff !important; }
+    .section-body { display: block !important; }
+    .completion-dock { display: none !important; }
   }
 
-  .ci-text {
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.55;
-  }
-
-  .checklist-item.done .ci-text {
-    color: var(--muted);
-    text-decoration: line-through;
-  }
-
-  .practices-grid {
-    display: grid;
-    gap: 12px;
-    padding: 18px;
-  }
-
-  .practice-card {
-    padding: 18px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: var(--surface-soft);
-  }
-
-  .practice-title {
-    margin: 0 0 6px;
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 650;
-    letter-spacing: -0.015em;
-  }
-
-  .practice-desc {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.55;
-  }
-
-  .flow-summary {
-    margin-top: 26px;
-    padding: 22px;
-    border-radius: var(--radius-lg);
-    background: #1d1d1f;
-    box-shadow: var(--shadow-soft);
-  }
-
-  .flow-title {
-    margin: 0 0 16px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 650;
-    letter-spacing: -0.03em;
-  }
-
-  .flow-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .flow-tag {
-    padding: 7px 11px;
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.11);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  .flow-arr {
-    color: #ffb3b3;
-    font-weight: 700;
-  }
-
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .dam-guide {
-      padding: 36px 18px 64px;
-    }
-
-    .guide-hero {
-      padding: 44px 0 38px;
-    }
-
-    .intro-grid,
-    .bottom-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .liquid-stepper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: fit-content;
-    max-width: min(720px, 100%);
-    padding: 7px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.64);
-
-    /*
-      Frosted glass: milky, blurry, not transparent.
-      The content behind is diffused enough to be unreadable.
-    */
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.76), rgba(245,245,247,0.52)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.18)),
-      rgba(242, 242, 244, 0.58);
-
-    box-shadow:
-      0 22px 55px rgba(0, 0, 0, 0.11),
-      0 4px 16px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.74),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
-
-    backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-    -webkit-backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-
-    pointer-events: auto;
-    overflow: hidden;
-    isolation: isolate;
-    transition:
-      width 0.55s cubic-bezier(.19, 1, .22, 1),
-      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
-      height 0.55s cubic-bezier(.19, 1, .22, 1),
-      padding 0.55s cubic-bezier(.19, 1, .22, 1),
-      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
-      box-shadow 0.42s ease,
-      background 0.42s ease,
-      border-color 0.42s ease;
-  }
-
-  .liquid-stepper::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* milky diffusion layer */
-    background:
-      radial-gradient(circle at 22% 0%, rgba(255,255,255,0.58), transparent 42%),
-      radial-gradient(circle at 78% 100%, rgba(255,255,255,0.34), transparent 46%),
-      linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06), rgba(255,255,255,0.18)),
-      rgba(255,255,255,0.18);
-
-    backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-    -webkit-backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-  }
-
-  .liquid-stepper::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* subtle glossy highlight */
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.48), transparent 34%),
-      linear-gradient(135deg, rgba(255,255,255,0.24), transparent 44%),
-      linear-gradient(315deg, rgba(255,255,255,0.12), transparent 50%);
-  }
-
-  .stepper-wrap.is-floating .liquid-stepper {
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,245,247,0.50)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.16)),
-      rgba(242, 242, 244, 0.56);
-
-    border-color: rgba(255, 255, 255, 0.68);
-
-    box-shadow:
-      0 28px 72px rgba(0, 0, 0, 0.13),
-      0 8px 24px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.34);
-
-    backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-    -webkit-backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-  }
-
-  .stepper-indicator {
-      height: 42px;
-      width: 42px;
-    }
-
-    .stepper-item.active {
-      padding: 0 18px;
-    }
-
-    .stepper-label {
-      font-size: 16px;
-    }
+    .dam-guide { padding: 28px 18px 64px; }
+    .guide-hero { padding: 36px 0 32px; }
+    .intro-grid, .bottom-grid { grid-template-columns: 1fr; }
+    .stepper-indicator { height: 42px; width: 42px; }
+    .stepper-item.active { padding: 0 18px; }
+    .stepper-label { font-size: 16px; }
+    .top-bar { padding: 10px 18px; }
   }
 
   @media (max-width: 640px) {
-    body.stepper-is-floating {
-      padding-bottom: 86px;
-    }
-
-    .hero-title {
-      font-size: 46px;
-    }
-
-    .context-card,
-    .principle-card {
-      padding: 26px;
-    }
-
-    .stepper-wrap.is-floating {
-      bottom: 16px;
-      padding: 0 14px;
-    }
-
-    .liquid-stepper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: fit-content;
-    max-width: min(720px, 100%);
-    padding: 7px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.64);
-
-    /*
-      Frosted glass: milky, blurry, not transparent.
-      The content behind is diffused enough to be unreadable.
-    */
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.76), rgba(245,245,247,0.52)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.18)),
-      rgba(242, 242, 244, 0.58);
-
-    box-shadow:
-      0 22px 55px rgba(0, 0, 0, 0.11),
-      0 4px 16px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.74),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
-
-    backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-    -webkit-backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-
-    pointer-events: auto;
-    overflow: hidden;
-    isolation: isolate;
-    transition:
-      width 0.55s cubic-bezier(.19, 1, .22, 1),
-      max-width 0.55s cubic-bezier(.19, 1, .22, 1),
-      height 0.55s cubic-bezier(.19, 1, .22, 1),
-      padding 0.55s cubic-bezier(.19, 1, .22, 1),
-      border-radius 0.55s cubic-bezier(.19, 1, .22, 1),
-      box-shadow 0.42s ease,
-      background 0.42s ease,
-      border-color 0.42s ease;
-  }
-
-  .liquid-stepper::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* milky diffusion layer */
-    background:
-      radial-gradient(circle at 22% 0%, rgba(255,255,255,0.58), transparent 42%),
-      radial-gradient(circle at 78% 100%, rgba(255,255,255,0.34), transparent 46%),
-      linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06), rgba(255,255,255,0.18)),
-      rgba(255,255,255,0.18);
-
-    backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-    -webkit-backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-  }
-
-  .liquid-stepper::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-
-    /* subtle glossy highlight */
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.48), transparent 34%),
-      linear-gradient(135deg, rgba(255,255,255,0.24), transparent 44%),
-      linear-gradient(315deg, rgba(255,255,255,0.12), transparent 50%);
-  }
-
-  .stepper-wrap.is-floating .liquid-stepper {
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,245,247,0.50)),
-      linear-gradient(135deg, rgba(255,255,255,0.46), rgba(255,255,255,0.16)),
-      rgba(242, 242, 244, 0.56);
-
-    border-color: rgba(255, 255, 255, 0.68);
-
-    box-shadow:
-      0 28px 72px rgba(0, 0, 0, 0.13),
-      0 8px 24px rgba(0, 0, 0, 0.045),
-      inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.34);
-
-    backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-    -webkit-backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-  }
-
-  .stepper-indicator {
-      top: 6px;
-      left: 6px;
-      height: 36px;
-      width: 36px;
-    }
-
-    .stepper-item.active {
-      padding: 0 13px;
-    }
-
-    .stepper-label {
-      font-size: 14px;
-    }
-
-    .completion-pill {
-      width: 70px;
-      height: 70px;
-    }
-
-    .completion-pill::after {
-      width: 20px;
-      height: 11px;
-      border-left-width: 4.5px;
-      border-bottom-width: 4.5px;
-    }
-
-    .section-header {
-      grid-template-columns: 1fr auto;
-      padding: 20px;
-    }
-
-    .section-title {
-      font-size: 18px;
-    }
-
-    .section-badge {
-      display: none;
-    }
-
-    .section-body {
-      padding: 0 20px 24px;
-    }
+    body.stepper-is-floating { padding-bottom: 86px; }
+    .hero-title { font-size: 46px; }
+    .context-card, .principle-card { padding: 26px; }
+    .stepper-wrap.is-floating { bottom: 16px; padding: 0 14px; }
+    .stepper-indicator { top: 6px; left: 6px; height: 36px; width: 36px; }
+    .stepper-item.active { padding: 0 13px; }
+    .stepper-label { font-size: 14px; }
+    .section-header { grid-template-columns: 1fr auto; padding: 20px; }
+    .section-title { font-size: 18px; }
+    .section-badge { display: none; }
+    .section-body { padding: 0 20px 24px; }
+    .pdf-btn span { display: none; }
   }
 </style>
+</head>
+<body>
 
+<!-- TOP BAR -->
+<div class="top-bar">
+  <!-- Language switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <button class="lang-btn" id="langBtn" type="button" onclick="toggleLang()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span id="langLabel">FR</span>
+      <svg class="lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-option active" id="optFR" type="button" onclick="setLang('fr')">
+        <span class="lang-flag">🇫🇷</span> Français
+      </button>
+      <button class="lang-option" id="optEN" type="button" onclick="setLang('en')">
+        <span class="lang-flag">🇬🇧</span> English
+      </button>
+    </div>
+  </div>
+
+  <!-- PDF CTA -->
+  <button class="pdf-btn" type="button" onclick="printPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span data-i18n="downloadPDF">Télécharger en PDF</span>
+  </button>
+</div>
+
+<!-- MAIN CONTENT -->
 <div class="dam-guide">
   <main class="guide-shell">
 
     <header class="guide-hero">
-      <div class="eyebrow">Symrise Library · Admin Documentation</div>
-      <h1 class="hero-title">Upload Assets</h1>
-      <p class="hero-subtitle">
+      <div class="eyebrow" data-i18n="eyebrow">Symrise Library · Admin Documentation</div>
+      <h1 class="hero-title" data-i18n="heroTitle">Upload Assets</h1>
+      <p class="hero-subtitle" data-i18n="heroSubtitle">
         Guide complet pour ajouter et rendre visibles des assets dans la Symrise Library,
-        du chargement dans le back-end à l’affichage sur le front-end.
+        du chargement dans le back-end à l'affichage sur le front-end.
       </p>
     </header>
 
     <section class="intro-grid">
       <div class="glass-card context-card">
-        <h2 class="context-title">Back-end vs front-end</h2>
-        <p>
-          Le <strong>back-end</strong> est l’espace d’administration du DAM :
-          c’est là qu’on charge les assets, complète les métadonnées, crée les filtres
+        <h2 class="context-title" data-i18n="backFrontTitle">Back-end vs front-end</h2>
+        <p data-i18n="backFrontP1">
+          Le <strong>back-end</strong> est l'espace d'administration du DAM :
+          c'est là qu'on charge les assets, complète les métadonnées, crée les filtres
           et organise les Libraries.
         </p>
-        <p>
-          Le <strong>front-end</strong> est l’interface visible par les utilisateurs :
-          c’est le Media Center où les assets sont consultés, recherchés et téléchargés.
+        <p data-i18n="backFrontP2">
+          Le <strong>front-end</strong> est l'interface visible par les utilisateurs :
+          c'est le Media Center où les assets sont consultés, recherchés et téléchargés.
         </p>
       </div>
 
       <div class="glass-card principle-card">
         <div>
-          <div class="principle-kicker">Key principle</div>
-          <p class="principle-text">
-            Un asset uploadé dans le DAM n’est pas automatiquement visible dans le Media Center.
+          <div class="principle-kicker" data-i18n="keyPrinciple">Key principle</div>
+          <p class="principle-text" data-i18n="principleText">
+            Un asset uploadé dans le DAM n'est pas automatiquement visible dans le Media Center.
           </p>
         </div>
-        <div class="principle-note">
+        <div class="principle-note" data-i18n="principleNote">
           Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.
         </div>
       </div>
@@ -1162,200 +775,175 @@
       <div id="stepperWrap" class="stepper-wrap">
         <nav id="stepper" class="liquid-stepper" aria-label="Process navigation">
           <span id="stepperIndicator" class="stepper-indicator" aria-hidden="true"></span>
-
-          <a href="#s1" class="stepper-item active">
-            <span class="stepper-number">1</span>
-            <span class="stepper-label">Upload</span>
-          </a>
-
-          <a href="#s2" class="stepper-item">
-            <span class="stepper-number">2</span>
-            <span class="stepper-label">Metadata</span>
-          </a>
-
-          <a href="#s3" class="stepper-item">
-            <span class="stepper-number">3</span>
-            <span class="stepper-label">Filter</span>
-          </a>
-
-          <a href="#s4" class="stepper-item">
-            <span class="stepper-number">4</span>
-            <span class="stepper-label">Library</span>
-          </a>
-
-          <a href="#s5" class="stepper-item">
-            <span class="stepper-number">5</span>
-            <span class="stepper-label">Front-end</span>
-          </a>
-
-          <a href="#s6" class="stepper-item">
-            <span class="stepper-number">6</span>
-            <span class="stepper-label">Gallery</span>
-          </a>
+          <a href="#s1" class="stepper-item active"><span class="stepper-number">1</span><span class="stepper-label" data-i18n="step1Label">Upload</span></a>
+          <a href="#s2" class="stepper-item"><span class="stepper-number">2</span><span class="stepper-label" data-i18n="step2Label">Metadata</span></a>
+          <a href="#s3" class="stepper-item"><span class="stepper-number">3</span><span class="stepper-label" data-i18n="step3Label">Filter</span></a>
+          <a href="#s4" class="stepper-item"><span class="stepper-number">4</span><span class="stepper-label" data-i18n="step4Label">Library</span></a>
+          <a href="#s5" class="stepper-item"><span class="stepper-number">5</span><span class="stepper-label" data-i18n="step5Label">Front-end</span></a>
+          <a href="#s6" class="stepper-item"><span class="stepper-number">6</span><span class="stepper-label" data-i18n="step6Label">Gallery</span></a>
         </nav>
       </div>
     </div>
 
     <section class="sections-stack">
 
+      <!-- S1 -->
       <article id="s1" class="section open">
         <button class="section-header" type="button" onclick="toggleSection('s1')">
           <span class="section-heading">
-            <span class="section-kicker">Step 01 · Upload</span>
-            <span class="section-title">Charger les assets dans le back-end</span>
+            <span class="section-kicker" data-i18n="s1kicker">Step 01 · Upload</span>
+            <span class="section-title" data-i18n="s1title">Charger les assets dans le back-end</span>
           </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Ajouter un ou plusieurs fichiers dans le bon dossier du DAM et compléter leurs informations.</p>
-            <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Explore</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sélectionner le dossier dans lequel les assets doivent être chargés.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Cliquer sur <code>Upload asset</code> et importer les fichiers souhaités.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Compléter les <strong>métadonnées</strong> nécessaires.</span></li>
-              <li class="step-item"><span class="step-dot">5</span><span class="step-text">Ajouter les <strong>tags</strong> appropriés.</span></li>
-              <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Save and Finish</code>.</span></li>
+            <p class="section-objective" data-i18n="s1obj">Ajouter un ou plusieurs fichiers dans le bon dossier du DAM.</p>
+            <ul class="steps-list" id="s1steps">
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s1s1">Aller dans <code>Explore</code>.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s1s2">Sélectionner le dossier dans lequel les assets doivent être chargés.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s1s3">Cliquer sur <code>Upload asset</code> et importer les fichiers souhaités.</span></li>
             </ul>
-            <div class="tip-block">
-              <div class="tip-label">À noter</div>
-              <p>Les tags et métadonnées sont essentiels : ils conditionnent le bon fonctionnement des filtres créés à l’étape suivante.</p>
-            </div>
           </div>
         </div>
       </article>
 
+      <!-- S2 -->
       <article id="s2" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s2')">
           <span class="section-heading">
-            <span class="section-kicker">Step 02 · Metadata</span>
-            <span class="section-title">Compléter les metadata et les tags</span>
+            <span class="section-kicker" data-i18n="s2kicker">Step 02 · Metadata</span>
+            <span class="section-title" data-i18n="s2title">Compléter les metadata et les tags</span>
           </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Vérifier que les assets sont correctement qualifiés avant de créer le filtre.</p>
-            <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Vérifier que le titre de l’asset est clair et compréhensible.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Compléter les champs de métadonnées nécessaires.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Contrôler que les informations sont cohérentes avec les autres assets du DAM.</span></li>
+            <p class="section-objective" data-i18n="s2obj">Qualifier les assets pour garantir leur bon fonctionnement dans les filtres et Libraries.</p>
+            <ul class="steps-list" id="s2steps">
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s2s1">Cliquer sur <code>Manage</code> en bas à droite de l'asset.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s2s2">Sélectionner <strong>Assign asset type</strong>.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s2s3">Compléter les champs de métadonnées nécessaires.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text" data-i18n="s2s4">Ajouter les tags appropriés pour faciliter la recherche et le filtrage.</span></li>
             </ul>
             <div class="tip-block">
-              <div class="tip-label">Pourquoi c’est important</div>
-              <p>Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d’apparaître correctement dans les filtres et les Libraries.</p>
+              <div class="tip-label" data-i18n="s2tipLabel">Pourquoi c'est important</div>
+              <p data-i18n="s2tipText">Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d'apparaître correctement dans les filtres et les Libraries.</p>
             </div>
           </div>
         </div>
       </article>
 
+      <!-- S3 -->
       <article id="s3" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s3')">
           <span class="section-heading">
-            <span class="section-kicker">Step 03 · Filter</span>
-            <span class="section-title">Créer un filtre</span>
+            <span class="section-kicker" data-i18n="s3kicker">Step 03 · Filter</span>
+            <span class="section-title" data-i18n="s3title">Créer un filtre</span>
           </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer un filtre de recherche enregistré, qui permettra d’alimenter automatiquement une Library avec les bons assets.</p>
+            <p class="section-objective" data-i18n="s3obj">Créer un filtre de recherche enregistré, qui permettra d'alimenter automatiquement une Library avec les bons assets.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Saisir le nom exact du document ou de l’asset dans la barre de recherche.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Vérifier que les bons résultats apparaissent.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur l’icône <code>Save</code> <em>icône disquette</em>.</span></li>
-              <li class="step-item"><span class="step-dot">5</span><span class="step-text">Sélectionner <code>Save as</code>.</span></li>
-              <li class="step-item"><span class="step-dot">6</span><span class="step-text">Donner un nom clair au filtre. <em>Ex : Care & Wellness pictures</em></span></li>
-              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Enregistrer le filtre.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s3s1">Dans le back-end, cliquer sur <code>Search</code>.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s3s2">Saisir le nom exact du document ou de l'asset dans la barre de recherche.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s3s3">Vérifier que les bons résultats apparaissent.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text" data-i18n="s3s4">Cliquer sur l'icône <code>Save</code> <em>icône disquette</em>.</span></li>
+              <li class="step-item"><span class="step-dot">5</span><span class="step-text" data-i18n="s3s5">Sélectionner <code>Save as</code>.</span></li>
+              <li class="step-item"><span class="step-dot">6</span><span class="step-text" data-i18n="s3s6">Donner un nom clair au filtre. <em>Ex : Care &amp; Wellness pictures</em></span></li>
+              <li class="step-item"><span class="step-dot">7</span><span class="step-text" data-i18n="s3s7">Enregistrer le filtre.</span></li>
             </ul>
             <div class="tip-block">
-              <div class="tip-label">Convention de nommage</div>
-              <p>Utiliser un nom descriptif et cohérent avec la future Library. Ex : <strong>Care & Wellness pictures</strong> pour le filtre → <strong>Care & Wellness</strong> pour la Library.</p>
+              <div class="tip-label" data-i18n="s3tipLabel">Convention de nommage</div>
+              <p data-i18n="s3tipText">Utiliser un nom descriptif et cohérent avec la future Library. Ex : <strong>Care &amp; Wellness pictures</strong> pour le filtre → <strong>Care &amp; Wellness</strong> pour la Library.</p>
             </div>
           </div>
         </div>
       </article>
 
+      <!-- S4 -->
       <article id="s4" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s4')">
           <span class="section-heading">
-            <span class="section-kicker">Step 04 · Library</span>
-            <span class="section-title">Créer une Library</span>
+            <span class="section-kicker" data-i18n="s4kicker">Step 04 · Library</span>
+            <span class="section-title" data-i18n="s4title">Créer une Library</span>
           </span>
           <span class="section-badge">Back-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.</p>
+            <p class="section-objective" data-i18n="s4obj">Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur <code>New</code>.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Renseigner le nom dans le champ <code>Library name</code>. <em>Ex : Care & Wellness</em></span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Sélectionner <code>symrise.celum.cloud</code>.</span></li>
-              <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Assets</code> dans le menu de gauche.</span></li>
-              <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Add a filter</code>.</span></li>
-              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Sélectionner le filtre créé à l’étape précédente.</span></li>
-              <li class="step-item"><span class="step-dot">8</span><span class="step-text">Cliquer sur <code>Create</code> en haut à droite.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s4s1">Dans le menu de gauche, cliquer sur <code>Libraries</code>.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s4s2">Cliquer sur <code>New</code>.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s4s3">Renseigner le nom dans le champ <code>Library name</code>. <em>Ex : Care &amp; Wellness</em></span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text" data-i18n="s4s4">Sélectionner <code>symrise.celum.cloud</code>.</span></li>
+              <li class="step-item"><span class="step-dot">5</span><span class="step-text" data-i18n="s4s5">Cliquer sur <code>Assets</code> dans le menu de gauche.</span></li>
+              <li class="step-item"><span class="step-dot">6</span><span class="step-text" data-i18n="s4s6">Cliquer sur <code>Add a filter</code>.</span></li>
+              <li class="step-item"><span class="step-dot">7</span><span class="step-text" data-i18n="s4s7">Sélectionner le filtre créé à l'étape précédente.</span></li>
+              <li class="step-item"><span class="step-dot">8</span><span class="step-text" data-i18n="s4s8">Cliquer sur <code>Create</code> en haut à droite.</span></li>
             </ul>
           </div>
         </div>
       </article>
 
+      <!-- S5 -->
       <article id="s5" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s5')">
           <span class="section-heading">
-            <span class="section-kicker">Step 05 · Front-end</span>
-            <span class="section-title">Ajouter la Library dans le front-end</span>
+            <span class="section-kicker" data-i18n="s5kicker">Step 05 · Front-end</span>
+            <span class="section-title" data-i18n="s5title">Ajouter la Library dans le front-end</span>
           </span>
           <span class="section-badge">Front-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.</p>
+            <p class="section-objective" data-i18n="s5obj">Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller dans <code>Experience</code>.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Cliquer sur <code>Edit Portal</code>.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Aller dans l’onglet <code>Libraries</code>.</span></li>
-              <li class="step-item"><span class="step-dot">5</span><span class="step-text">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span></li>
-              <li class="step-item"><span class="step-dot">6</span><span class="step-text">Cliquer sur <code>Save</code>.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s5s1">Aller dans <code>Experience</code>.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s5s2">Cliquer sur les <strong>trois petits points</strong> en haut à droite.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s5s3">Cliquer sur <code>Edit Portal</code>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text" data-i18n="s5s4">Aller dans l'onglet <code>Libraries</code>.</span></li>
+              <li class="step-item"><span class="step-dot">5</span><span class="step-text" data-i18n="s5s5">Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.</span></li>
+              <li class="step-item"><span class="step-dot">6</span><span class="step-text" data-i18n="s5s6">Cliquer sur <code>Save</code>.</span></li>
             </ul>
           </div>
         </div>
       </article>
 
+      <!-- S6 -->
       <article id="s6" class="section">
         <button class="section-header" type="button" onclick="toggleSection('s6')">
           <span class="section-heading">
-            <span class="section-kicker">Step 06 · Asset Gallery</span>
-            <span class="section-title">Afficher la Library sur une page</span>
+            <span class="section-kicker" data-i18n="s6kicker">Step 06 · Asset Gallery</span>
+            <span class="section-title" data-i18n="s6title">Afficher la Library sur une page</span>
           </span>
           <span class="section-badge">Front-end</span>
           <span class="section-toggle" aria-hidden="true"></span>
         </button>
         <div class="section-body">
           <div class="section-inner">
-            <p class="section-objective">Ajouter une galerie d’assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
+            <p class="section-objective" data-i18n="s6obj">Ajouter une galerie d'assets sur la page souhaitée du Media Center via un widget Asset Gallery.</p>
             <ul class="steps-list">
-              <li class="step-item"><span class="step-dot">1</span><span class="step-text">Aller sur la page à mettre à jour.</span></li>
-              <li class="step-item"><span class="step-dot">2</span><span class="step-text">Sous le titre, cliquer sur <code>+ Add section</code>.</span></li>
-              <li class="step-item"><span class="step-dot">3</span><span class="step-text">Dans <code>Choose layout</code>, sélectionner une mise en page en <strong>une colonne</strong>.</span></li>
-              <li class="step-item"><span class="step-dot">4</span><span class="step-text">Cliquer sur <code>+ Add widget</code>.</span></li>
-              <li class="step-item"><span class="step-dot">5</span><span class="step-text">Sélectionner le widget <code>Asset Gallery</code>.</span></li>
-              <li class="step-item"><span class="step-dot">6</span><span class="step-text">Dans le panneau de gauche, aller dans <code>Library</code> et sélectionner la Library créée.</span></li>
-              <li class="step-item"><span class="step-dot">7</span><span class="step-text">Vérifier que le contenu apparaît correctement sur la page.</span></li>
-              <li class="step-item"><span class="step-dot">8</span><span class="step-text">Cliquer sur <code>Update</code> en bas à gauche.</span></li>
+              <li class="step-item"><span class="step-dot">1</span><span class="step-text" data-i18n="s6s1">Aller sur la page à mettre à jour.</span></li>
+              <li class="step-item"><span class="step-dot">2</span><span class="step-text" data-i18n="s6s2">Sous le titre, cliquer sur <code>+ Add section</code>.</span></li>
+              <li class="step-item"><span class="step-dot">3</span><span class="step-text" data-i18n="s6s3">Dans <code>Choose layout</code>, sélectionner une mise en page en <strong>une colonne</strong>.</span></li>
+              <li class="step-item"><span class="step-dot">4</span><span class="step-text" data-i18n="s6s4">Cliquer sur <code>+ Add widget</code>.</span></li>
+              <li class="step-item"><span class="step-dot">5</span><span class="step-text" data-i18n="s6s5">Sélectionner le widget <code>Asset Gallery</code>.</span></li>
+              <li class="step-item"><span class="step-dot">6</span><span class="step-text" data-i18n="s6s6">Dans le panneau de gauche, aller dans <code>Library</code> et sélectionner la Library créée.</span></li>
+              <li class="step-item"><span class="step-dot">7</span><span class="step-text" data-i18n="s6s7">Vérifier que le contenu apparaît correctement sur la page.</span></li>
+              <li class="step-item"><span class="step-dot">8</span><span class="step-text" data-i18n="s6s8">Cliquer sur <code>Update</code> en bas à gauche.</span></li>
             </ul>
             <div class="tip-block">
-              <div class="tip-label">Vérification</div>
-              <p>Toujours contrôler l’affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
+              <div class="tip-label" data-i18n="s6tipLabel">Vérification</div>
+              <p data-i18n="s6tipText">Toujours contrôler l'affichage côté utilisateur après avoir ajouté une nouvelle Library.</p>
             </div>
           </div>
         </div>
@@ -1367,62 +955,63 @@
 
     </section>
 
+    <!-- BOTTOM GRID -->
     <section class="bottom-grid">
       <div class="checklist-block">
         <div class="block-top">
-          <h2 class="block-title">Checklist de dépannage</h2>
-          <p class="block-sub">À vérifier si le contenu n’apparaît pas dans le Media Center.</p>
+          <h2 class="block-title" data-i18n="checklistTitle">Checklist de dépannage</h2>
+          <p class="block-sub" data-i18n="checklistSub">À vérifier si le contenu n'apparaît pas dans le Media Center.</p>
         </div>
         <div class="checklist-body">
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">L’asset a bien été uploadé dans le bon dossier.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Les métadonnées et les tags sont bien renseignés.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le filtre contient bien les bons assets.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library est bien reliée au filtre.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">La Library a bien été ajoutée dans le portail.</span></div>
-          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text">Le widget Asset Gallery utilise la bonne Library.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c1">L'asset a bien été uploadé dans le bon dossier.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c2">Les métadonnées et les tags sont bien renseignés.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c3">Le filtre contient bien les bons assets.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c4">La Library est bien reliée au filtre.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c5">La Library a bien été ajoutée dans le portail.</span></div>
+          <div class="checklist-item" onclick="checkItem(this)"><span class="cb"></span><span class="ci-text" data-i18n="c6">Le widget Asset Gallery utilise la bonne Library.</span></div>
         </div>
       </div>
 
       <div class="practices-block">
         <div class="block-top">
-          <h2 class="block-title">Bonnes pratiques</h2>
-          <p class="block-sub">Quelques réflexes simples pour garder un Media Center propre et fiable.</p>
+          <h2 class="block-title" data-i18n="practicesTitle">Bonnes pratiques</h2>
+          <p class="block-sub" data-i18n="practicesSub">Quelques réflexes simples pour garder un Media Center propre et fiable.</p>
         </div>
         <div class="practices-grid">
           <div class="practice-card">
-            <h3 class="practice-title">Nommage cohérent</h3>
-            <p class="practice-desc">Garder une logique entre le filtre et la Library. Ex : <em>Care & Wellness pictures</em> → <em>Care & Wellness</em>.</p>
+            <h3 class="practice-title" data-i18n="p1title">Nommage cohérent</h3>
+            <p class="practice-desc" data-i18n="p1desc">Garder une logique entre le filtre et la Library. Ex : <em>Care &amp; Wellness pictures</em> → <em>Care &amp; Wellness</em>.</p>
           </div>
           <div class="practice-card">
-            <h3 class="practice-title">Tags avant publication</h3>
-            <p class="practice-desc">Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.</p>
+            <h3 class="practice-title" data-i18n="p2title">Tags avant publication</h3>
+            <p class="practice-desc" data-i18n="p2desc">Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.</p>
           </div>
           <div class="practice-card">
-            <h3 class="practice-title">Contrôle front-end</h3>
-            <p class="practice-desc">Vérifier systématiquement l’affichage côté utilisateur après toute modification.</p>
+            <h3 class="practice-title" data-i18n="p3title">Contrôle front-end</h3>
+            <p class="practice-desc" data-i18n="p3desc">Vérifier systématiquement l'affichage côté utilisateur après toute modification.</p>
           </div>
           <div class="practice-card">
-            <h3 class="practice-title">Une Library par thème</h3>
-            <p class="practice-desc">Créer des Libraries ciblées plutôt qu’une seule grande Library globale.</p>
+            <h3 class="practice-title" data-i18n="p4title">Une Library par thème</h3>
+            <p class="practice-desc" data-i18n="p4desc">Créer des Libraries ciblées plutôt qu'une seule grande Library globale.</p>
           </div>
         </div>
       </div>
     </section>
 
     <section class="flow-summary">
-      <h2 class="flow-title">Résumé rapide</h2>
-      <div class="flow-list">
-        <span class="flow-tag">Upload</span>
+      <h2 class="flow-title" data-i18n="flowTitle">Résumé rapide</h2>
+      <div class="flow-list" id="flowList">
+        <span class="flow-tag" data-i18n="flow1">Upload</span>
         <span class="flow-arr">→</span>
-        <span class="flow-tag">Metadata & tags</span>
+        <span class="flow-tag" data-i18n="flow2">Metadata & tags</span>
         <span class="flow-arr">→</span>
-        <span class="flow-tag">Filter</span>
+        <span class="flow-tag" data-i18n="flow3">Filter</span>
         <span class="flow-arr">→</span>
-        <span class="flow-tag">Library</span>
+        <span class="flow-tag" data-i18n="flow4">Library</span>
         <span class="flow-arr">→</span>
-        <span class="flow-tag">Front-end</span>
+        <span class="flow-tag" data-i18n="flow5">Front-end</span>
         <span class="flow-arr">→</span>
-        <span class="flow-tag">Asset Gallery</span>
+        <span class="flow-tag" data-i18n="flow6">Asset Gallery</span>
       </div>
     </section>
 
@@ -1430,149 +1019,361 @@
 </div>
 
 <script>
-  const sections = document.querySelectorAll(".section");
-  const stepperItems = document.querySelectorAll(".stepper-item");
-  const stepperSlot = document.getElementById("stepperSlot");
-  const stepperWrap = document.getElementById("stepperWrap");
-  const stepper = document.getElementById("stepper");
-  const stepperIndicator = document.getElementById("stepperIndicator");
-  const completionPill = document.getElementById("completionPill");
-  const lastSection = document.getElementById("s6");
-
-  const dockBottom = 24;
-  let stepperDockStart = 0;
-  let activeItem = document.querySelector(".stepper-item.active");
-
-  function toggleSection(id) {
-    const section = document.getElementById(id);
-    section.classList.toggle("open");
-    setTimeout(refreshLayout, 320);
+/* ───── i18n ───── */
+const translations = {
+  fr: {
+    downloadPDF: "Télécharger en PDF",
+    eyebrow: "Symrise Library · Admin Documentation",
+    heroTitle: "Upload Assets",
+    heroSubtitle: "Guide complet pour ajouter et rendre visibles des assets dans la Symrise Library, du chargement dans le back-end à l'affichage sur le front-end.",
+    backFrontTitle: "Back-end vs front-end",
+    backFrontP1: "Le <strong>back-end</strong> est l'espace d'administration du DAM : c'est là qu'on charge les assets, complète les métadonnées, crée les filtres et organise les Libraries.",
+    backFrontP2: "Le <strong>front-end</strong> est l'interface visible par les utilisateurs : c'est le Media Center où les assets sont consultés, recherchés et téléchargés.",
+    keyPrinciple: "Key principle",
+    principleText: "Un asset uploadé dans le DAM n'est pas automatiquement visible dans le Media Center.",
+    principleNote: "Il doit être connecté au front-end via une Library, puis affiché sur une page avec une Asset Gallery.",
+    step1Label: "Upload", step2Label: "Metadata", step3Label: "Filter",
+    step4Label: "Library", step5Label: "Front-end", step6Label: "Gallery",
+    s1kicker: "Step 01 · Upload",
+    s1title: "Charger les assets dans le back-end",
+    s1obj: "Ajouter un ou plusieurs fichiers dans le bon dossier du DAM.",
+    s1s1: "Aller dans <code>Explore</code>.",
+    s1s2: "Sélectionner le dossier dans lequel les assets doivent être chargés.",
+    s1s3: "Cliquer sur <code>Upload asset</code> et importer les fichiers souhaités.",
+    s2kicker: "Step 02 · Metadata",
+    s2title: "Compléter les metadata et les tags",
+    s2obj: "Qualifier les assets pour garantir leur bon fonctionnement dans les filtres et Libraries.",
+    s2s1: "Cliquer sur <code>Manage</code> en bas à droite de l'asset.",
+    s2s2: "Sélectionner <strong>Assign asset type</strong>.",
+    s2s3: "Compléter les champs de métadonnées nécessaires.",
+    s2s4: "Ajouter les tags appropriés pour faciliter la recherche et le filtrage.",
+    s2tipLabel: "Pourquoi c'est important",
+    s2tipText: "Des metadata incomplètes ou des tags manquants peuvent empêcher les assets d'apparaître correctement dans les filtres et les Libraries.",
+    s3kicker: "Step 03 · Filter",
+    s3title: "Créer un filtre",
+    s3obj: "Créer un filtre de recherche enregistré, qui permettra d'alimenter automatiquement une Library avec les bons assets.",
+    s3s1: "Dans le back-end, cliquer sur <code>Search</code>.",
+    s3s2: "Saisir le nom exact du document ou de l'asset dans la barre de recherche.",
+    s3s3: "Vérifier que les bons résultats apparaissent.",
+    s3s4: "Cliquer sur l'icône <code>Save</code> <em>icône disquette</em>.",
+    s3s5: "Sélectionner <code>Save as</code>.",
+    s3s6: "Donner un nom clair au filtre. <em>Ex : Care &amp; Wellness pictures</em>",
+    s3s7: "Enregistrer le filtre.",
+    s3tipLabel: "Convention de nommage",
+    s3tipText: "Utiliser un nom descriptif et cohérent avec la future Library. Ex : <strong>Care &amp; Wellness pictures</strong> pour le filtre → <strong>Care &amp; Wellness</strong> pour la Library.",
+    s4kicker: "Step 04 · Library",
+    s4title: "Créer une Library",
+    s4obj: "Créer une Library liée au filtre créé précédemment, afin de rendre les assets disponibles dans le Media Center.",
+    s4s1: "Dans le menu de gauche, cliquer sur <code>Libraries</code>.",
+    s4s2: "Cliquer sur <code>New</code>.",
+    s4s3: "Renseigner le nom dans le champ <code>Library name</code>. <em>Ex : Care &amp; Wellness</em>",
+    s4s4: "Sélectionner <code>symrise.celum.cloud</code>.",
+    s4s5: "Cliquer sur <code>Assets</code> dans le menu de gauche.",
+    s4s6: "Cliquer sur <code>Add a filter</code>.",
+    s4s7: "Sélectionner le filtre créé à l'étape précédente.",
+    s4s8: "Cliquer sur <code>Create</code> en haut à droite.",
+    s5kicker: "Step 05 · Front-end",
+    s5title: "Ajouter la Library dans le front-end",
+    s5obj: "Rendre la Library disponible dans le portail Media Center, visible des utilisateurs.",
+    s5s1: "Aller dans <code>Experience</code>.",
+    s5s2: "Cliquer sur les <strong>trois petits points</strong> en haut à droite.",
+    s5s3: "Cliquer sur <code>Edit Portal</code>.",
+    s5s4: "Aller dans l'onglet <code>Libraries</code>.",
+    s5s5: "Cliquer sur <code>Add libraries</code> et sélectionner la Library créée.",
+    s5s6: "Cliquer sur <code>Save</code>.",
+    s6kicker: "Step 06 · Asset Gallery",
+    s6title: "Afficher la Library sur une page",
+    s6obj: "Ajouter une galerie d'assets sur la page souhaitée du Media Center via un widget Asset Gallery.",
+    s6s1: "Aller sur la page à mettre à jour.",
+    s6s2: "Sous le titre, cliquer sur <code>+ Add section</code>.",
+    s6s3: "Dans <code>Choose layout</code>, sélectionner une mise en page en <strong>une colonne</strong>.",
+    s6s4: "Cliquer sur <code>+ Add widget</code>.",
+    s6s5: "Sélectionner le widget <code>Asset Gallery</code>.",
+    s6s6: "Dans le panneau de gauche, aller dans <code>Library</code> et sélectionner la Library créée.",
+    s6s7: "Vérifier que le contenu apparaît correctement sur la page.",
+    s6s8: "Cliquer sur <code>Update</code> en bas à gauche.",
+    s6tipLabel: "Vérification",
+    s6tipText: "Toujours contrôler l'affichage côté utilisateur après avoir ajouté une nouvelle Library.",
+    checklistTitle: "Checklist de dépannage",
+    checklistSub: "À vérifier si le contenu n'apparaît pas dans le Media Center.",
+    c1: "L'asset a bien été uploadé dans le bon dossier.",
+    c2: "Les métadonnées et les tags sont bien renseignés.",
+    c3: "Le filtre contient bien les bons assets.",
+    c4: "La Library est bien reliée au filtre.",
+    c5: "La Library a bien été ajoutée dans le portail.",
+    c6: "Le widget Asset Gallery utilise la bonne Library.",
+    practicesTitle: "Bonnes pratiques",
+    practicesSub: "Quelques réflexes simples pour garder un Media Center propre et fiable.",
+    p1title: "Nommage cohérent",
+    p1desc: "Garder une logique entre le filtre et la Library. Ex : <em>Care &amp; Wellness pictures</em> → <em>Care &amp; Wellness</em>.",
+    p2title: "Tags avant publication",
+    p2desc: "Compléter métadonnées et tags avant de créer le filtre, pour éviter les assets manquants.",
+    p3title: "Contrôle front-end",
+    p3desc: "Vérifier systématiquement l'affichage côté utilisateur après toute modification.",
+    p4title: "Une Library par thème",
+    p4desc: "Créer des Libraries ciblées plutôt qu'une seule grande Library globale.",
+    flowTitle: "Résumé rapide",
+    flow1: "Upload", flow2: "Metadata & tags", flow3: "Filter",
+    flow4: "Library", flow5: "Front-end", flow6: "Asset Gallery"
+  },
+  en: {
+    downloadPDF: "Download as PDF",
+    eyebrow: "Symrise Library · Admin Documentation",
+    heroTitle: "Upload Assets",
+    heroSubtitle: "A complete guide for adding assets to the Symrise Library and making them visible to users — from uploading in the back-end to displaying them on the front-end.",
+    backFrontTitle: "Back-end vs front-end",
+    backFrontP1: "The <strong>back-end</strong> is the DAM administration space: this is where assets are uploaded, metadata completed, filters created, and Libraries organised.",
+    backFrontP2: "The <strong>front-end</strong> is the user-facing interface: the Media Center where assets are browsed, searched, and downloaded.",
+    keyPrinciple: "Key principle",
+    principleText: "An asset uploaded to the DAM is not automatically visible in the Media Center.",
+    principleNote: "It must be connected to the front-end via a Library, then displayed on a page using an Asset Gallery widget.",
+    step1Label: "Upload", step2Label: "Metadata", step3Label: "Filter",
+    step4Label: "Library", step5Label: "Front-end", step6Label: "Gallery",
+    s1kicker: "Step 01 · Upload",
+    s1title: "Upload assets to the back-end",
+    s1obj: "Add one or more files to the correct folder in the DAM.",
+    s1s1: "Go to <code>Explore</code>.",
+    s1s2: "Select the folder where the assets should be uploaded.",
+    s1s3: "Click <code>Upload asset</code> and import the desired files.",
+    s2kicker: "Step 02 · Metadata",
+    s2title: "Complete metadata and tags",
+    s2obj: "Qualify assets to ensure they work correctly within filters and Libraries.",
+    s2s1: "Click <code>Manage</code> in the bottom-right corner of the asset.",
+    s2s2: "Select <strong>Assign asset type</strong>.",
+    s2s3: "Fill in the required metadata fields.",
+    s2s4: "Add the appropriate tags to facilitate search and filtering.",
+    s2tipLabel: "Why it matters",
+    s2tipText: "Incomplete metadata or missing tags may prevent assets from appearing correctly in filters and Libraries.",
+    s3kicker: "Step 03 · Filter",
+    s3title: "Create a filter",
+    s3obj: "Create a saved search filter that will automatically populate a Library with the right assets.",
+    s3s1: "In the back-end, click <code>Search</code>.",
+    s3s2: "Enter the exact name of the document or asset in the search bar.",
+    s3s3: "Verify that the correct results appear.",
+    s3s4: "Click the <code>Save</code> icon <em>floppy disk icon</em>.",
+    s3s5: "Select <code>Save as</code>.",
+    s3s6: "Give the filter a clear name. <em>E.g. Care &amp; Wellness pictures</em>",
+    s3s7: "Save the filter.",
+    s3tipLabel: "Naming convention",
+    s3tipText: "Use a descriptive name consistent with the future Library. E.g. <strong>Care &amp; Wellness pictures</strong> for the filter → <strong>Care &amp; Wellness</strong> for the Library.",
+    s4kicker: "Step 04 · Library",
+    s4title: "Create a Library",
+    s4obj: "Create a Library linked to the previously created filter, making the assets available in the Media Center.",
+    s4s1: "In the left-hand menu, click <code>Libraries</code>.",
+    s4s2: "Click <code>New</code>.",
+    s4s3: "Enter the name in the <code>Library name</code> field. <em>E.g. Care &amp; Wellness</em>",
+    s4s4: "Select <code>symrise.celum.cloud</code>.",
+    s4s5: "Click <code>Assets</code> in the left-hand menu.",
+    s4s6: "Click <code>Add a filter</code>.",
+    s4s7: "Select the filter created in the previous step.",
+    s4s8: "Click <code>Create</code> in the top-right corner.",
+    s5kicker: "Step 05 · Front-end",
+    s5title: "Add the Library to the front-end",
+    s5obj: "Make the Library available in the Media Center portal, visible to users.",
+    s5s1: "Go to <code>Experience</code>.",
+    s5s2: "Click the <strong>three-dot menu</strong> in the top-right corner.",
+    s5s3: "Click <code>Edit Portal</code>.",
+    s5s4: "Go to the <code>Libraries</code> tab.",
+    s5s5: "Click <code>Add libraries</code> and select the Library you created.",
+    s5s6: "Click <code>Save</code>.",
+    s6kicker: "Step 06 · Asset Gallery",
+    s6title: "Display the Library on a page",
+    s6obj: "Add an asset gallery to the desired Media Center page using an Asset Gallery widget.",
+    s6s1: "Go to the page you want to update.",
+    s6s2: "Below the title, click <code>+ Add section</code>.",
+    s6s3: "In <code>Choose layout</code>, select a <strong>single-column</strong> layout.",
+    s6s4: "Click <code>+ Add widget</code>.",
+    s6s5: "Select the <code>Asset Gallery</code> widget.",
+    s6s6: "In the left panel, go to <code>Library</code> and select the Library you created.",
+    s6s7: "Verify that the content displays correctly on the page.",
+    s6s8: "Click <code>Update</code> in the bottom-left corner.",
+    s6tipLabel: "Check",
+    s6tipText: "Always verify the user-facing display after adding a new Library.",
+    checklistTitle: "Troubleshooting checklist",
+    checklistSub: "Check these if content is not appearing in the Media Center.",
+    c1: "The asset was uploaded to the correct folder.",
+    c2: "Metadata and tags are fully completed.",
+    c3: "The filter includes the correct assets.",
+    c4: "The Library is properly linked to the filter.",
+    c5: "The Library has been added to the portal.",
+    c6: "The Asset Gallery widget is using the correct Library.",
+    practicesTitle: "Best practices",
+    practicesSub: "Simple habits to keep your Media Center clean and reliable.",
+    p1title: "Consistent naming",
+    p1desc: "Keep a logical link between filter and Library names. E.g. <em>Care &amp; Wellness pictures</em> → <em>Care &amp; Wellness</em>.",
+    p2title: "Tags before publishing",
+    p2desc: "Complete metadata and tags before creating the filter to avoid missing assets.",
+    p3title: "Front-end check",
+    p3desc: "Always verify the user-facing display after any change.",
+    p4title: "One Library per theme",
+    p4desc: "Create targeted Libraries rather than one large global Library.",
+    flowTitle: "Quick summary",
+    flow1: "Upload", flow2: "Metadata & tags", flow3: "Filter",
+    flow4: "Library", flow5: "Front-end", flow6: "Asset Gallery"
   }
+};
 
-  function checkItem(item) {
-    item.classList.toggle("done");
-    const box = item.querySelector(".cb");
-    box.textContent = item.classList.contains("done") ? "✓" : "";
-  }
+let currentLang = 'fr';
 
-  function calculateStepperDockStart() {
-    const stepperHeight = stepperWrap.offsetHeight;
-    const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
-    const viewportHeight = window.innerHeight;
-    stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
-  }
-
-  function moveIndicatorTo(item) {
-    if (!item || !stepperIndicator) return;
-
-    const itemRect = item.getBoundingClientRect();
-    const stepperRect = stepper.getBoundingClientRect();
-    const x = itemRect.left - stepperRect.left;
-
-    stepperIndicator.style.width = itemRect.width + "px";
-    stepperIndicator.style.transform = `translateX(${x}px)`;
-  }
-
-  function setActiveItem(item) {
-    if (!item || item === activeItem) return;
-
-    stepperItems.forEach(step => step.classList.remove("active"));
-    item.classList.add("active");
-    activeItem = item;
-
-    requestAnimationFrame(() => moveIndicatorTo(item));
-  }
-
-  function shouldCompleteNow() {
-    if (!lastSection) return false;
-    const rect = lastSection.getBoundingClientRect();
-    return rect.bottom <= window.innerHeight - 120;
-  }
-
-  function updateStepperState() {
-    const scrollY = window.scrollY;
-    const shouldDock = scrollY >= stepperDockStart;
-    const isComplete = shouldCompleteNow();
-
-    if (isComplete) {
-      stepperWrap.classList.remove("is-floating");
-      stepperWrap.classList.add("is-hidden");
-      stepperSlot.style.height = "";
-      document.body.classList.remove("stepper-is-floating");
-      completionPill.classList.add("is-visible");
-      return;
-    }
-
-    completionPill.classList.remove("is-visible");
-    stepperWrap.classList.remove("is-hidden");
-
-    if (shouldDock) {
-      stepperSlot.style.height = stepperWrap.offsetHeight + "px";
-      stepperWrap.classList.add("is-floating");
-      document.body.classList.add("stepper-is-floating");
-    } else {
-      stepperSlot.style.height = "";
-      stepperWrap.classList.remove("is-floating");
-      document.body.classList.remove("stepper-is-floating");
-    }
-
-    requestAnimationFrame(() => moveIndicatorTo(activeItem));
-  }
-
-  function updateActiveSectionEarly() {
-    const triggerLine = window.innerHeight * 0.76;
-    let currentSection = sections[0];
-
-    sections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= triggerLine) {
-        currentSection = section;
-      }
-    });
-
-    const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
-    setActiveItem(item);
-
-    if (currentSection) {
-      currentSection.classList.add("open");
-    }
-  }
-
-  function refreshLayout() {
-    calculateStepperDockStart();
-    updateActiveSectionEarly();
-    updateStepperState();
-    requestAnimationFrame(() => moveIndicatorTo(activeItem));
-  }
-
-  window.addEventListener("scroll", () => {
-    updateActiveSectionEarly();
-    updateStepperState();
-  }, { passive: true });
-
-  window.addEventListener("resize", refreshLayout);
-  window.addEventListener("load", refreshLayout);
-
-  refreshLayout();
-
-  stepperItems.forEach(item => {
-    item.addEventListener("click", event => {
-      event.preventDefault();
-
-      const target = document.querySelector(item.getAttribute("href"));
-      if (!target) return;
-
-      target.classList.add("open");
-      setActiveItem(item);
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-      setTimeout(refreshLayout, 520);
-    });
+function applyTranslations(lang) {
+  const t = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
   });
+  document.getElementById('langLabel').textContent = lang.toUpperCase();
+  document.getElementById('optFR').classList.toggle('active', lang === 'fr');
+  document.getElementById('optEN').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  applyTranslations(lang);
+  toggleLang(); // close dropdown
+}
+
+function toggleLang() {
+  document.getElementById('langSwitcher').classList.toggle('open');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('langSwitcher').contains(e.target)) {
+    document.getElementById('langSwitcher').classList.remove('open');
+  }
+});
+
+/* ───── PDF print ───── */
+function printPDF() {
+  window.print();
+}
+
+/* ───── Stepper logic ───── */
+const sections = document.querySelectorAll(".section");
+const stepperItems = document.querySelectorAll(".stepper-item");
+const stepperSlot = document.getElementById("stepperSlot");
+const stepperWrap = document.getElementById("stepperWrap");
+const stepper = document.getElementById("stepper");
+const stepperIndicator = document.getElementById("stepperIndicator");
+const completionPill = document.getElementById("completionPill");
+const lastSection = document.getElementById("s6");
+
+const dockBottom = 24;
+let stepperDockStart = 0;
+let activeItem = document.querySelector(".stepper-item.active");
+
+function toggleSection(id) {
+  const section = document.getElementById(id);
+  section.classList.toggle("open");
+  setTimeout(refreshLayout, 320);
+}
+
+function checkItem(item) {
+  item.classList.toggle("done");
+  const box = item.querySelector(".cb");
+  box.textContent = item.classList.contains("done") ? "✓" : "";
+}
+
+function calculateStepperDockStart() {
+  const stepperHeight = stepperWrap.offsetHeight;
+  const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
+  const viewportHeight = window.innerHeight;
+  stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
+}
+
+function moveIndicatorTo(item) {
+  if (!item || !stepperIndicator) return;
+  const itemRect = item.getBoundingClientRect();
+  const stepperRect = stepper.getBoundingClientRect();
+  const x = itemRect.left - stepperRect.left;
+  stepperIndicator.style.width = itemRect.width + "px";
+  stepperIndicator.style.transform = `translateX(${x}px)`;
+}
+
+function setActiveItem(item) {
+  if (!item || item === activeItem) return;
+  stepperItems.forEach(step => step.classList.remove("active"));
+  item.classList.add("active");
+  activeItem = item;
+  requestAnimationFrame(() => moveIndicatorTo(item));
+}
+
+function shouldCompleteNow() {
+  if (!lastSection) return false;
+  const rect = lastSection.getBoundingClientRect();
+  return rect.bottom <= window.innerHeight - 120;
+}
+
+function updateStepperState() {
+  const scrollY = window.scrollY;
+  const shouldDock = scrollY >= stepperDockStart;
+  const isComplete = shouldCompleteNow();
+
+  if (isComplete) {
+    stepperWrap.classList.remove("is-floating");
+    stepperWrap.classList.add("is-hidden");
+    stepperSlot.style.height = "";
+    document.body.classList.remove("stepper-is-floating");
+    completionPill.classList.add("is-visible");
+    return;
+  }
+
+  completionPill.classList.remove("is-visible");
+  stepperWrap.classList.remove("is-hidden");
+
+  if (shouldDock) {
+    stepperSlot.style.height = stepperWrap.offsetHeight + "px";
+    stepperWrap.classList.add("is-floating");
+    document.body.classList.add("stepper-is-floating");
+  } else {
+    stepperSlot.style.height = "";
+    stepperWrap.classList.remove("is-floating");
+    document.body.classList.remove("stepper-is-floating");
+  }
+
+  requestAnimationFrame(() => moveIndicatorTo(activeItem));
+}
+
+function updateActiveSectionEarly() {
+  const triggerLine = window.innerHeight * 0.76;
+  let currentSection = sections[0];
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= triggerLine) currentSection = section;
+  });
+  const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
+  setActiveItem(item);
+  if (currentSection) currentSection.classList.add("open");
+}
+
+function refreshLayout() {
+  calculateStepperDockStart();
+  updateActiveSectionEarly();
+  updateStepperState();
+  requestAnimationFrame(() => moveIndicatorTo(activeItem));
+}
+
+window.addEventListener("scroll", () => {
+  updateActiveSectionEarly();
+  updateStepperState();
+}, { passive: true });
+
+window.addEventListener("resize", refreshLayout);
+window.addEventListener("load", refreshLayout);
+refreshLayout();
+
+stepperItems.forEach(item => {
+  item.addEventListener("click", event => {
+    event.preventDefault();
+    const target = document.querySelector(item.getAttribute("href"));
+    if (!target) return;
+    target.classList.add("open");
+    setActiveItem(item);
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(refreshLayout, 520);
+  });
+});
 </script>
 </body>
 </html>
