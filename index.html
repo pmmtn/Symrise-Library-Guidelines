@@ -312,35 +312,50 @@
   }
 
   /* ── STEPPER ── */
-  .stepper-slot { width: 100%; margin: 34px 0 46px; }
+  .stepper-slot {
+    width: 100%;
+    margin: 34px 0 46px;
+    /* height is set via JS and never cleared — prevents reflow jumps */
+  }
 
   .stepper-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    transition: opacity 0.32s ease, transform 0.42s cubic-bezier(.19,1,.22,1);
+    /* No transition here — position switch is instant, opacity/transform handle the feel */
+    will-change: opacity, transform;
   }
 
-  .stepper-wrap.is-hidden {
-    opacity: 0;
-    transform: translateY(10px) scale(0.985);
-    pointer-events: none;
-  }
-
+  /* Floating state: fixed at bottom */
   .stepper-wrap.is-floating {
     position: fixed;
     left: 0; right: 0; bottom: 24px;
     z-index: 100;
     padding: 0 24px;
     pointer-events: none;
-    animation: dockIn 0.42s cubic-bezier(.19,1,.22,1) both;
+  }
+
+  /* Fade-in when first docking */
+  .stepper-wrap.is-floating.dock-enter {
+    animation: dockIn 0.46s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  /* Fade-out when undocking or completing */
+  .stepper-wrap.dock-exit {
+    animation: dockOut 0.32s cubic-bezier(.4,0,1,1) both;
   }
 
   @keyframes dockIn {
-    from { opacity: 0; transform: translateY(10px) scale(0.985); }
-    to   { opacity: 1; transform: translateY(0)  scale(1); }
+    from { opacity: 0; transform: translateY(14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
   }
 
+  @keyframes dockOut {
+    from { opacity: 1; transform: translateY(0)   scale(1); }
+    to   { opacity: 0; transform: translateY(8px)  scale(0.975); }
+  }
+
+  /* Pill */
   .liquid-stepper {
     position: relative;
     display: flex;
@@ -353,89 +368,55 @@
     border-radius: 999px;
     border: 1px solid rgba(255,255,255,0.64);
     background:
-      linear-gradient(180deg,rgba(255,255,255,0.76),rgba(245,245,247,0.52)),
-      linear-gradient(135deg,rgba(255,255,255,0.46),rgba(255,255,255,0.18)),
-      rgba(242,242,244,0.58);
+      linear-gradient(180deg,rgba(255,255,255,0.82),rgba(245,245,247,0.58)),
+      rgba(242,242,244,0.62);
     box-shadow:
-      0 22px 55px rgba(0,0,0,0.11),
-      0 4px 16px rgba(0,0,0,0.045),
-      inset 0 1px 0 rgba(255,255,255,0.74),
-      inset 0 -1px 0 rgba(255,255,255,0.24),
-      inset 0 0 0 0.5px rgba(255,255,255,0.32);
-    backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
-    -webkit-backdrop-filter: blur(58px) saturate(145%) contrast(0.72) brightness(1.08);
+      0 24px 60px rgba(0,0,0,0.12),
+      0 4px 16px rgba(0,0,0,0.05),
+      inset 0 1px 0 rgba(255,255,255,0.78),
+      inset 0 -1px 0 rgba(255,255,255,0.26),
+      inset 0 0 0 0.5px rgba(255,255,255,0.36);
+    backdrop-filter: blur(60px) saturate(150%) contrast(0.74) brightness(1.08);
+    -webkit-backdrop-filter: blur(60px) saturate(150%) contrast(0.74) brightness(1.08);
     pointer-events: auto;
-    overflow: hidden;
+    overflow: visible; /* allow indicator border-radius to be visible */
     isolation: isolate;
-    transition:
-      width 0.55s cubic-bezier(.19,1,.22,1),
-      max-width 0.55s cubic-bezier(.19,1,.22,1),
-      height 0.55s cubic-bezier(.19,1,.22,1),
-      padding 0.55s cubic-bezier(.19,1,.22,1),
-      border-radius 0.55s cubic-bezier(.19,1,.22,1),
-      box-shadow 0.42s ease,
-      background 0.42s ease,
-      border-color 0.42s ease;
   }
 
-  .liquid-stepper::before {
-    content: "";
-    position: absolute; inset: 0;
-    border-radius: inherit;
-    pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(circle at 22% 0%,rgba(255,255,255,0.58),transparent 42%),
-      radial-gradient(circle at 78% 100%,rgba(255,255,255,0.34),transparent 46%),
-      linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0.06),rgba(255,255,255,0.18)),
-      rgba(255,255,255,0.18);
-    backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-    -webkit-backdrop-filter: blur(68px) saturate(140%) contrast(0.66) brightness(1.10);
-  }
-
+  /* Gloss top highlight */
   .liquid-stepper::after {
     content: "";
     position: absolute; inset: 1px;
     border-radius: inherit;
     pointer-events: none; z-index: 0;
     background:
-      linear-gradient(180deg,rgba(255,255,255,0.48),transparent 34%),
-      linear-gradient(135deg,rgba(255,255,255,0.24),transparent 44%),
-      linear-gradient(315deg,rgba(255,255,255,0.12),transparent 50%);
+      linear-gradient(180deg,rgba(255,255,255,0.52),transparent 36%),
+      linear-gradient(135deg,rgba(255,255,255,0.20),transparent 48%);
   }
 
-  .stepper-wrap.is-floating .liquid-stepper {
-    background:
-      linear-gradient(180deg,rgba(255,255,255,0.78),rgba(245,245,247,0.50)),
-      linear-gradient(135deg,rgba(255,255,255,0.46),rgba(255,255,255,0.16)),
-      rgba(242,242,244,0.56);
-    border-color: rgba(255,255,255,0.68);
-    box-shadow:
-      0 28px 72px rgba(0,0,0,0.13),
-      0 8px 24px rgba(0,0,0,0.045),
-      inset 0 1px 0 rgba(255,255,255,0.78),
-      inset 0 -1px 0 rgba(255,255,255,0.24),
-      inset 0 0 0 0.5px rgba(255,255,255,0.34);
-    backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-    -webkit-backdrop-filter: blur(64px) saturate(145%) contrast(0.68) brightness(1.10);
-  }
-
+  /* The red sliding indicator */
   .stepper-indicator {
     position: absolute;
-    top: 7px; left: 7px;
-    height: 48px; width: 48px;
-    border-radius: 999px; z-index: 1;
-    background: linear-gradient(180deg,#d61d1f,#c51718);
+    top: 7px;
+    left: 0;          /* JS drives X via translateX — no CSS left offset */
+    height: 48px;
+    width: 48px;
+    border-radius: 24px;
+    z-index: 1;
+    background: linear-gradient(160deg, #e02020 0%, #c51718 55%, #b01415 100%);
     box-shadow:
-      0 12px 30px rgba(197,23,24,0.26),
-      0 4px 10px rgba(197,23,24,0.16),
-      inset 0 1px 0 rgba(255,255,255,0.24);
+      0 8px 24px rgba(197,23,24,0.32),
+      0 2px 8px rgba(197,23,24,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.28),
+      inset 0 -1px 0 rgba(0,0,0,0.12);
     transition:
-      transform 0.72s cubic-bezier(.19,1,.22,1),
-      width 0.72s cubic-bezier(.19,1,.22,1),
-      opacity 0.28s ease;
+      transform      0.58s cubic-bezier(.25,1,.35,1),
+      width          0.58s cubic-bezier(.25,1,.35,1),
+      border-radius  0.42s ease;
     will-change: transform, width;
   }
 
+  /* Items */
   .stepper-item {
     position: relative; z-index: 2;
     display: flex;
@@ -443,30 +424,31 @@
     justify-content: center;
     width: 48px; min-width: 48px; height: 48px;
     border-radius: 999px;
-    color: rgba(29,29,31,0.42);
+    color: rgba(29,29,31,0.38);
     text-decoration: none;
     font-size: 20px; font-weight: 520;
     letter-spacing: -0.04em;
     white-space: nowrap; overflow: hidden;
+    /* Match indicator curve exactly */
     transition:
-      width 0.54s cubic-bezier(.19,1,.22,1),
-      min-width 0.54s cubic-bezier(.19,1,.22,1),
-      padding 0.54s cubic-bezier(.19,1,.22,1),
-      color 0.38s ease;
+      width     0.58s cubic-bezier(.25,1,.35,1),
+      min-width 0.58s cubic-bezier(.25,1,.35,1),
+      padding   0.58s cubic-bezier(.25,1,.35,1),
+      color     0.30s ease;
   }
 
-  .stepper-item:hover { color: rgba(29,29,31,0.72); }
+  .stepper-item:hover { color: rgba(29,29,31,0.65); }
 
   .stepper-item.active {
     width: auto; min-width: 0;
-    padding: 0 24px; gap: 8px;
+    padding: 0 22px; gap: 8px;
     justify-content: center; color: #fff;
   }
 
   .stepper-number { font-weight: 700; }
   .stepper-label { display: none; font-size: 18px; font-weight: 520; letter-spacing: -0.04em; }
   .stepper-item.active .stepper-label { display: inline; }
-  .stepper-item.active .stepper-number::after { content: " -"; margin-left: 6px; font-weight: 700; }
+  .stepper-item.active .stepper-number::after { content: " ·"; margin-left: 5px; font-weight: 400; opacity: 0.7; }
 
   /* ── SECTIONS ── */
   .sections-stack { display: grid; gap: 16px; margin-top: 28px; }
@@ -687,20 +669,23 @@
     .dam-guide { padding: 28px 18px 64px; }
     .guide-hero { padding: 36px 0 32px; }
     .intro-grid, .bottom-grid { grid-template-columns: 1fr; }
-    .stepper-indicator { height: 42px; width: 42px; }
+    /* indicator size synced with JS INDICATOR_H via CSS var */
+    .stepper-indicator { height: 42px; }
+    .stepper-item { width: 42px; min-width: 42px; height: 42px; }
     .stepper-item.active { padding: 0 18px; }
-    .stepper-label { font-size: 16px; }
+    .stepper-label { font-size: 15px; }
     .top-bar { padding: 10px 18px; }
   }
 
   @media (max-width: 640px) {
-    body.stepper-is-floating { padding-bottom: 86px; }
+    body.stepper-is-floating { padding-bottom: 82px; }
     .hero-title { font-size: 46px; }
     .context-card, .principle-card { padding: 26px; }
-    .stepper-wrap.is-floating { bottom: 16px; padding: 0 14px; }
-    .stepper-indicator { top: 6px; left: 6px; height: 36px; width: 36px; }
-    .stepper-item.active { padding: 0 13px; }
-    .stepper-label { font-size: 14px; }
+    .stepper-wrap.is-floating { bottom: 14px; padding: 0 12px; }
+    .stepper-indicator { height: 36px; }
+    .stepper-item { width: 36px; min-width: 36px; height: 36px; }
+    .stepper-item.active { padding: 0 14px; }
+    .stepper-label { font-size: 13px; }
     .section-header { grid-template-columns: 1fr auto; padding: 20px; }
     .section-title { font-size: 18px; }
     .section-badge { display: none; }
@@ -746,7 +731,7 @@
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
-    <span data-i18n="downloadPDF"> </span>
+    <span data-i18n="downloadPDF">Télécharger en PDF</span>
   </button>
   </div>
 </div>
@@ -1041,7 +1026,7 @@
 /* ───── i18n ───── */
 const translations = {
   fr: {
-    downloadPDF: " ",
+    downloadPDF: "Télécharger en PDF",
     eyebrow: "Symrise Library · Admin Documentation",
     heroTitle: "Upload Assets",
     heroSubtitle: "Guide complet pour ajouter et rendre visibles des assets dans la Symrise Library, du chargement dans le back-end à l'affichage sur le front-end.",
@@ -1136,7 +1121,7 @@ const translations = {
     flow4: "Library", flow5: "Front-end", flow6: "Asset Gallery"
   },
   en: {
-    downloadPDF: " ",
+    downloadPDF: "Download as PDF",
     eyebrow: "Symrise Library · Admin Documentation",
     heroTitle: "Upload Assets",
     heroSubtitle: "A complete guide for adding assets to the Symrise Library and making them visible to users — from uploading in the back-end to displaying them on the front-end.",
@@ -1268,129 +1253,289 @@ function printPDF() {
   window.print();
 }
 
-/* ───── Stepper logic ───── */
-const sections = document.querySelectorAll(".section");
-const stepperItems = document.querySelectorAll(".stepper-item");
-const stepperSlot = document.getElementById("stepperSlot");
-const stepperWrap = document.getElementById("stepperWrap");
-const stepper = document.getElementById("stepper");
+/* ───── Stepper engine ───── */
+const sections       = document.querySelectorAll(".section");
+const stepperItems   = document.querySelectorAll(".stepper-item");
+const stepperSlot    = document.getElementById("stepperSlot");
+const stepperWrap    = document.getElementById("stepperWrap");
+const stepper        = document.getElementById("stepper");
 const stepperIndicator = document.getElementById("stepperIndicator");
 const completionPill = document.getElementById("completionPill");
-const lastSection = document.getElementById("s6");
+const lastSection    = document.getElementById("s6");
 
-const dockBottom = 24;
-let stepperDockStart = 0;
-let activeItem = document.querySelector(".stepper-item.active");
+const PILL_PADDING   = 7;   // matches CSS padding on .liquid-stepper
+const DOCK_BOTTOM    = 24;
 
+// Read actual rendered height (matches CSS breakpoints automatically)
+function getIndicatorH() {
+  return stepperIndicator ? stepperIndicator.offsetHeight : 48;
+}
+
+let isFloating       = false;
+let isComplete       = false;
+let slotHeight       = 0;   // locked once, prevents layout jumps
+let activeItem       = document.querySelector(".stepper-item.active");
+let dockEnterTimeout = null;
+
+/* ── Indicator positioning ───────────────────────────────────────────
+   Position logic:
+   - indicator is anchored at left:0 in CSS
+   - we drive X via translateX(targetX) where targetX = item center - indicator half-width
+   - this keeps the red pill perfectly centered under any item
+   - on change: we read the CURRENT computed translateX so the animation
+     always starts from where the indicator actually is, never jumps
+──────────────────────────────────────────────────────────────────── */
+let cachedX = null;
+let cachedW = null;
+
+function getCurrentTranslateX() {
+  // Read the live computed transform matrix to get actual mid-transition position
+  if (!stepperIndicator) return 0;
+  const style = window.getComputedStyle(stepperIndicator);
+  const mat   = new DOMMatrix(style.transform);
+  return mat.m41; // translateX component
+}
+
+function getTargetX(item, targetW) {
+  // Center of item relative to stepper left edge, minus half indicator width
+  const stepperRect = stepper.getBoundingClientRect();
+  const itemRect    = item.getBoundingClientRect();
+  const itemCenter  = itemRect.left - stepperRect.left + itemRect.width / 2;
+  return itemCenter - targetW / 2;
+}
+
+function measureAndApplyIndicator(item, immediate) {
+  if (!item || !stepperIndicator || !stepper) return;
+
+  const apply = () => {
+    const itemRect = item.getBoundingClientRect();
+    if (itemRect.width === 0) {
+      requestAnimationFrame(() => measureAndApplyIndicator(item, immediate));
+      return;
+    }
+
+    // Get the true settled width: for active items disable transition momentarily
+    let targetW;
+    if (item.classList.contains("active")) {
+      const prev = item.style.transition;
+      item.style.transition = 'none';
+      targetW = item.scrollWidth;
+      void item.offsetWidth;
+      item.style.transition = prev;
+    } else {
+      targetW = itemRect.width;
+    }
+
+    const targetX = getTargetX(item, targetW);
+    const r       = getIndicatorH() / 2;
+
+    cachedX = targetX;
+    cachedW = targetW;
+
+    if (immediate) {
+      // Snap instantly — no animation
+      stepperIndicator.style.transition   = 'none';
+      stepperIndicator.style.transform    = `translateX(${targetX}px)`;
+      stepperIndicator.style.width        = `${targetW}px`;
+      stepperIndicator.style.borderRadius = `${r}px`;
+      void stepperIndicator.offsetWidth;
+      stepperIndicator.style.transition   = '';
+    } else {
+      // Start from current computed position to avoid jump
+      const currentX = getCurrentTranslateX();
+      const currentW = parseFloat(window.getComputedStyle(stepperIndicator).width) || targetW;
+
+      // Lock current position without transition, then animate to target
+      stepperIndicator.style.transition   = 'none';
+      stepperIndicator.style.transform    = `translateX(${currentX}px)`;
+      stepperIndicator.style.width        = `${currentW}px`;
+      void stepperIndicator.offsetWidth; // flush
+      stepperIndicator.style.transition   = ''; // restore CSS transition
+      // Now animate to target
+      requestAnimationFrame(() => {
+        stepperIndicator.style.transform    = `translateX(${targetX}px)`;
+        stepperIndicator.style.width        = `${targetW}px`;
+        stepperIndicator.style.borderRadius = `${r}px`;
+      });
+    }
+  };
+
+  requestAnimationFrame(apply);
+}
+
+// Public alias
+function moveIndicatorTo(item, immediate) {
+  measureAndApplyIndicator(item, immediate);
+}
+
+/* ── Active item ─────────────────────────────────────────────────── */
+function setActiveItem(item, immediate) {
+  if (!item) return;
+  if (item === activeItem) return;
+  stepperItems.forEach(s => s.classList.remove("active"));
+  item.classList.add("active");
+  activeItem = item;
+  // Double rAF: first frame applies the class, second frame the layout is ready
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => measureAndApplyIndicator(item, immediate));
+  });
+}
+
+/* ── Slot height ─────────────────────────────────────────────────── */
+function lockSlotHeight() {
+  // Measure once; never let the slot collapse while stepper is floating
+  const h = stepperWrap.offsetHeight;
+  if (h > 0) slotHeight = h;
+  stepperSlot.style.height = `${slotHeight}px`;
+}
+
+/* ── Dock / undock ───────────────────────────────────────────────── */
+function getDockThreshold() {
+  // How far user must scroll before pill detaches from slot
+  const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
+  return slotTop - window.innerHeight + slotHeight + DOCK_BOTTOM;
+}
+
+function dock() {
+  if (isFloating) return;
+  isFloating = true;
+  lockSlotHeight();
+
+  stepperWrap.classList.remove("dock-exit");
+  stepperWrap.classList.add("is-floating");
+  document.body.classList.add("stepper-is-floating");
+
+  clearTimeout(dockEnterTimeout);
+  dockEnterTimeout = setTimeout(() => {
+    stepperWrap.classList.add("dock-enter");
+    // After docking the stepper moves to fixed — re-measure position once
+    setTimeout(() => measureAndApplyIndicator(activeItem, true), 20);
+  }, 16);
+}
+
+function undock(cb) {
+  if (!isFloating) { cb && cb(); return; }
+
+  stepperWrap.classList.remove("dock-enter");
+  stepperWrap.classList.add("dock-exit");
+
+  const onEnd = () => {
+    stepperWrap.removeEventListener("animationend", onEnd);
+    stepperWrap.classList.remove("is-floating", "dock-exit");
+    document.body.classList.remove("stepper-is-floating");
+    isFloating = false;
+    stepperSlot.style.height = "";
+    cb && cb();
+    // Re-measure once after position switches back to inline
+    setTimeout(() => measureAndApplyIndicator(activeItem, true), 20);
+  };
+
+  stepperWrap.addEventListener("animationend", onEnd, { once: true });
+}
+
+/* ── Completion ──────────────────────────────────────────────────── */
+function getCompleteThreshold() {
+  if (!lastSection) return Infinity;
+  return lastSection.getBoundingClientRect().bottom + window.scrollY - window.innerHeight + 120;
+}
+
+function enterComplete() {
+  if (isComplete) return;
+  isComplete = true;
+  undock(() => {
+    stepperWrap.style.opacity = "0";
+    stepperWrap.style.pointerEvents = "none";
+    completionPill.classList.add("is-visible");
+  });
+}
+
+function exitComplete() {
+  if (!isComplete) return;
+  isComplete = false;
+  stepperWrap.style.opacity = "";
+  stepperWrap.style.pointerEvents = "";
+  completionPill.classList.remove("is-visible");
+  setTimeout(() => measureAndApplyIndicator(activeItem, true), 20);
+}
+
+/* ── Active section from scroll ──────────────────────────────────── */
+function updateActiveSection() {
+  const trigger = window.innerHeight * 0.72;
+  let current = sections[0];
+  sections.forEach(s => {
+    const r = s.getBoundingClientRect();
+    if (r.top <= trigger) current = s;
+  });
+  const item = document.querySelector(`.stepper-item[href="#${current.id}"]`);
+  setActiveItem(item);
+  if (current) current.classList.add("open");
+}
+
+/* ── Master tick ─────────────────────────────────────────────────── */
+function tick() {
+  const scrollY     = window.scrollY;
+  const shouldDock  = scrollY >= getDockThreshold();
+  const shouldEnd   = scrollY >= getCompleteThreshold();
+
+  if (shouldEnd) {
+    enterComplete();
+  } else {
+    exitComplete();
+    if (shouldDock) dock();
+    else            undock();
+  }
+
+  updateActiveSection();
+}
+
+/* ── Init ────────────────────────────────────────────────────────── */
+function init() {
+  const h = stepperWrap.offsetHeight;
+  if (h > 0) slotHeight = h;
+  tick();
+  requestAnimationFrame(() => measureAndApplyIndicator(activeItem, true));
+}
+
+/* ── Toggle section ──────────────────────────────────────────────── */
 function toggleSection(id) {
   const section = document.getElementById(id);
   section.classList.toggle("open");
-  setTimeout(refreshLayout, 320);
+  setTimeout(() => {
+    if (!isFloating) lockSlotHeight();
+    tick();
+    measureAndApplyIndicator(activeItem, true);
+  }, 340);
 }
 
+/* ── Checklist ───────────────────────────────────────────────────── */
 function checkItem(item) {
   item.classList.toggle("done");
-  const box = item.querySelector(".cb");
-  box.textContent = item.classList.contains("done") ? "✓" : "";
+  item.querySelector(".cb").textContent = item.classList.contains("done") ? "✓" : "";
 }
 
-function calculateStepperDockStart() {
-  const stepperHeight = stepperWrap.offsetHeight;
-  const slotTop = stepperSlot.getBoundingClientRect().top + window.scrollY;
-  const viewportHeight = window.innerHeight;
-  stepperDockStart = slotTop - viewportHeight + stepperHeight + dockBottom;
-}
-
-function moveIndicatorTo(item) {
-  if (!item || !stepperIndicator) return;
-  const itemRect = item.getBoundingClientRect();
-  const stepperRect = stepper.getBoundingClientRect();
-  const x = itemRect.left - stepperRect.left;
-  stepperIndicator.style.width = itemRect.width + "px";
-  stepperIndicator.style.transform = `translateX(${x}px)`;
-}
-
-function setActiveItem(item) {
-  if (!item || item === activeItem) return;
-  stepperItems.forEach(step => step.classList.remove("active"));
-  item.classList.add("active");
-  activeItem = item;
-  requestAnimationFrame(() => moveIndicatorTo(item));
-}
-
-function shouldCompleteNow() {
-  if (!lastSection) return false;
-  const rect = lastSection.getBoundingClientRect();
-  return rect.bottom <= window.innerHeight - 120;
-}
-
-function updateStepperState() {
-  const scrollY = window.scrollY;
-  const shouldDock = scrollY >= stepperDockStart;
-  const isComplete = shouldCompleteNow();
-
-  if (isComplete) {
-    stepperWrap.classList.remove("is-floating");
-    stepperWrap.classList.add("is-hidden");
-    stepperSlot.style.height = "";
-    document.body.classList.remove("stepper-is-floating");
-    completionPill.classList.add("is-visible");
-    return;
-  }
-
-  completionPill.classList.remove("is-visible");
-  stepperWrap.classList.remove("is-hidden");
-
-  if (shouldDock) {
-    stepperSlot.style.height = stepperWrap.offsetHeight + "px";
-    stepperWrap.classList.add("is-floating");
-    document.body.classList.add("stepper-is-floating");
-  } else {
-    stepperSlot.style.height = "";
-    stepperWrap.classList.remove("is-floating");
-    document.body.classList.remove("stepper-is-floating");
-  }
-
-  requestAnimationFrame(() => moveIndicatorTo(activeItem));
-}
-
-function updateActiveSectionEarly() {
-  const triggerLine = window.innerHeight * 0.76;
-  let currentSection = sections[0];
-  sections.forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top <= triggerLine) currentSection = section;
-  });
-  const item = document.querySelector(`.stepper-item[href="#${currentSection.id}"]`);
-  setActiveItem(item);
-  if (currentSection) currentSection.classList.add("open");
-}
-
-function refreshLayout() {
-  calculateStepperDockStart();
-  updateActiveSectionEarly();
-  updateStepperState();
-  requestAnimationFrame(() => moveIndicatorTo(activeItem));
-}
-
-window.addEventListener("scroll", () => {
-  updateActiveSectionEarly();
-  updateStepperState();
-}, { passive: true });
-
-window.addEventListener("resize", refreshLayout);
-window.addEventListener("load", refreshLayout);
-refreshLayout();
+/* ── Events ──────────────────────────────────────────────────────── */
+window.addEventListener("scroll", tick, { passive: true });
+window.addEventListener("resize", () => {
+  slotHeight = 0;
+  cachedX = null;
+  cachedW = null;
+  init();
+});
+window.addEventListener("load", init);
 
 stepperItems.forEach(item => {
-  item.addEventListener("click", event => {
-    event.preventDefault();
+  item.addEventListener("click", e => {
+    e.preventDefault();
     const target = document.querySelector(item.getAttribute("href"));
     if (!target) return;
     target.classList.add("open");
     setActiveItem(item);
     target.scrollIntoView({ behavior: "smooth", block: "start" });
-    setTimeout(refreshLayout, 520);
+    // Re-sync once after scroll settles — active item may have changed
+    setTimeout(() => {
+      tick();
+      measureAndApplyIndicator(activeItem, true);
+    }, 600);
   });
 });
 </script>
